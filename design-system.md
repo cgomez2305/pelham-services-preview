@@ -1,0 +1,70 @@
+# Pelham Services — Design System
+
+This is the single source of truth for visual and interaction consistency across the site. All tokens live in [`assets/css/styles.css`](assets/css/styles.css) as CSS custom properties on `:root`.
+
+## 1. Design direction
+
+Premium, architectural, quietly confident — the visual register of a modern logistics/fintech platform, not a WordPress trucking template. No stock "truck at sunset" photography, no auto-rotating carousels, no cluttered icon grids. Every visual is either real content (team, testimonials, terminals) or an abstract geometric composition (route lines, grids, nodes) standing in for photography that doesn't exist yet.
+
+## 2. Color
+
+| Token | Value | Usage |
+|---|---|---|
+| `--ink-900` | `#0a0e13` | Primary dark background (header, footer, dark sections, hero) |
+| `--ink-800` | `#12161d` | Secondary dark surface (cards on dark, trust bar) |
+| `--ink-700` / `--ink-600` | `#1b212a` / `#2a323d` | Dark borders, hover states |
+| `--paper-000` | `#ffffff` | Primary light background |
+| `--paper-050` | `#f6f7f8` | Alternating light section background |
+| `--line-light` | `#dfe2e6` | Light-mode borders/dividers |
+| `--text-primary` | `#0e1217` | Body text on light backgrounds |
+| `--text-muted` | `#5b6472` | Secondary text on light backgrounds |
+| `--text-on-dark` / `--text-on-dark-muted` | `#f4f6f7` / `#97a1ad` | Text on dark backgrounds |
+| `--accent-500` | `#3d7cc9` | **Single brand accent — steel blue.** Primary buttons, links, active states, data highlights |
+| `--accent-600` / `--accent-700` | `#2f66a8` / `#24507f` | Accent hover/pressed states |
+| `--success` | `#2f8f5b` | Form success state only |
+| `--danger` | `#c94b3d` | Form error state only |
+
+**Rule:** one accent color, used sparingly and consistently — never introduce a second "brand" hue (e.g. amber/green) alongside it. Success/danger are functional, not decorative, colors and only appear in form feedback.
+
+## 3. Typography
+
+- **Headings:** `Space Grotesk` (500/600/700) — geometric, high-weight, tight tracking (`letter-spacing: -0.01em` to `-0.02em`). Loaded via Google Fonts.
+- **Body:** `Inter` (400/500/600) — neutral, highly legible at small sizes.
+- Type scale is fluid via `clamp()` on `h1`/`h2`/`h3` so headlines scale smoothly between mobile and desktop instead of jumping between fixed breakpoints.
+- Body copy defaults to `--text-muted` for a softer, secondary feel; only headings and emphasis use full-contrast `--text-primary`.
+
+## 4. Spacing
+
+8px-based scale, exposed as `--sp-1` (0.5rem) through `--sp-9` (8rem). Sections use `--sp-8` vertical padding by default (`--sp-6` for `.section--tight`). Never hardcode pixel margins in page markup — use the scale or `.section`/`.grid` utilities.
+
+## 5. Layout
+
+- Max content width: `1240px` (`.container`), `820px` for text-heavy/narrow layouts (`.container--narrow`).
+- Grid system: `.grid` + `.grid-2/3/4`, collapsing to 2 columns at 900px and 1 column at 620px.
+- Radii: `4px` (buttons/inputs), `8px` (cards/media), `14px` (large panels: hero visuals, CTA bands, surcharge panel).
+
+## 6. Motion
+
+- All transitions run on `--dur` (240ms) with `--ease` (`cubic-bezier(0.4,0,0.2,1)`) — used for hovers, nav states, focus rings.
+- Scroll reveals (`[data-reveal]`) fade + translate up 16px on entering the viewport via `IntersectionObserver`, once per element. Respects `prefers-reduced-motion`.
+- No auto-advancing carousels or looping animation anywhere on the site — this was an explicit rejection of the old template's slider hero.
+
+## 7. Components
+
+Documented inline in `styles.css` by section comment blocks: buttons (`.btn` + modifiers), header/nav, hero, trust bar, cards (light + `.card--dark`), process steps (`.steps`), surcharge panel, testimonials (typographic `.avatar-mono` initials in place of stock photography), coverage/terminal cards, news cards, CTA band, forms, footer.
+
+**Avatars:** where a real photo doesn't exist (testimonials, team), use `.avatar-mono` — a circular initials badge in the accent-tinted palette. This is a deliberate stand-in system, not a placeholder to be "fixed" — it reads as intentional and can stay even after real photos are supplied, as a fallback for future team members.
+
+## 8. Accessibility (WCAG AA baseline)
+
+- Body text on both dark and light backgrounds meets 4.5:1 contrast; verify any new color usage against `--ink-900` / `--paper-000` before shipping.
+- All interactive elements have visible `:focus-visible` states (2px accent outline).
+- Skip-to-content link on every page.
+- Mobile nav is keyboard-operable (`Escape` closes it, focus returns to the toggle button) and exposes `aria-expanded`.
+- Forms use associated `<label>`s, `aria-describedby` error/hint text, and `role="alert"`/`role="status"` on submission feedback.
+- Decorative SVGs carry `aria-hidden="true"`; meaningful diagrams carry `role="img"` + `aria-label`.
+
+## 9. Content rules
+
+- No invented performance metrics. Anything not confirmed by the client is rendered as `[DATA PENDING]` (see the trust bar and fuel-surcharge panel on the homepage) rather than a plausible-sounding placeholder number.
+- No stock photography. Placeholder visuals are abstract SVG (route lines, grids, node diagrams) — swap for real fleet/warehouse photography by replacing the relevant `<svg>` block, not by adding an `<img>` over it.

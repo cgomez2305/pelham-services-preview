@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get a Quote | Pelham Services</title>
+<meta name="description" content="Request a freight quote from Pelham Services, or download the new-customer registration documents to get set up as a shipper.">
+<link rel="canonical" href="https://pelhamservices.com/quote.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Get a Quote | Pelham Services">
+<meta property="og:description" content="Request a freight rate or register as a new customer with Pelham Services.">
+<meta property="og:url" content="https://pelhamservices.com/quote.html">
+<meta property="og:image" content="assets/img/og-cover.svg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="brand" aria-label="Pelham Services home">
+      <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 44 L28 20 L34 20 L22 44 Z"/><path d="M30 44 L44 20 L50 20 L38 44 Z" fill="#fff"/></svg>
+      Pelham Services
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Primary">
+      <ul class="main-nav__list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="header-cta">
+        <a href="quote.html" class="btn btn--primary btn--sm">Get a Quote</a>
+        <a href="portal.html" class="btn btn--outline-light btn--sm">Client Login</a>
+      </div>
+    </nav>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Get a Quote</span></div>
+      <p class="eyebrow">Get Started</p>
+      <h1>Get a quote, or register as a new shipper.</h1>
+      <p class="lede" style="color: var(--text-on-dark-muted); margin-top: var(--sp-3);">Tell us about your freight below and we'll follow up with a rate — usually within one business day.</p>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="form-panel" data-reveal>
+        <h2>Request a Quote</h2>
+        <p style="margin-top: var(--sp-2);">Fields marked <span style="color:var(--accent-600);">*</span> are required.</p>
+
+        <form data-validate data-success-message="Thanks — your quote request has been received. A member of our team will follow up shortly." novalidate style="margin-top: var(--sp-5);">
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="q-name">Full Name <span class="req">*</span></label>
+              <input type="text" id="q-name" name="name" required autocomplete="name" aria-describedby="q-name-err">
+              <span class="field-error" id="q-name-err">This field is required.</span>
+            </div>
+
+            <div class="field">
+              <label for="q-company">Company</label>
+              <input type="text" id="q-company" name="company" autocomplete="organization">
+            </div>
+
+            <div class="field">
+              <label for="q-email">Email Address <span class="req">*</span></label>
+              <input type="email" id="q-email" name="email" required autocomplete="email" aria-describedby="q-email-err">
+              <span class="field-error" id="q-email-err">Enter a valid email address.</span>
+            </div>
+
+            <div class="field">
+              <label for="q-phone">Phone Number <span class="req">*</span></label>
+              <input type="tel" id="q-phone" name="phone" required autocomplete="tel" aria-describedby="q-phone-err">
+              <span class="field-error" id="q-phone-err">Enter a valid phone number.</span>
+            </div>
+
+            <div class="field">
+              <label for="q-cargo">Cargo Type <span class="req">*</span></label>
+              <select id="q-cargo" name="cargoType" required aria-describedby="q-cargo-err">
+                <option value="">Select one</option>
+                <option>General / Dry Van Freight</option>
+                <option>Refrigerated</option>
+                <option>Palletized / LTL</option>
+                <option>Container / Transloading</option>
+                <option>Other</option>
+              </select>
+              <span class="field-error" id="q-cargo-err">This field is required.</span>
+            </div>
+
+            <div class="field">
+              <label for="q-service">Service Needed</label>
+              <select id="q-service" name="service">
+                <option value="">Select one</option>
+                <option>Transloading</option>
+                <option>Dedicated Transport</option>
+                <option>Freight Consolidation</option>
+                <option>Local Delivery</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="q-origin">Origin <span class="req">*</span></label>
+              <input type="text" id="q-origin" name="origin" required placeholder="City, State" aria-describedby="q-origin-err">
+              <span class="field-error" id="q-origin-err">This field is required.</span>
+            </div>
+
+            <div class="field">
+              <label for="q-destination">Destination <span class="req">*</span></label>
+              <input type="text" id="q-destination" name="destination" required placeholder="City, State" aria-describedby="q-destination-err">
+              <span class="field-error" id="q-destination-err">This field is required.</span>
+            </div>
+
+            <div class="field field--full">
+              <label for="q-message">Additional Details</label>
+              <textarea id="q-message" name="message" data-maxlength="500" aria-describedby="q-message-count"></textarea>
+              <span class="field-hint" id="q-message-count">0 / 500</span>
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full" style="margin-top: var(--sp-5);">Submit Quote Request</button>
+          <div class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTRATION DOCUMENTS -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <div>
+          <p class="eyebrow">New Customers</p>
+          <h2>Already ready to ship? Register your account.</h2>
+        </div>
+      </div>
+      <div class="grid grid-2" style="align-items:start;">
+        <div data-reveal>
+          <p class="lede">New shippers need a few documents on file before we can move your first load. Download, complete, and send them back with the form on the right.</p>
+          <ul class="stack" style="margin-top: var(--sp-4);">
+            <li class="row"><span class="terminal-card__dot" aria-hidden="true"></span><a href="#" class="link-inline">Claim Form (PDF)</a></li>
+            <li class="row"><span class="terminal-card__dot" aria-hidden="true"></span><a href="#" class="link-inline">Customer Application (PDF)</a></li>
+            <li class="row"><span class="terminal-card__dot" aria-hidden="true"></span><a href="#" class="link-inline">Credit Application (PDF)</a></li>
+            <li class="row"><span class="terminal-card__dot" aria-hidden="true"></span><a href="#" class="link-inline">Terms &amp; Agreements (PDF)</a></li>
+          </ul>
+          <p class="field-hint" style="margin-top: var(--sp-4);">[DOCUMENT FILES PENDING — the four onboarding PDFs from the current site (Claim Form, Customer Application, Credit Application, Terms &amp; Agreements) need to be supplied and linked here before launch.]</p>
+        </div>
+
+        <div class="form-panel" data-reveal>
+          <h3>Send Completed Documents</h3>
+          <form data-validate data-success-message="Thanks — we've received your registration details and attachments will be reviewed shortly." novalidate style="margin-top: var(--sp-4);">
+            <div class="stack">
+              <div class="field">
+                <label for="r-name">Full Name <span class="req">*</span></label>
+                <input type="text" id="r-name" name="name" required autocomplete="name" aria-describedby="r-name-err">
+                <span class="field-error" id="r-name-err">This field is required.</span>
+              </div>
+              <div class="field">
+                <label for="r-email">Email Address <span class="req">*</span></label>
+                <input type="email" id="r-email" name="email" required autocomplete="email" aria-describedby="r-email-err">
+                <span class="field-error" id="r-email-err">Enter a valid email address.</span>
+              </div>
+              <div class="field">
+                <label for="r-phone">Phone Number</label>
+                <input type="tel" id="r-phone" name="phone" autocomplete="tel">
+              </div>
+              <fieldset style="border:none; padding:0; margin:0;">
+                <legend style="font-size:0.82rem; font-weight:600; margin-bottom: var(--sp-2);">Documents Included</legend>
+                <div class="stack">
+                  <div class="checkbox-row"><input type="checkbox" id="doc1" name="docs"><label for="doc1">Claim Form</label></div>
+                  <div class="checkbox-row"><input type="checkbox" id="doc2" name="docs"><label for="doc2">Customer Application</label></div>
+                  <div class="checkbox-row"><input type="checkbox" id="doc3" name="docs"><label for="doc3">Credit Application</label></div>
+                  <div class="checkbox-row"><input type="checkbox" id="doc4" name="docs"><label for="doc4">Terms &amp; Agreement</label></div>
+                </div>
+              </fieldset>
+              <div class="field">
+                <label for="r-file">Attachments</label>
+                <input type="file" id="r-file" name="attachments" multiple>
+                <span class="field-hint">Attach your completed PDFs here.</span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--dark btn--full" style="margin-top: var(--sp-5);">Submit Registration</button>
+            <div class="form-status" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" style="color:#fff;">
+          <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 44 L28 20 L34 20 L22 44 Z"/><path d="M30 44 L44 20 L50 20 L38 44 Z" fill="#fff"/></svg>
+          Pelham Services
+        </a>
+        <p>Coast-to-coast freight transport, transloading and dedicated logistics between California and Florida — built on transparency, safety and follow-through.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/profile.php?id=61556624532644" aria-label="Pelham Services on Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M13.5 21v-7.02h2.36l.36-2.73h-2.72V9.36c0-.79.22-1.33 1.36-1.33h1.45V5.6c-.25-.03-1.1-.1-2.1-.1-2.08 0-3.5 1.27-3.5 3.6v2.15H8.3v2.73h2.43V21h2.77Z"/></svg></a>
+          <a href="https://www.linkedin.com/company/108392574" aria-label="Pelham Services on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M6.94 8.5a1.94 1.94 0 1 0 0-3.88 1.94 1.94 0 0 0 0 3.88ZM5.5 10h2.88v9H5.5v-9Zm5.06 0h2.76v1.23h.04c.38-.72 1.32-1.48 2.72-1.48 2.9 0 3.44 1.9 3.44 4.38V19h-2.88v-4.4c0-1.05-.02-2.4-1.46-2.4-1.47 0-1.7 1.15-1.7 2.33V19h-2.92v-9Z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="quote.html">Get a Quote</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Gardena, CA Terminal</h4>
+        <address>249 East Redondo Beach Blvd<br>Gardena, CA 90248<br>Tel: 323-201-4995 ext. 1<br>Fax: 323-201-4998</address>
+      </div>
+      <div class="footer-col">
+        <h4>Miami, FL Terminal</h4>
+        <address>4081 NW 79th Ave<br>Miami, FL 33166<br>Tel: 323-201-4998 ext. 2<br>Fax: 323-201-4998</address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Pelham Services, Inc. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="contact.html">Contact</a>
+        <a href="portal.html">Client Portal</a>
+        <a href="mailto:info@pelhamservicesca.com">info@pelhamservicesca.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
