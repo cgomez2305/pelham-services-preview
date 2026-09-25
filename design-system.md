@@ -8,6 +8,8 @@ Premium, architectural, quietly confident — the visual register of a modern lo
 
 ## 2. Color
 
+The accent is **the real Pelham brand green**, not an invented palette. It was extracted directly from the client's existing logo file (`wp-content/uploads/2025/09/cropped-pelham-black-1.png` on the live site): the bird mark's dominant pixel measures `rgb(0,168,88)` / `#00A858`, and the site's own already-configured UI green (nav active states, buttons) measures `rgb(55,169,92)` / `#37A95C`. Every green token below stays within that exact hue — shades were only adjusted for WCAG contrast, never re-colored.
+
 | Token | Value | Usage |
 |---|---|---|
 | `--ink-900` | `#0a0e13` | Primary dark background (header, footer, dark sections, hero) |
@@ -19,12 +21,21 @@ Premium, architectural, quietly confident — the visual register of a modern lo
 | `--text-primary` | `#0e1217` | Body text on light backgrounds |
 | `--text-muted` | `#5b6472` | Secondary text on light backgrounds |
 | `--text-on-dark` / `--text-on-dark-muted` | `#f4f6f7` / `#97a1ad` | Text on dark backgrounds |
-| `--accent-500` | `#3d7cc9` | **Single brand accent — steel blue.** Primary buttons, links, active states, data highlights |
-| `--accent-600` / `--accent-700` | `#2f66a8` / `#24507f` | Accent hover/pressed states |
+| `--accent-500` | `#14a44d` | Brand green, brighter — decorative use only (icons, thin lines, large text on dark). Fails AA as body text/button-fill on white, so it's restricted to non-text or dark-background contexts. |
+| `--accent-600` | `#0b7a3e` | **Primary accent for text and button fills on light backgrounds** — links, `.btn--primary`, badges. 5.4:1 contrast on white with white button text, AA-safe as body text too. |
+| `--accent-700` | `#08592c` | Hover/pressed state for `--accent-600`. |
+| `--accent-on-dark` | `#4ed98a` | Eyebrows/links/small accents **on dark sections only** — ~11:1 contrast against `--ink-900`. Never use on light backgrounds (fails AA there). |
+| `--accent-050` | `#e7f5ec` | Light tint background for badges on white/`--paper-050` sections. |
 | `--success` | `#2f8f5b` | Form success state only |
 | `--danger` | `#c94b3d` | Form error state only |
 
-**Rule:** one accent color, used sparingly and consistently — never introduce a second "brand" hue (e.g. amber/green) alongside it. Success/danger are functional, not decorative, colors and only appear in form feedback.
+**Rule:** one accent hue (green), used sparingly and consistently — never introduce a second "brand" color alongside it. `--accent-500` and `--accent-on-dark` are brightness variants of the *same* green for contrast purposes, not a second color. Success/danger are functional, not decorative, and only appear in form feedback.
+
+## 2b. Logo
+
+The real logo (`assets/img/brand/pelham-logo.png`, black wordmark + green bird mark, transparent background) was pulled directly from the client's live site — not redrawn. Because its wordmark is black, it only works on light backgrounds; it's used as-is for the `Organization.logo` JSON-LD value and anywhere a light-background lockup is needed.
+
+For the dark sticky header/footer (which the black wordmark can't sit on), the icon-only crop `assets/img/brand/pelham-mark.png` (the green bird, isolated via pixel bounding-box from the source logo — not redrawn/reinterpreted) pairs with "Pelham Services" set in real white text via CSS. This keeps the header legible while still using the authentic mark pixel-for-pixel. `assets/img/brand/favicon-{32,180,192,512}.png` are resized copies of that same crop.
 
 ## 3. Typography
 
@@ -68,3 +79,21 @@ Documented inline in `styles.css` by section comment blocks: buttons (`.btn` + m
 
 - No invented performance metrics. Anything not confirmed by the client is rendered as `[DATA PENDING]` (see the trust bar and fuel-surcharge panel on the homepage) rather than a plausible-sounding placeholder number.
 - No stock photography. Placeholder visuals are abstract SVG (route lines, grids, node diagrams) — swap for real fleet/warehouse photography by replacing the relevant `<svg>` block, not by adding an `<img>` over it.
+
+## 10. Site architecture & URLs
+
+Every page lives in its own folder as `index.html` so hosts serve clean, extensionless URLs (`/services/transloading/`, not `/services/transloading.html` or `/?page_id=30`). Depth is fixed and every page at the same depth shares byte-identical header/footer markup:
+
+- **Depth 0** (`/index.html`): asset/link prefix is bare (`assets/...`, `services/`).
+- **Depth 1** (`/services/`, `/locations/`, `/about/`, `/news/`, `/quote/`, `/contact/`): prefix `../`.
+- **Depth 2** (`/services/transloading/`, `/locations/gardena-ca/`, `/news/<slug>/`, etc.): prefix `../../`, always resolved root-then-down rather than sibling-relative, so the same header/footer HTML works unmodified regardless of which cluster the page belongs to.
+
+Main nav is deliberately short: Home, Services, Locations, About, News, plus two buttons — "Request a Quote" (internal) and "Login" (external, direct to `pelham.supply-vision.com`, no in-app portal page). Contact and Quote are reachable via CTAs/footer, not the top nav, per the client's spec.
+
+## 11. Structured data (JSON-LD)
+
+- `Organization` + one `FAQPage` (fuel surcharge) live on the home page only.
+- Each `/locations/*` subpage carries its own `LocalBusiness` entity with that terminal's exact NAP — never share one `LocalBusiness` block across both terminals.
+- Each `/services/*` subpage carries a `Service` entity plus a page-specific `FAQPage` (reusing the `.faq-item`/`.faq-list` accordion, which must stay in sync with its JSON-LD).
+- Each `/news/*` article carries an `Article` entity with `datePublished`/`author`/`publisher`.
+- All schema `logo`/`image` URLs point to the absolute production URL of `assets/img/brand/pelham-logo.png`, and all schema `url` fields use the final `https://pelhamservices.com/...` path even while the working preview is hosted elsewhere.

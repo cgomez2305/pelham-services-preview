@@ -4,7 +4,7 @@
    ========================================================================= */
 
 :root {
-  /* --- Color: ink / paper / accent (steel blue) --- */
+  /* --- Color: ink / paper / accent (brand green) --- */
   --ink-900: #0a0e13;
   --ink-800: #12161d;
   --ink-700: #1b212a;
@@ -21,11 +21,15 @@
   --text-on-dark: #f4f6f7;
   --text-on-dark-muted: #97a1ad;
 
-  --accent-500: #3d7cc9;
-  --accent-600: #2f66a8;
-  --accent-700: #24507f;
-  --accent-050: #eaf2fb;
-  --accent-soft: rgba(61, 124, 201, 0.14);
+  /* Brand green — measured from the real Pelham Services logo mark
+     (dominant logo pixel ~#00A858; site's own configured UI green ~#37A95C).
+     Shades below stay in that exact hue, adjusted only for AA contrast. */
+  --accent-500: #14a44d;
+  --accent-600: #0b7a3e;
+  --accent-700: #08592c;
+  --accent-on-dark: #4ed98a;
+  --accent-050: #e7f5ec;
+  --accent-soft: rgba(11, 122, 62, 0.14);
 
   --success: #2f8f5b;
   --danger: #c94b3d;
@@ -165,7 +169,7 @@ a.link-inline:hover { text-decoration-color: currentColor; }
   color: var(--accent-600);
   margin-bottom: var(--sp-3);
 }
-.on-dark .eyebrow { color: #7fb0e8; }
+.on-dark .eyebrow { color: var(--accent-on-dark); }
 .eyebrow::before {
   content: "";
   width: 18px;
@@ -223,8 +227,8 @@ a.link-inline:hover { text-decoration-color: currentColor; }
 }
 .btn:active { transform: translateY(1px); }
 
-.btn--primary { background: var(--accent-500); color: #fff; }
-.btn--primary:hover { background: var(--accent-600); }
+.btn--primary { background: var(--accent-600); color: #fff; }
+.btn--primary:hover { background: var(--accent-700); }
 
 .btn--dark { background: var(--ink-900); color: #fff; }
 .btn--dark:hover { background: var(--ink-700); }
@@ -274,8 +278,8 @@ a.link-inline:hover { text-decoration-color: currentColor; }
   color: #fff;
   letter-spacing: -0.01em;
 }
-.brand__mark { width: 30px; height: 30px; flex-shrink: 0; }
-.brand__mark path, .brand__mark rect { fill: var(--accent-500); }
+.brand__mark { width: 34px; height: 21px; flex-shrink: 0; object-fit: contain; }
+.footer-brand .brand__mark, .portal-panel .brand__mark { width: 38px; height: 23px; }
 
 .main-nav {
   display: flex;
@@ -382,7 +386,7 @@ a.link-inline:hover { text-decoration-color: currentColor; }
   gap: var(--sp-7);
   align-items: center;
 }
-.hero__eyebrow { color: #7fb0e8; }
+.hero__eyebrow { color: var(--accent-on-dark); }
 .hero h1 { color: #fff; margin-bottom: var(--sp-4); }
 .hero p.lede { color: var(--text-on-dark-muted); margin-bottom: var(--sp-5); }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
@@ -430,7 +434,7 @@ a.link-inline:hover { text-decoration-color: currentColor; }
   color: var(--text-on-dark-muted);
   margin-top: var(--sp-1);
 }
-.trust-stat__num.is-pending { color: #7fb0e8; font-size: 1rem; font-weight: 600; }
+.trust-stat__num.is-pending { color: var(--accent-on-dark); font-size: 1rem; font-weight: 600; }
 
 @media (max-width: 900px) {
   .trust-bar__grid { grid-template-columns: repeat(2, 1fr); }
@@ -519,7 +523,7 @@ a.link-inline:hover { text-decoration-color: currentColor; }
   font-family: var(--font-head);
   font-size: clamp(2.4rem, 5vw, 3.4rem);
   font-weight: 700;
-  color: #7fb0e8;
+  color: var(--accent-on-dark);
   line-height: 1;
 }
 .surcharge-figure__meta { color: var(--text-on-dark-muted); font-size: 0.85rem; margin-top: var(--sp-2); }
@@ -729,7 +733,7 @@ a.link-inline:hover { text-decoration-color: currentColor; }
   display: flex; align-items: center; justify-content: center;
   transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
 }
-.social-row a:hover { border-color: var(--accent-500); background: rgba(61,124,201,0.15); }
+.social-row a:hover { border-color: var(--accent-500); background: rgba(20,164,77,0.18); }
 .social-row svg { width: 16px; height: 16px; fill: #fff; }
 
 .footer-bottom {
@@ -774,6 +778,48 @@ a.link-inline:hover { text-decoration-color: currentColor; }
 }
 .portal-panel .avatar-mono { margin-inline: auto; }
 .portal-note { font-size: 0.85rem; color: var(--text-on-dark-muted); margin-top: var(--sp-4); }
+
+/* =========================================================================
+   FAQ ACCORDION
+   Pairs with FAQPage JSON-LD — each .faq-item's question/answer text should
+   match its mainEntity Question/acceptedAnswer exactly.
+   ========================================================================= */
+.faq-list { display: grid; gap: var(--sp-3); }
+.faq-item {
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-md);
+  background: var(--paper-000);
+  overflow: hidden;
+}
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.3rem;
+  color: var(--accent-600);
+  flex-shrink: 0;
+  transition: transform var(--dur) var(--ease);
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item .faq-answer { padding: 0 var(--sp-5) var(--sp-4); }
+.faq-item .faq-answer p { margin: 0; }
+
+/* On dark sections */
+.section--dark .faq-item { background: var(--ink-800); border-color: var(--line-dark); }
+.section--dark .faq-item summary { color: #fff; }
+.section--dark .faq-item .faq-answer p { color: var(--text-on-dark-muted); }
 
 /* =========================================================================
    UTILS

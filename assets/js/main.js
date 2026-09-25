@@ -39,10 +39,13 @@
      Active nav link (aria-current) based on current path
      ------------------------------------------------------------------- */
   function markActiveNav() {
-    var path = location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll(".main-nav__list a[aria-current]").forEach(function (link) {
+      link.removeAttribute("aria-current");
+    });
     document.querySelectorAll(".main-nav__list a").forEach(function (link) {
-      var href = link.getAttribute("href");
-      if (href === path || (path === "" && href === "index.html")) {
+      var linkPath = new URL(link.href, location.href).pathname.replace(/index\.html$/, "");
+      var currentPath = location.pathname.replace(/index\.html$/, "");
+      if (linkPath === currentPath || (linkPath !== "/" && linkPath !== "" && currentPath.indexOf(linkPath) === 0)) {
         link.setAttribute("aria-current", "page");
       }
     });
