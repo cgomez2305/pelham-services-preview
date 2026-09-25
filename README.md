@@ -25,6 +25,7 @@ NUEVO THEME/
 ├── quote/index.html                    Quote form + new-customer registration
 ├── contact/index.html                  Both terminals, embedded maps, contact form
 ├── design-system.md                    Color / type / spacing / component / IA / schema reference
+├── seo-strategy.md                     Metadata/H1 reference table + 3–6–12 month content roadmap & KPIs
 ├── README.md                           This file
 ├── sitemap.xml / robots.txt
 └── assets/
@@ -62,6 +63,7 @@ The client asked for the actual brand identity to be used, not a designer's subs
 - **Individual news article pages** — the old site only had a 3-post teaser list with no article URLs at all; each post now has a full page with its own metadata and `Article` schema.
 - **Target keyword placement** (title/H1/copy, one primary phrase per page, nothing forced): "California to Florida freight shipping" (Services pillar), "transloading services Miami" (Transloading + Miami terminal), "dedicated freight carrier California" (Dedicated Transport), "LTL vs FTL consolidation California Florida" (Freight Consolidation), "trucking company Gardena CA" (Gardena terminal).
 - **NAP consistency**: the exact same address/phone/hours strings are used verbatim across home, footer (every page), `/contact/`, and the two `/locations/*` pages — required for local pack ranking and for matching Google Business Profile / directory listings once those are set up (outside this codebase).
+- **Exact title/H1 copy per page** is specified by the client and implemented verbatim — see the reference table in [seo-strategy.md](seo-strategy.md), which also holds the 3–6–12 month content/link-building roadmap and the KPIs to report monthly (none of that roadmap work is code — it's tracked there for whoever runs the campaign next).
 
 ## Other design decisions carried over from the previous pass
 
