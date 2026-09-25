@@ -33,9 +33,12 @@ The accent is **the real Pelham brand green**, not an invented palette. It was e
 
 ## 2b. Logo
 
-The real logo (`assets/img/brand/pelham-logo.png`, black wordmark + green bird mark, transparent background) was pulled directly from the client's live site — not redrawn. Because its wordmark is black, it only works on light backgrounds; it's used as-is for the `Organization.logo` JSON-LD value and anywhere a light-background lockup is needed.
+Two real logo files, both supplied by the client (not redrawn):
 
-For the dark sticky header/footer (which the black wordmark can't sit on), the icon-only crop `assets/img/brand/pelham-mark.png` (the green bird, isolated via pixel bounding-box from the source logo — not redrawn/reinterpreted) pairs with "Pelham Services" set in real white text via CSS. This keeps the header legible while still using the authentic mark pixel-for-pixel. `assets/img/brand/favicon-{32,180,192,512}.png` are resized copies of that same crop.
+- `assets/img/brand/pelham-logo.png` — black wordmark + green bird mark, transparent background. Only works on light backgrounds. Used for the `Organization.logo` JSON-LD value and anywhere a light-background lockup is needed.
+- `assets/img/brand/pelham-logo-white.png` — the same lockup with a white wordmark, for dark surfaces. This is the one used in the sticky header and footer (`.brand__logo`, `height: 30px` header / `34px` footer, `width: auto`) — it replaced an earlier workaround (icon-only crop + CSS text) once the client supplied the proper white variant. `alt="Pelham Services"` carries the accessible name since the wordmark is now baked into the image.
+
+`assets/img/brand/pelham-mark.png` (the green bird only, isolated via pixel bounding-box from the black-wordmark file) still exists and is the source for `assets/img/brand/favicon-{32,180,192,512}.png` — the favicon needs a square-ish crop, not the full wide lockup.
 
 ## 3. Typography
 
@@ -66,6 +69,8 @@ Documented inline in `styles.css` by section comment blocks: buttons (`.btn` + m
 
 **Avatars:** where a real photo doesn't exist (testimonials, team), use `.avatar-mono` — a circular initials badge in the accent-tinted palette. This is a deliberate stand-in system, not a placeholder to be "fixed" — it reads as intentional and can stay even after real photos are supplied, as a fallback for future team members.
 
+**Icons:** every icon on the site is a hand-authored inline SVG in a single consistent line-icon style (`stroke="currentColor"`, `fill="none"`, 1.5–1.6 stroke-width, no fill) — value-card icons (shield/clock/eye), the service-card arrow, social icons, the FAQ accordion marker, the nav hamburger. No emoji, no icon-font glyphs, no raster icon images anywhere in the codebase. Keep new icons in this same stroke style rather than introducing filled/duotone/emoji icons.
+
 ## 8. Accessibility (WCAG AA baseline)
 
 - Body text on both dark and light backgrounds meets 4.5:1 contrast; verify any new color usage against `--ink-900` / `--paper-000` before shipping.
@@ -74,6 +79,7 @@ Documented inline in `styles.css` by section comment blocks: buttons (`.btn` + m
 - Mobile nav is keyboard-operable (`Escape` closes it, focus returns to the toggle button) and exposes `aria-expanded`.
 - Forms use associated `<label>`s, `aria-describedby` error/hint text, and `role="alert"`/`role="status"` on submission feedback.
 - Decorative SVGs carry `aria-hidden="true"`; meaningful diagrams carry `role="img"` + `aria-label`.
+- `html, body { overflow-x: hidden; max-width: 100%; }` is set globally. The off-canvas mobile nav panel (`position: fixed`, translated off-screen when closed) otherwise makes some engines report the document as wider than the viewport, which can surface as a rubber-band horizontal scroll on mobile even though the panel is visually off-screen. This rule is required, not decorative — don't remove it when touching header/nav CSS.
 
 ## 9. Content rules
 
