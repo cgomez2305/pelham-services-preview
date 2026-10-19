@@ -19,7 +19,7 @@
   sending.textContent='Sending your request. Please wait.';sending.hidden=false;
  });
  window.addEventListener('pageshow',()=>{pending=false;form.removeAttribute('aria-busy');sending.hidden=true;if(submit){submit.disabled=false;submit.innerHTML=submitLabel;}});
- const key='pelham-enquiry-draft:'+location.pathname,fields=['first_name','last_name','name','email','company','phone','origin','destination','service','freight','message'],state=new URLSearchParams(location.search).get('pelham_status');
+ const key='pelham-enquiry-draft:'+location.pathname,fields=['first_name','last_name','name','email','company','phone','business','origin','destination','service','freight','message'],state=new URLSearchParams(location.search).get('pelham_status');
  // Tab-local, ten-minute recovery. Never save hidden nonces, consent, or honeypot.
  try{
   if(state==='sent')sessionStorage.removeItem(key);

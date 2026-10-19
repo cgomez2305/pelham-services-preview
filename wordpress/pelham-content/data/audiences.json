@@ -1,0 +1,49 @@
+{
+  "page": "who-we-serve",
+  "segments": {
+    "suppliers": {
+      "label": "Suppliers",
+      "home": "Palletized orders to Florida customers, from one pallet up.",
+      "business": "supplier"
+    },
+    "distributors": {
+      "label": "Distributors",
+      "home": "Planned replenishment for Florida warehouses and stores.",
+      "business": "distributor"
+    },
+    "manufacturers": {
+      "label": "Manufacturers",
+      "home": "Finished goods from your California plant, prepared and trucked.",
+      "business": "manufacturer"
+    },
+    "freight-forwarders": {
+      "label": "Freight forwarders",
+      "home": "The domestic leg to your receiving facility in Miami.",
+      "business": "forwarder"
+    }
+  },
+  "services": {
+    "dedicated-transport": {
+      "heading": "Who books full truckloads",
+      "items": {
+        "manufacturers": "Production runs that fill a trailer, from your plant to one Florida receiver.",
+        "distributors": "Replenishment loads large enough to need exclusive capacity.",
+        "suppliers": "Large orders when shared LTL space no longer fits."
+      }
+    },
+    "transloading": {
+      "heading": "Who uses cross-docking and palletizing",
+      "items": {
+        "manufacturers": "Freight that leaves production unpalletized or needs a transfer before trucking.",
+        "suppliers": "Mixed cartons that should travel as stable, countable pallets."
+      }
+    }
+  },
+  "business_options": {
+    "supplier": "Supplier or wholesaler",
+    "distributor": "Distributor",
+    "manufacturer": "Manufacturer or factory",
+    "forwarder": "Freight forwarder",
+    "other": "Other business"
+  }
+}

@@ -9,7 +9,7 @@ add_filter('wp_sitemaps_add_provider',fn($provider,$name)=>$name==='users'?false
 add_filter('wp_sitemaps_posts_query_args',function($args,$type){if($type!=='page')return $args;$ids=[];foreach(['register','login','claim','claims','freight-claim','application'] as $slug){$p=get_page_by_path($slug);if($p)$ids[]=$p->ID;}$args['post__not_in']=array_unique(array_merge($args['post__not_in']??[],$ids));return $args;},10,2);
 function pelham_legacy_destination($query,$path){
  if(!in_array($path,['/','/index.php'],true))return '';
- $maps=['page_id'=>['12'=>'/','30'=>'/services/','151'=>'/about/','13'=>'/news/','10'=>'/register/','74'=>'/contact/'],'p'=>['98'=>'/news/future-of-logistics-trends-pelham-is-embracing/','95'=>'/news/navigating-challenges-in-us-logistics/','1'=>'/news/how-pelham-elevates-logistics-in-ca-fl/'],'cat'=>['4'=>'/news/']];
+ $maps=['page_id'=>['12'=>'/','30'=>'/services/','151'=>'/about/','13'=>'/news/','10'=>'/register/','74'=>'/contact/'],'p'=>['98'=>'/news/future-of-logistics-trends-pelham-is-embracing/','95'=>'/news/navigating-challenges-in-us-logistics/','1'=>'/news/how-pelham-elevates-logistics-in-ca-fl/'],'cat'=>['1'=>'/news/','4'=>'/news/']];
  $keys=array_intersect(array_keys($maps),array_keys($query));if(count($keys)!==1)return '';
  foreach($maps as $key=>$map){if(!isset($query[$key])||!is_string($query[$key])||!isset($map[$query[$key]]))continue;$dest=$map[$query[$key]];if(isset($query['paged'])){if($key!=='cat'||!is_scalar($query['paged'])||!ctype_digit((string)$query['paged'])||(int)$query['paged']<1)return '';if((int)$query['paged']>1)return '';}return $dest;}return '';
 }

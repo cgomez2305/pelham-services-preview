@@ -3248,3 +3248,77 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
 }
 .reading-story .page-masthead>.page-masthead-photo{margin-top:28px}
 .news-hub .news-card:not(:first-child) .news-art:has(img){height:clamp(180px,17vw,240px)}
+
+/* ==== polish 1.22 (Impeccable audit) ==== */
+/* One elevation per surface: containers that held another card lose their
+   own chrome, so the inner element is the only raised surface. */
+.reading-layout>.entry-content{background:none;border:0;border-radius:0;padding:0}
+.legal-page{background:none;border:0;border-radius:0;padding:0}
+.pelham-ltl-levels{border:0;background:none;padding-inline:0}
+.contact-v3{border:0;box-shadow:none;background:none}
+.contact-v3 .direct-contact{background:none;border:0;border-top:1px solid #d7eee138;border-radius:0;padding:18px 0 0}
+.quote-guidance{background:none;border:0;border-top:1px solid var(--p-line);border-radius:0;padding:16px 0 0;color:var(--p-muted)}
+/* Short answers: a tinted panel, no decorative side stripe. */
+.reading-story .entry-content .pelham-article-answer{border:0;border-radius:var(--p-radius);background:var(--p-tint)}
+
+/* Page titles share one scale (the home hero keeps its own). */
+.page-masthead h1,.news-hub .page-masthead h1,.register-page-v3>header h1,.contact-v3 h1{font-size:clamp(38px,4.8vw,64px);line-height:1.06;letter-spacing:-.03em}
+
+/* Reading measure for long-form copy. */
+.legal-page :is(p,li),.page-story .legacy-content>:is(p,ul,ol),#shipment-updates p,.pelham-transit-note{max-width:72ch}
+
+/* Typography details: no orphaned last words, balanced headings. */
+:is(p,li,figcaption){text-wrap:pretty}
+:is(h1,h2,h3){text-wrap:balance}
+
+/* Browser surfaces carry the palette. */
+::selection{background:#bfe6cd;color:var(--p-ink)}
+:root{accent-color:var(--p-green)}
+
+/* Current section link: 4.3:1 -> AA contrast. */
+.service-section-nav a[aria-current]{color:#00592f}
+
+/* Our network: three facilities fit one row on wide screens. */
+@media(min-width:901px){.terminal-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Horizontal process: the current numeral reads at AA, not tint on white. */
+.is-horizontal .process-card.is-current .step-num{color:var(--p-green);-webkit-text-stroke-color:transparent}
+
+/* ==== audiences 1.22 ==== */
+/* Who we ship for: rows in the same language as the service rows. */
+.audience-band{padding-block:72px}
+.audience-band-service{padding-block:24px 56px}
+.audience-band .section-heading p a{color:var(--p-green);text-decoration:underline;text-underline-offset:4px}
+.audience-rows{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--p-line)}
+.audience-rows li{border-top:1px solid var(--p-line)}
+.audience-rows a{display:grid;grid-template-columns:minmax(220px,.7fr) 1.3fr auto;align-items:center;gap:16px 48px;padding:26px 8px;color:var(--p-ink);text-decoration:none;transition:background var(--p-fast) var(--p-ease)}
+.audience-name{font-family:Arial,Helvetica,sans-serif;font-size:clamp(24px,2.4vw,32px);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.audience-note{color:var(--p-muted);max-width:52ch}
+.audience-rows .direction-arrow{transition:translate var(--p-fast) var(--p-ease)}
+@media(hover:hover){.audience-rows a:hover{background:var(--p-tint)}.audience-rows a:hover .direction-arrow{translate:3px -3px}}
+.audience-rows a:focus-visible{outline:2px solid var(--p-green);outline-offset:-2px}
+@media(max-width:760px){.audience-rows a{grid-template-columns:1fr auto;padding:20px 4px}.audience-note{grid-column:1/-1;grid-row:2}}
+.motion-paused .audience-rows :is(a,.direction-arrow){transition:none}
+
+/* Who we serve page */
+.audience-lede{font-size:clamp(18px,1.6vw,21px);line-height:1.6;color:var(--p-ink);max-width:64ch}
+.audience-jump{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:28px 0 8px}
+.audience-jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--p-line);border-radius:999px;color:var(--p-ink);text-decoration:none;font-weight:600}
+.audience-jump a:hover{border-color:var(--p-green);color:var(--p-green)}
+.audience-section{border-top:1px solid var(--p-line);padding-block:48px;scroll-margin-top:96px}
+.audience-section>h2{font-size:clamp(28px,3vw,40px);line-height:1.1;margin:0 0 16px}
+.audience-section>p{max-width:68ch}
+.audience-section>h3{font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--p-green);margin:28px 0 10px}
+.audience-section>ul{margin:0;padding-inline-start:1.2rem}
+.audience-section>ul li{margin-block:8px;line-height:1.65}
+.audience-section .audience-links{margin-top:24px}
+.audience-faq>h3{text-transform:none;letter-spacing:-.01em;font-size:20px;color:var(--p-ink)}
+@media(min-width:901px){
+ .audience-section:not(.audience-faq){display:grid;grid-template-columns:1fr 1fr;column-gap:56px;grid-auto-flow:row dense}
+ .audience-section:not(.audience-faq)>:is(h2,p){grid-column:1/-1}
+ .audience-section:not(.audience-faq)>:is(h3,ul):nth-of-type(1){grid-column:1}
+ .audience-section:not(.audience-faq)>:is(h3,ul):nth-of-type(2){grid-column:2}
+}
+.entry-content .audience-jump a{text-decoration:none}
+.contact-v3 h1{font-size:clamp(38px,3.8vw,56px)}
+.pelham-form .form-grid+label{display:block;margin-top:18px}

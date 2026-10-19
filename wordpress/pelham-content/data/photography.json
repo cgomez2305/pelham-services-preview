@@ -360,5 +360,24 @@
     "sha256": "f0667d928de908590899d214ed3c67e2ef48be30e97cec73d61171d7a20eed96",
     "representative": true,
     "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "partners": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1z9r-HVnyFwbpp_sr2-Y3W060rnEq88HG/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03684-64.jpg",
+    "alt": "Two Pelham team members reviewing shipment paperwork beside cartons in a trailer",
+    "position": "55% 40%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "partners-640.webp",
+      "960": "partners-960.webp",
+      "1600": "partners-1600.webp"
+    },
+    "sha256": "ffcfbc043f39bc9634740f07fb1131192c13a0566f766b3a848dca65331c4886",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
   }
 }

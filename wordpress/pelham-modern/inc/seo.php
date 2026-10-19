@@ -105,7 +105,7 @@ add_action('wp_head',function(){
  }
  $graph = [$org,$website,$page,['@type'=>'BreadcrumbList','@id'=>$url.'#breadcrumb','itemListElement'=>$breadcrumbs]];
  if ($type==='pelham_service') {
-  $service=['@type'=>'Service','@id'=>$url.'#service','name'=>get_the_title($post),'description'=>$description,'url'=>$url,'provider'=>['@id'=>$org['@id']]];
+  $service=['@type'=>'Service','@id'=>$url.'#service','name'=>get_the_title($post),'description'=>$description,'url'=>$url,'provider'=>['@id'=>$org['@id']],'audience'=>['@type'=>'BusinessAudience','audienceType'=>'Suppliers, distributors, manufacturers and freight forwarders']];
   if($post->post_name==='freight-consolidation'&&function_exists('pelham_ltl_levels')){
    $service['serviceType']='Domestic less-than-truckload pallet shipping from Los Angeles to Florida';
    $service['areaServed']=[['@type'=>'City','name'=>'Los Angeles'],['@type'=>'State','name'=>'Florida']];$offers=[];

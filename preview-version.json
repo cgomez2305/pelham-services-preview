@@ -1,6 +1,6 @@
 {
-  "theme": "1.21.0",
-  "plugin": "1.16.0",
+  "theme": "1.22.0",
+  "plugin": "1.17.0",
   "forms": "disabled",
-  "routes": 28
+  "routes": 29
 }

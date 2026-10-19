@@ -75,3 +75,9 @@ Sin máscaras de títulos ni de fotos (se mantiene la decisión de 1.15). Las me
 - **Lectura.** En artículos, la línea inferior de la cabecera indica el progreso de lectura mediante `animation-timeline: scroll()`.
 
 Se retiran del tema GSAP, ScrollTrigger, SplitText, DrawSVG, MotionPath y Lenis (sin uso desde 1.11). La única biblioteca de animación es Motion Mini.
+
+## Pulido 1.22
+
+Auditoría con Impeccable (detector de 61 reglas y criterios de critique/audit/polish), sin rediseñar. Una sola superficie elevada por bloque: los contenedores que envolvían otra tarjeta (cuerpo de artículo, páginas legales, panel LTL, contacto, guía de cotización) pierden su borde y fondo. La respuesta rápida es un panel tintado sin raya lateral. Las cabeceras de página comparten la escala 38–64 px; la home conserva su hero. El texto largo tiene una medida máxima de 72 caracteres, con `text-wrap: pretty` en párrafos y `balance` en títulos. La selección y los controles nativos usan la paleta. El titular en Georgia cursiva de la home y el halo verde se mantienen como identidad.
+
+Públicos: filas «Who we ship for» en el mismo lenguaje que las filas de servicios (nombre en Arial 500, nota en DM Sans y flecha), sin rejilla de tarjetas iguales. Página `/who-we-serve/` con una sección por público, en dos columnas en escritorio («Usually the right fit» / «Include in your quote request»).
