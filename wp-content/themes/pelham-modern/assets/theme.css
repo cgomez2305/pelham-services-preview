@@ -3227,3 +3227,24 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
  .single-post .site-header::after{display:block;background:var(--p-action);animation:pelham-reading linear both;animation-timeline:scroll(root block)}
 }
 .motion-paused :is(.freight-photo,.card-art,.news-art)>.freight-photo-image{animation:none}
+
+/* ==== photography 1.21 ==== */
+/* Insight cards now carry a photo: the image area spans the card width
+   (it collapsed to 0px in the insights page's flex card). */
+.news-card .news-art:has(img){align-self:stretch;width:100%;flex:0 0 auto;overflow:hidden}
+.news-card .news-art>.freight-photo-image{transition:scale 600ms var(--p-ease)}
+@media(hover:hover){.news-card:hover .news-art>.freight-photo-image{scale:1.03}}
+.motion-paused .news-card .news-art>.freight-photo-image{transition:none;scale:1}
+@media(prefers-reduced-motion:reduce){.news-card .news-art>.freight-photo-image{transition:none}}
+/* Featured insight (insights page, wide screens): the photo becomes a
+   full-width banner above the two text columns. */
+@media(min-width:761px){
+ .news-hub:not(.archive-hub) .news-card:first-child>a:has(.news-art img){grid-template-columns:1.05fr 1fr}
+ .news-hub:not(.archive-hub) .news-card:first-child .news-art:has(img){grid-column:1/-1;grid-row:1;height:clamp(240px,26vw,360px);margin-bottom:16px}
+ .news-hub:not(.archive-hub) .news-card:first-child>a:has(.news-art img) .news-date{grid-row:2}
+ .news-hub:not(.archive-hub) .news-card:first-child>a:has(.news-art img) h3{grid-row:3/5}
+ .news-hub:not(.archive-hub) .news-card:first-child>a:has(.news-art img) .news-summary{grid-row:3}
+ .news-hub:not(.archive-hub) .news-card:first-child>a:has(.news-art img) .text-link{grid-row:4}
+}
+.reading-story .page-masthead>.page-masthead-photo{margin-top:28px}
+.news-hub .news-card:not(:first-child) .news-art:has(img){height:clamp(180px,17vw,240px)}

@@ -1,167 +1,364 @@
 {
-  "pelham-hero": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/10/slider_ph_001.jpg",
+  "pelham-services": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1cqVkaBPC9n_la3w_gD4VZKHoV3w3PV29/view",
     "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Pelham team member speaking on the phone, from the original contact page",
-    "position": "50% 50%",
-    "width": 1920,
-    "height": 600,
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC04086-119.jpg",
+    "alt": "Row of white Pelham box trucks parked outside the Gardena, California terminal",
+    "position": "50% 62%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "pelham-services-640.webp",
+      "960": "pelham-services-960.webp",
+      "1600": "pelham-services-1600.webp",
+      "2400": "pelham-services-2400.webp"
+    },
+    "sha256": "fce633cb511ffa1e0b2b149a5e9fa8d419eaddfe1f6f0f8b4a65802d0768ff33",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "pelham-hero": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1g4csvTrd6m0GWG6ZlsatGVkhIe5A11KC/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03807-81.jpg",
+    "alt": "Pelham Services coordinator smiling while taking a customer call at her desk",
+    "position": "62% 30%",
+    "width": 1600,
+    "height": 1067,
     "files": {
       "640": "pelham-hero-640.webp",
       "960": "pelham-hero-960.webp",
       "1600": "pelham-hero-1600.webp"
     },
-    "sha256": "57ebbad85b31a409df01d004da7c556a3ac6186ab56c0ee387897b3aa10cbde3",
-    "representative": false,
-    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
-  },
-  "pelham-services": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/10/slider_ph_002-1.jpg",
-    "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Line of Pelham-branded trucks published on the company services page",
-    "position": "50% 50%",
-    "width": 1920,
-    "height": 600,
-    "files": {
-      "640": "pelham-services-640.webp",
-      "960": "pelham-services-960.webp",
-      "1600": "pelham-services-1600.webp"
-    },
-    "sha256": "6df9d25336fb4788b935295bd0a2595a0e6359d169b01fbd869f0bb9aabd0c81",
-    "representative": false,
-    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
-  },
-  "pelham-driver": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/Pelham_Truck_Driver.png",
-    "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Driver inside a truck cab, published by Pelham",
-    "position": "50% 50%",
-    "width": 1896,
-    "height": 830,
-    "files": {
-      "640": "pelham-driver-enhanced-640.webp",
-      "960": "pelham-driver-enhanced-960.webp",
-      "1600": "pelham-driver-enhanced-1600.webp",
-      "1896": "pelham-driver-enhanced-1896.webp"
-    },
-    "sha256": "3009d7e9a8b9c462d4626034fcc81ffd0c194d46102275810142097bc411e63b",
-    "representative": false,
-    "provenance_note": "AI-assisted enhancement of the linked original-site image. Generated detail is not verified photographic information. Original bundled files retained. WebP delivery derivatives created with ImageMagick.",
-    "original_dimensions": [
-      1536,
-      672
-    ],
-    "original_sha256": "6fa9a0b6504fe81239cd32f0bcb43b6be28d3be9bafd3088729ee46a56897096",
-    "enhanced": true
-  },
-  "pelham-truck": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/truckPost.jpg",
-    "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Trucks parked outside a freight facility",
-    "position": "50% 50%",
-    "width": 1919,
-    "height": 820,
-    "files": {
-      "640": "pelham-truck-enhanced-640.webp",
-      "960": "pelham-truck-enhanced-960.webp",
-      "1600": "pelham-truck-enhanced-1600.webp",
-      "1919": "pelham-truck-enhanced-1919.webp"
-    },
-    "sha256": "1ecb93cb09bb7f13f5e355a7705229326ba2281facc2d136be3f69ef8447db89",
-    "representative": false,
-    "provenance_note": "AI-assisted enhancement of the linked original-site image. Generated detail is not verified photographic information. Original bundled files retained. WebP delivery derivatives created with ImageMagick.",
-    "original_dimensions": [
-      1382,
-      590
-    ],
-    "original_sha256": "b8de25170e1f8057292e575bcd4deaae37c4ab41592f362488c114a18d3058e5",
-    "enhanced": true
+    "sha256": "851da47c5ebe0eba192688d2bc98421fede7ba5dc63ba70f2d8e22531bfa7330",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
   },
   "pelham-green": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/Perlham_Green_truck.png",
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1e8niVh6lVHP7UoKcJB-ctW7L3U-YuzM0/view",
     "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Green Pelham-branded truck on the road, from the original website",
-    "position": "50% 50%",
-    "width": 2004,
-    "height": 785,
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03184-13.jpg",
+    "alt": "White semi-truck with a dry van trailer at the loading docks of the Pelham terminal",
+    "position": "38% 55%",
+    "width": 1600,
+    "height": 1067,
     "files": {
-      "640": "pelham-green-enhanced-640.webp",
-      "960": "pelham-green-enhanced-960.webp",
-      "1600": "pelham-green-enhanced-1600.webp",
-      "2004": "pelham-green-enhanced-2004.webp"
+      "640": "pelham-green-640.webp",
+      "960": "pelham-green-960.webp",
+      "1600": "pelham-green-1600.webp"
     },
-    "sha256": "0c92df2d47803d30bc103c32ec1af56a6bc7c6285815275d09765790d11618da",
-    "representative": false,
-    "provenance_note": "AI-assisted enhancement of the linked original-site image. Generated detail is not verified photographic information. Original bundled files retained. WebP delivery derivatives created with ImageMagick.",
-    "original_dimensions": [
-      1632,
-      640
-    ],
-    "original_sha256": "9d3e51bbf88fbdd9f1d72bf58c5e82048e66cd4295eb90d1c983c827792fe031",
-    "enhanced": true
+    "sha256": "63c07063fc7f60206a3ecc26536bc34602b4cc0e622f44cbbd9d90cc37ba2132",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
   },
-  "pelham-operations": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/3.jpg",
+  "pelham-truck": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1Tv_inxO3OE2j_LHJzdYEjVN7OrH6VAjE/view",
     "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Trucks parked together, from the original Pelham media library",
-    "position": "50% 50%",
-    "width": 1920,
-    "height": 600,
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03767-73.jpg",
+    "alt": "Forklift operator moving palletized cargo beside an open trailer at a loading dock",
+    "position": "68% 55%",
+    "width": 1600,
+    "height": 1067,
     "files": {
-      "640": "pelham-operations-640.webp",
-      "960": "pelham-operations-960.webp",
-      "1600": "pelham-operations-1600.webp"
+      "640": "pelham-truck-640.webp",
+      "960": "pelham-truck-960.webp",
+      "1600": "pelham-truck-1600.webp"
     },
-    "sha256": "2bd8ad213ec466ad50876af4cde79625bfa4f8f355e39fbbab48c5c098f49224",
-    "representative": false,
-    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+    "sha256": "f42922571d481ad1b93abc23a7c94de25e9b1d50ef1c57047155e7f6008dcbaf",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
   },
-  "pelham-warehouse": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/1.jpg",
+  "pelham-driver": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1DkUjLhgBkbWeohf3PPz0gzxx4aMNTAJz/view",
     "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Truck beside a freight facility, from the original Pelham media library",
-    "position": "50% 50%",
-    "width": 1920,
-    "height": 600,
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03593-55.jpg",
+    "alt": "Forklift operator carrying stacked, shrink-wrapped pallets across the Pelham warehouse",
+    "position": "62% 50%",
+    "width": 1600,
+    "height": 1067,
     "files": {
-      "640": "pelham-warehouse-640.webp",
-      "960": "pelham-warehouse-960.webp",
-      "1600": "pelham-warehouse-1600.webp"
+      "640": "pelham-driver-640.webp",
+      "960": "pelham-driver-960.webp",
+      "1600": "pelham-driver-1600.webp"
     },
-    "sha256": "fc804aaa39c24afbe89daea43e72a7dfa8616fa10b669400ab5a84fa72ea46d9",
-    "representative": false,
-    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+    "sha256": "9f40cdb7c34b238a4f558e5f9dc6a7e47c0f5c9f44fed32265fd4a6637c5f783",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
   },
-  "pelham-rig": {
-    "bank": "Original Pelham website",
-    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/Pelham_Truck.png",
+  "team": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1Ri1tfacdbp8gU92lFL5VDJuO0cSWndk6/view",
     "license": "https://pelhamservices.com/",
-    "author": "Published by Pelham; photographer not identified",
-    "alt": "Pelham-branded trailer on a highway, from the original website",
-    "position": "50% 50%",
-    "width": 1632,
-    "height": 640,
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03836-86.jpg",
+    "alt": "Two Pelham team members shaking hands in the warehouse",
+    "position": "50% 35%",
+    "width": 1600,
+    "height": 1067,
     "files": {
-      "640": "pelham-rig-640.webp",
-      "960": "pelham-rig-960.webp",
-      "1600": "pelham-rig-1600.webp"
+      "640": "team-640.webp",
+      "960": "team-960.webp",
+      "1600": "team-1600.webp"
     },
-    "sha256": "749240aa2f47cce3ca040b7d20a1ee476c36e37d771a036916dc63059d26a28a",
-    "representative": false,
-    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+    "sha256": "a108ef6fd893d9825a8c55d967f234f69cb151dd59ec35f21432954ab4aafc45",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "gardena-terminal": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/14eUA-7pX9yp3e6GFyUZNWfTWB7DOFSJn/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC04071-118.jpg",
+    "alt": "Pelham terminal building in Gardena, California, with a yellow box truck at the dock entrance",
+    "position": "45% 32%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "gardena-terminal-640.webp",
+      "960": "gardena-terminal-960.webp",
+      "1600": "gardena-terminal-1600.webp"
+    },
+    "sha256": "938677a024ba9f3da40ce6674507780e8d91773fd04b84dc39b1149c5624800e",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "network": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1XNG4nUPictVCqA-yt_dB6gAo65460NoU/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03553-53.jpg",
+    "alt": "Semi-truck and trailers at the dock doors of Pelham's Gardena terminal",
+    "position": "60% 55%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "network-640.webp",
+      "960": "network-960.webp",
+      "1600": "network-1600.webp"
+    },
+    "sha256": "fe87686cadccc31ac2d61f48f23a6bcb5945c2be3630353c56a815dcf5dc456a",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "warehouse": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1uYK0gXcO7oEwW0DRH9DGjtFe_-LmU-yF/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC04100-122.jpg",
+    "alt": "Palletized freight staged across the Pelham warehouse floor",
+    "position": "50% 60%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "warehouse-640.webp",
+      "960": "warehouse-960.webp",
+      "1600": "warehouse-1600.webp"
+    },
+    "sha256": "5af4fcc11b0341632782a8779bef1136aef68c57d71b7869c6026f65241c7423",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "shipping": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1z2GWAXJGR4pX_oxg7aXln4vKMZOkwjgP/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC04159-132.jpg",
+    "alt": "Pelham box truck fleet lined up in the terminal yard",
+    "position": "55% 60%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "shipping-640.webp",
+      "960": "shipping-960.webp",
+      "1600": "shipping-1600.webp"
+    },
+    "sha256": "0b6925ee5fc9ef14e79bdf4d1c5e62a44b3f6bf114f6521a9646f4af4ecc5ba5",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "truck": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1fdpRLAcmpBqvFySjUw4R2G771Bc2jpca/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03929-101.jpg",
+    "alt": "Yellow box truck parked in the Pelham terminal yard",
+    "position": "45% 55%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "truck-640.webp",
+      "960": "truck-960.webp",
+      "1600": "truck-1600.webp"
+    },
+    "sha256": "2c5b857a0314b88e3e8da5ee359724dc414ff1317b05f12557945418be0d2764",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "cargo": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1YJ0uH8KGYcOwEq15obvVQTjgZo_VRoKf/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03814-83.jpg",
+    "alt": "Cartons stacked on a pallet inside a trailer during loading, with a pallet jack behind",
+    "position": "50% 50%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "cargo-640.webp",
+      "960": "cargo-960.webp",
+      "1600": "cargo-1600.webp"
+    },
+    "sha256": "b29fac47e74441a12fdc5acb51423f04ff3dbcc4f8649456fb99dbf51c9cb664",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "linehaul": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/12FluZlKdqebPLJ1Mo3qOmKKkDVOTaSun/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03135-2.jpg",
+    "alt": "Semi-truck backed into a loading dock door at the Pelham terminal",
+    "position": "55% 55%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "linehaul-640.webp",
+      "960": "linehaul-960.webp",
+      "1600": "linehaul-1600.webp"
+    },
+    "sha256": "197f12194e9ebb3821567eb519e3b18838ac97257721b51b833f74d186011e00",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "containers": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1VZUEb8xtyUquXNIe9W-G4JZ2hpXspz_R/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03231-22.jpg",
+    "alt": "Forklift working at the far end of an empty dry van trailer",
+    "position": "50% 50%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "containers-640.webp",
+      "960": "containers-960.webp",
+      "1600": "containers-1600.webp"
+    },
+    "sha256": "1deaeb0097c5e5ae467c658983ca9ee8a62c02dff2bef51062c1c570b3a65f7d",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "ltl-pallets": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1M52znsOKWDEW_V5-5-a1lzBfi3aIhnPd/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03742-67.jpg",
+    "alt": "Mixed LTL pallets staged in the warehouse while a forklift moves freight",
+    "position": "50% 55%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "ltl-pallets-640.webp",
+      "960": "ltl-pallets-960.webp",
+      "1600": "ltl-pallets-1600.webp"
+    },
+    "sha256": "2e52a74161783c071bfb03b011dc98b4fa08a81c5b3bf9c4762b57e6465a13f6",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "quote-docs": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1YXrp1PwFl5NBtLrgDq964Ud8h4djaUGa/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03904-97.jpg",
+    "alt": "Pelham warehouse worker completing shipment paperwork on a carton",
+    "position": "40% 45%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "quote-docs-640.webp",
+      "960": "quote-docs-960.webp",
+      "1600": "quote-docs-1600.webp"
+    },
+    "sha256": "9a2db3bbd69f1360d5af32a284342fe57d6cf3f5a8f10cc098c935ceb8e0dfbd",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "dock-backing": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1yNvczGX7SrhwZJuzbR8TKwZJ0GVmBlDF/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03536-52.jpg",
+    "alt": "Tractor-trailer reversing toward the loading docks",
+    "position": "55% 60%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "dock-backing-640.webp",
+      "960": "dock-backing-960.webp",
+      "1600": "dock-backing-1600.webp"
+    },
+    "sha256": "f55e324c748b65973ee2c8766793086378acbf5b35c7c24b31bcdd14ce308b36",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "pallets": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/124msKOxREve-fn_aqq0sH_bHjKD_gozS/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC03341-33.jpg",
+    "alt": "Warehouse worker shrink-wrapping a pallet before shipment",
+    "position": "55% 45%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "pallets-640.webp",
+      "960": "pallets-960.webp",
+      "1600": "pallets-1600.webp"
+    },
+    "sha256": "eaf8997010dbd3db254aa4eec481b9ef1d089e2b118fd698450808048462be84",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
+  },
+  "delivery": {
+    "bank": "Pelham Services photo shoot",
+    "source": "https://drive.google.com/file/d/1f4aMzLouwjbFyQILj8h00FCcm7SBagSp/view",
+    "license": "https://pelhamservices.com/",
+    "author": "Supplied by Pelham Services; photographer not identified",
+    "original": "DSC04203-140.jpg",
+    "alt": "Box truck leaving the Pelham terminal gate on a delivery",
+    "position": "55% 60%",
+    "width": 1600,
+    "height": 1067,
+    "files": {
+      "640": "delivery-640.webp",
+      "960": "delivery-960.webp",
+      "1600": "delivery-1600.webp"
+    },
+    "sha256": "f0667d928de908590899d214ed3c67e2ef48be30e97cec73d61171d7a20eed96",
+    "representative": true,
+    "provenance_note": "Professional photo shoot at the Pelham terminal in Gardena, California, supplied by the client. Converted to WebP without retouching; metadata removed."
   }
 }
