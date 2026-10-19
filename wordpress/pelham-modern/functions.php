@@ -28,6 +28,27 @@ function pelham_detail($key, $fallback='') {
  }
  $options=get_option('pelham_company', []); return $options[$key] ?? $fallback; }
 function pelham_link($path) { return home_url('/'.trim($path,'/').'/'); }
+// Breadcrumb trail shared by the visible navigation and the BreadcrumbList schema.
+function pelham_breadcrumb_trail($post=null) {
+ if (is_front_page() || is_404()) return [];
+ $trail=[['Home',home_url('/')]];
+ $parents=['post'=>['news','Insights'],'pelham_service'=>['services','Services'],'pelham_terminal'=>['locations','Our network']];
+ if (is_archive() || is_home()) { $trail[]=['Insights',pelham_link('news')]; if (is_archive()) $trail[]=[wp_strip_all_tags(get_the_archive_title()),'']; return $trail; }
+ $post=get_post($post); if (!$post) return $trail;
+ if (isset($parents[$post->post_type])) $trail[]=[$parents[$post->post_type][1],pelham_link($parents[$post->post_type][0])];
+ foreach (array_reverse(get_post_ancestors($post)) as $ancestor) $trail[]=[get_the_title($ancestor),get_permalink($ancestor)];
+ // Main pages use the short label people see in the navigation, not their long H1.
+ $labels=['services'=>'Services','who-we-serve'=>'Who we serve','locations'=>'Our network','about'=>'About us','news'=>'Insights','contact'=>'Contact','quote'=>'Request a quote','register'=>'Register'];
+ $trail[]=[$post->post_type==='page'&&isset($labels[$post->post_name])?$labels[$post->post_name]:get_the_title($post),get_permalink($post)];
+ return $trail;
+}
+function pelham_breadcrumbs() {
+ $trail=pelham_breadcrumb_trail(); if (count($trail)<2) return;
+ $last=count($trail)-1;
+ echo '<nav class="story-breadcrumb" aria-label="Breadcrumb"><ol>';
+ foreach ($trail as $i=>[$name,$url]) echo $i===$last ? '<li><span aria-current="page" title="'.esc_attr($name).'">'.esc_html($name).'</span></li>' : '<li><a href="'.esc_url($url).'">'.esc_html($name).'</a></li>';
+ echo '</ol></nav>';
+}
 
 require_once get_template_directory().'/inc/seo.php';
 

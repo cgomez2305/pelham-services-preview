@@ -96,13 +96,9 @@ add_action('wp_head',function(){
  $page['isPartOf'] = ['@id'=>$website['@id']];
  $page['inLanguage'] = get_bloginfo('language');
  $page['breadcrumb'] = ['@id'=>$url.'#breadcrumb'];
- $breadcrumbs = [['@type'=>'ListItem','position'=>1,'name'=>'Home','item'=>home_url('/')]];
+ $breadcrumbs = [];
+ foreach (pelham_breadcrumb_trail($post) ?: [['Home',home_url('/')]] as $i=>[$name,$item]) $breadcrumbs[] = ['@type'=>'ListItem','position'=>$i+1,'name'=>$name,'item'=>$item ?: $url];
  $type = get_post_type($post);
- if (!is_front_page()) {
-  $parent = $type==='pelham_service' ? ['services','Services'] : ($type==='pelham_terminal' ? ['locations','Our network'] : ($type==='post' ? ['news','Insights'] : null));
-  if ($parent) $breadcrumbs[] = ['@type'=>'ListItem','position'=>2,'name'=>$parent[1],'item'=>pelham_link($parent[0])];
-  $breadcrumbs[] = ['@type'=>'ListItem','position'=>count($breadcrumbs)+1,'name'=>get_the_title($post),'item'=>$url];
- }
  $graph = [$org,$website,$page,['@type'=>'BreadcrumbList','@id'=>$url.'#breadcrumb','itemListElement'=>$breadcrumbs]];
  if ($type==='pelham_service') {
   $service=['@type'=>'Service','@id'=>$url.'#service','name'=>get_the_title($post),'description'=>$description,'url'=>$url,'provider'=>['@id'=>$org['@id']],'audience'=>['@type'=>'BusinessAudience','audienceType'=>'Suppliers, distributors, manufacturers and freight forwarders']];

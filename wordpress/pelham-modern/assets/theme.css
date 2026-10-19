@@ -3335,3 +3335,16 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
 .entry-content .team-list p:last-child{margin:0;color:var(--p-muted);font-size:16px;line-height:1.6}
 @media(max-width:1000px){.entry-content .team-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}}
 @media(max-width:600px){.team-band{margin-top:48px}.entry-content .team-list{grid-template-columns:1fr;gap:20px}.team-initials{margin-bottom:16px}}
+/* ==== breadcrumbs 1.22.2 ==== */
+.story-breadcrumb,.service-cover-copy .story-breadcrumb{display:block;margin:0 0 24px;padding:0;border:0;border-radius:0;background:none;font:500 13px/1.4 'DM Sans',sans-serif;letter-spacing:.01em;color:var(--p-muted)}
+.story-breadcrumb ol{display:flex;flex-wrap:wrap;align-items:center;margin:0;padding:0;list-style:none}
+.story-breadcrumb li{display:flex;align-items:center;min-width:0;margin:0}
+.story-breadcrumb li+li::before{content:'';flex:none;width:5px;height:5px;margin:0 11px 0 9px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;rotate:45deg;opacity:.5}
+.story-breadcrumb a{display:inline-flex;align-items:center;min-height:32px;color:#00592f;text-decoration:none;transition:color var(--p-fast) var(--p-ease)}
+.story-breadcrumb a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.story-breadcrumb a:focus-visible{outline:2px solid var(--p-green);outline-offset:2px;border-radius:2px}
+.story-breadcrumb [aria-current]{display:block;max-width:34ch;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--p-ink)}
+.service-cover-copy .story-breadcrumb{color:#b9cec1}
+.service-cover-copy .story-breadcrumb a{color:#f1faf5}
+.service-cover-copy .story-breadcrumb [aria-current]{color:#d2e5d9}
+@media(max-width:600px){.story-breadcrumb,.service-cover-copy .story-breadcrumb{margin-bottom:18px}.story-breadcrumb li:last-child:not(:first-child){display:none}}

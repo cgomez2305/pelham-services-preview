@@ -1,4 +1,4 @@
-# Pelham 1.22.1 — tema 1.22.1 / contenido 1.17.2
+# Pelham 1.22.1–1.22.2 — tema 1.22.2 / contenido 1.17.2
 
 Vuelve el equipo a *About us* y se ajustan tres páginas según una segunda revisión independiente del keyword research. Reemplazar **tema y plugin de contenidos** y vaciar caché. No reimportar contenido ni pulsar ningún botón de actualización.
 
@@ -86,8 +86,28 @@ Se comparó el H1 de las 30 rutas con su keyword asignada. Las páginas con dema
 - Como en 1.17.1, cada cambio solo se aplica si el título o el titular guardado sigue siendo el original. Las URL no cambian, así que no hacen falta redirecciones.
 - Los titles nuevos tienen 60 caracteres o menos.
 
+## 4. Breadcrumbs (tema 1.22.2)
+
+**Antes:**
+- La mayoría de páginas mostraba un único enlace «Home» suelto, sin ruta ni página actual.
+- Los artículos y servicios mostraban «All freight insights» / «All freight services» sin Home.
+- Los servicios usaban una píldora con borde, distinta al resto.
+- Las fichas de terminal decían «Home» mientras su schema declaraba Home › Our network › ficha: lo visible y el schema no coincidían.
+- No era una lista ordenada ni marcaba la página actual.
+
+**Ahora:**
+- Una sola función del tema, `pelham_breadcrumb_trail()`, genera la ruta para la miga visible y para el `BreadcrumbList` del schema, así que siempre coinciden.
+- Rutas:
+  - Home › Insights › artículo
+  - Home › Services › servicio
+  - Home › Our network › terminal
+  - Home › página (con la etiqueta corta del menú: *About us*, *Who we serve*, *Our network*…)
+- Marcado accesible: `<nav aria-label="Breadcrumb"><ol>` con `aria-current="page"` en el último elemento.
+- Diseño: DM Sans de 13 px, enlaces en verde oscuro (AA) sin subrayado hasta el hover, separador en chevron fino y página actual en tinta con elipsis si es larga. Sobre el fondo oscuro de los servicios usa tonos claros, sin píldora.
+- En móvil se oculta la página actual, porque es el H1 que va justo debajo, y queda en una línea: «Home › Services».
+
 ## Instalación
 
-1. Reemplazar Pelham Modern con `pelham-modern-1.22.1.zip`.
+1. Reemplazar Pelham Modern con `pelham-modern-1.22.2.zip`.
 2. Reemplazar Pelham Content con `pelham-content-1.17.2.zip`.
 3. Vaciar caché y revisar la home, `/about/`, `/services/`, `/services/freight-consolidation/` y `/news/ltl-vs-ftl-california-florida-shipping/`.

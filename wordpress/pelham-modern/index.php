@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <?php if(have_posts()):while(have_posts()):the_post();$data=function_exists('pelham_keyword_data')?pelham_keyword_data(get_post()):[];?>
 <article <?php post_class('page-story'); ?>>
-<header class="page-masthead shell"><div><nav class="story-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><?php if(get_post_type()==='post'){?><span aria-hidden="true">/</span><a href="<?php echo esc_url(pelham_link('news')); ?>">Freight insights</a><?php } ?></nav><h1><?php the_title(); ?></h1><?php if(get_post_type()==='post'){ ?><p class="article-date"><?php echo esc_html(get_the_date()); ?></p><?php } ?></div>
+<header class="page-masthead shell"><div><?php pelham_breadcrumbs(); ?><h1><?php the_title(); ?></h1><?php if(get_post_type()==='post'){ ?><p class="article-date"><?php echo esc_html(get_the_date()); ?></p><?php } ?></div>
 <?php if(!is_page(['services','news','contact','quote','register','privacy-notice','cookie-policy','terms-and-conditions'])&&(($data['photo']??'none')!=='none'||has_post_thumbnail())&&function_exists('pelham_photo_markup')){?><figure class="freight-photo page-masthead-photo"><?php echo pelham_photo_markup($data['photo']??'truck','',true,get_the_ID()); ?><div class="photo-fallback" aria-hidden="true"><span>CA</span><i></i><span>FL</span></div></figure><?php } ?></header>
 <div class="shell article-page"><div class="entry-content legacy-content"><?php the_content(); ?></div></div>
 </article>
