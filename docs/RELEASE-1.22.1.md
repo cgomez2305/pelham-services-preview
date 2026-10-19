@@ -1,4 +1,4 @@
-# Pelham 1.22.1 — tema 1.22.1 / contenido 1.17.1
+# Pelham 1.22.1 — tema 1.22.1 / contenido 1.17.2
 
 Vuelve el equipo a *About us* y se ajustan tres páginas según una segunda revisión independiente del keyword research. Reemplazar **tema y plugin de contenidos** y vaciar caché. No reimportar contenido ni pulsar ningún botón de actualización.
 
@@ -48,7 +48,7 @@ Este ruido explica por qué la marca debe trabajarse siempre como «Pelham Servi
 - `trucking for freight forwarders los angeles`
 - `pallet shipping for manufacturers`
 
-### Cambios aplicados (`keyword-map.json` + `inc/keywords-1.17.1.php`)
+### Cambios aplicados (`keyword-map.json` + `inc/keywords-1.17.php`)
 
 | Página | Antes | Ahora |
 |---|---|---|
@@ -67,8 +67,27 @@ El H1 sale del título del contenido en WordPress. El nuevo H1 se aplica solo mi
 2. **Artículo LTL vs FTL:** cambiar en el editor el H2 «The short answer» por «What do LTL and FTL mean?». Recoge las variantes en forma de pregunta (*what is the difference between…*, *what does ftl and ltl mean*).
 3. Tras la migración, medir en Search Console las consultas reales. Los volúmenes del planificador son orientativos y redondeados (50 / 500).
 
+## 3. Keyword en todos los H1 (contenido 1.17.2)
+
+Se comparó el H1 de las 30 rutas con su keyword asignada. Las páginas con demanda medida ya la tenían. Ahora también la tienen la home y las seis páginas cuyo H1 no la recogía. Las keywords secundarias no tienen volumen medido; son objetivos por intención.
+
+| Página | Keyword | H1 nuevo | Title nuevo |
+|---|---|---|---|
+| Home | california to florida (marca + ruta) | Pelham Services. California to Florida freight, *connected.* | Sin cambios |
+| Servicios | freight transportation services | Freight transportation services: LTL, FTL and handling | Freight Transportation Services: LTL & FTL \| Pelham |
+| Contenedores | container transloading requirements | Container transloading requirements: preparing a container-to-truck transfer | Container Transloading Requirements \| Pelham |
+| Retrasos | freight logistics challenges | Freight logistics challenges: planning for delays on a California–Florida shipment | Freight Logistics Challenges: Planning for Delays \| Pelham |
+| Proceso | Pelham freight shipping process | Pelham’s freight shipping process: how a domestic shipment is planned | Freight Shipping Process: How Pelham Plans a Shipment |
+| Transloading vs cross-docking | transloading vs cross docking | Transloading vs. cross-docking and palletizing: which do you need? | Transloading vs. Cross-Docking vs. Palletizing \| Pelham |
+| Fuel surcharge | freight fuel surcharge explained | Freight fuel surcharge explained: what it means in your quote | Freight Fuel Surcharge Explained \| Pelham |
+| Forwarders Miami | freight delivery to forwarders in miami | Freight delivery to forwarders in Miami from California | Sin cambios |
+
+- La home conserva su diseño: el titular ocupa tres líneas en escritorio y en móvil.
+- Como en 1.17.1, cada cambio solo se aplica si el título o el titular guardado sigue siendo el original. Las URL no cambian, así que no hacen falta redirecciones.
+- Los titles nuevos tienen 60 caracteres o menos.
+
 ## Instalación
 
 1. Reemplazar Pelham Modern con `pelham-modern-1.22.1.zip`.
-2. Reemplazar Pelham Content con `pelham-content-1.17.1.zip`.
-3. Vaciar caché y revisar `/about/`, `/services/freight-consolidation/` y `/news/ltl-vs-ftl-california-florida-shipping/`.
+2. Reemplazar Pelham Content con `pelham-content-1.17.2.zip`.
+3. Vaciar caché y revisar la home, `/about/`, `/services/`, `/services/freight-consolidation/` y `/news/ltl-vs-ftl-california-florida-shipping/`.
