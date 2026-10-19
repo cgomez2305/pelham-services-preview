@@ -4,7 +4,7 @@
  if(topics){
   const cards=[...document.querySelectorAll('.news-hub .news-card')],status=document.querySelector('.news-count');
   topics.hidden=false;status.hidden=false;
-  function filter(topic){let count=0;cards.forEach(card=>{card.hidden=topic!=='all'&&card.dataset.topic!==topic;if(!card.hidden)count++;});topics.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.topic===topic)));status.textContent=`${count} ${count===1?'article':'articles'}`;window.ScrollTrigger?.refresh();}
+  function filter(topic){let count=0;cards.forEach(card=>{card.hidden=topic!=='all'&&card.dataset.topic!==topic;if(!card.hidden)count++;});topics.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.topic===topic)));status.textContent=`${count} ${count===1?'article':'articles'}`;}
   topics.addEventListener('click',e=>{const b=e.target.closest('button');if(b)filter(b.dataset.topic);});filter('all');
  }
  const form=document.querySelector('.pelham-form');if(!form)return;

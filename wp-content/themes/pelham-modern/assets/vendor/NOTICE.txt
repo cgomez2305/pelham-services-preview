@@ -1,7 +1,0 @@
-GSAP 3.13.0 and ScrollTrigger, SplitText, DrawSVGPlugin, MotionPathPlugin.
-Copyright 2025 GreenSock. Original distribution license headers retained.
-Standard license: https://gsap.com/standard-license
-Source: https://registry.npmjs.org/gsap/-/gsap-3.13.0.tgz
-Lenis 1.3.17, MIT license, Copyright 2024 darkroom.engineering.
-Source: https://registry.npmjs.org/lenis/-/lenis-1.3.17.tgz
-Tarball integrity verified against the pinned npm registry SHA-512 metadata.

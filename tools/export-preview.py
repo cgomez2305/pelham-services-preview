@@ -34,5 +34,5 @@ for route in routes:
  body=body.replace('</body>','<script src="/assets/preview-forms.js"></script></body>')
  dest=root/route/'index.html';dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(body)
 (root/'assets/preview-forms.js').write_text("document.addEventListener('submit',e=>{if(!e.target.matches('.pelham-form'))return;e.preventDefault();e.stopImmediatePropagation();let note=e.target.querySelector('.preview-status');if(!note){note=document.createElement('p');note.className='preview-status';note.setAttribute('role','status');e.target.append(note);}note.textContent='Design preview only. No request has been sent. Use the installed WordPress site to submit.';},true);")
-(root/'preview-version.json').write_text(json.dumps({'theme':'1.19.0','plugin':'1.15.0','forms':'disabled','routes':len(routes)},indent=2))
+(root/'preview-version.json').write_text(json.dumps({'theme':'1.20.0','plugin':'1.15.1','forms':'disabled','routes':len(routes)},indent=2))
 print('Exported',len(routes),'pages; static submissions disabled.')

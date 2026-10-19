@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) exit;
 add_action('after_setup_theme', function () {
  add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('custom-logo');
  add_theme_support('responsive-embeds'); add_theme_support('editor-styles');
- add_editor_style('assets/site.css');
+ add_editor_style('assets/theme.css');
  register_nav_menus(['primary'=>'Primary navigation','footer'=>'Footer navigation']);
 });
 // Version assets by file modification time so every edited file busts browser
@@ -13,11 +13,9 @@ function pelham_asset_version($file) {
  return file_exists($path) ? (string) filemtime($path) : wp_get_theme()->get('Version');
 }
 add_action('wp_enqueue_scripts', function () {
- $base=get_template_directory_uri().'/assets/';$previous=[];
- foreach(['site','experience','stories','refined','industrial','complete','restructure','usability','design-system'] as $name){
-  wp_enqueue_style('pelham-'.$name,$base.$name.'.css',$previous,pelham_asset_version($name.'.css'));
-  $previous=['pelham-'.$name];
- }
+ $base=get_template_directory_uri().'/assets/';
+ // One stylesheet (the former nine layers, concatenated in cascade order).
+ wp_enqueue_style('pelham-theme',$base.'theme.css',[],pelham_asset_version('theme.css'));
  wp_enqueue_script('pelham-site',$base.'site.js',[],pelham_asset_version('site.js'),true);
  wp_enqueue_script('pelham-editorial',$base.'editorial.js',['pelham-site'],pelham_asset_version('editorial.js'),true);
  wp_enqueue_script('pelham-motion-engine',$base.'vendor/motion-mini-14.1.0.min.js',[],'14.1.0',true);
