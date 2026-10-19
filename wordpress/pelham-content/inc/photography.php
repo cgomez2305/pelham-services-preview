@@ -26,13 +26,16 @@ function pelham_photo_markup($key,$class='',$eager=false,$post_id=0){
  // Cover crops display a panoramic image at a larger effective width than
  // the narrow column. Account for that width when choosing a source.
  $sizes='(max-width: 600px) calc(100vw - 40px), (max-width: 1000px) 70vw, 800px';
+ // The homepage panorama spans the full content width (up to 1200px).
+ if($key==='pelham-services'&&is_front_page())$sizes='(max-width: 600px) calc(100vw - 40px), min(1200px, calc(100vw - 80px))';
  if(!empty($photo['enhanced'])&&is_singular('pelham_service')){
   $ratio=$photo['width']/max(1,$photo['height']);
   $sizes='(max-width: 680px) '.(int)ceil(290*$ratio).'px, '.(int)ceil(600*$ratio).'px';
  }
  return '<img style="object-position:'.esc_attr($photo['position']).'" srcset="'.esc_attr(implode(', ',$srcset)).'" sizes="'.esc_attr($sizes).'" class="freight-photo-image '.esc_attr($class).'" src="'.esc_url($photo['url']).'" alt="'.esc_attr($photo['alt']).'" width="'.absint($photo['width']).'" height="'.absint($photo['height']).'" loading="'.($eager?'eager':'lazy').'" decoding="async" fetchpriority="'.($eager?'high':'auto').'">';
 }
-add_shortcode('pelham_photo',function($attrs){$attrs=shortcode_atts(['key'=>'truck','caption'=>''],$attrs);return '<figure class="freight-photo">'.pelham_photo_markup($attrs['key']).($attrs['caption']?'<figcaption>'.esc_html($attrs['caption']).'</figcaption>':'').'</figure>';});
+// The homepage panorama sits above the fold: lazy-loading it delays LCP.
+add_shortcode('pelham_photo',function($attrs){$attrs=shortcode_atts(['key'=>'truck','caption'=>'','eager'=>''],$attrs);$eager=in_array(strtolower((string)$attrs['eager']),['1','true','yes'],true)||($attrs['key']==='pelham-services'&&is_front_page());return '<figure class="freight-photo">'.pelham_photo_markup($attrs['key'],'',$eager).($attrs['caption']?'<figcaption>'.esc_html($attrs['caption']).'</figcaption>':'').'</figure>';});
 add_action('admin_menu',function(){add_submenu_page('pelham-company','Photography','Photography','upload_files','pelham-photography',function(){
  if(!current_user_can('upload_files'))return;
  echo '<div class="wrap"><h1>Pelham — website images</h1><p>These images were retrieved directly from the public Pelham website at your request. Source links are recorded; photographer and capture method were not independently verified. The three service defaults now use AI-assisted enhancements; generated detail is not verified photographic information. Original files remain bundled. Set a featured image in any page, article or service to replace default photography. All default photographs are bundled locally. Imported images can be edited in Media.</p>';

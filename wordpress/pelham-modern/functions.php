@@ -6,20 +6,22 @@ add_action('after_setup_theme', function () {
  add_editor_style('assets/site.css');
  register_nav_menus(['primary'=>'Primary navigation','footer'=>'Footer navigation']);
 });
+// Version assets by file modification time so every edited file busts browser
+// and CDN caches, instead of hand-maintained version strings that drift.
+function pelham_asset_version($file) {
+ $path=get_template_directory().'/assets/'.$file;
+ return file_exists($path) ? (string) filemtime($path) : wp_get_theme()->get('Version');
+}
 add_action('wp_enqueue_scripts', function () {
- wp_enqueue_style('pelham-site', get_template_directory_uri().'/assets/site.css', [], '1.16.0');
- wp_enqueue_style('pelham-experience', get_template_directory_uri().'/assets/experience.css', ['pelham-site'], '1.16.0');
- wp_enqueue_style('pelham-stories',get_template_directory_uri().'/assets/stories.css',['pelham-experience'],'1.16.0');
- wp_enqueue_style('pelham-refined',get_template_directory_uri().'/assets/refined.css',['pelham-stories'],'1.16.0');
- wp_enqueue_style('pelham-industrial',get_template_directory_uri().'/assets/industrial.css',['pelham-refined'],'1.16.0');
- wp_enqueue_style('pelham-complete',get_template_directory_uri().'/assets/complete.css',['pelham-industrial'],'1.16.0');
- wp_enqueue_style('pelham-restructure',get_template_directory_uri().'/assets/restructure.css',['pelham-complete'],'1.16.0');
- wp_enqueue_style('pelham-usability',get_template_directory_uri().'/assets/usability.css',['pelham-restructure'],'1.16.0');
- wp_enqueue_style('pelham-design-system',get_template_directory_uri().'/assets/design-system.css',['pelham-usability'],'1.19.0');
- wp_enqueue_script('pelham-site',get_template_directory_uri().'/assets/site.js',[],'1.16.0',true);
- wp_enqueue_script('pelham-editorial',get_template_directory_uri().'/assets/editorial.js',['pelham-site'],'1.16.0',true);
- wp_enqueue_script('pelham-motion-engine',get_template_directory_uri().'/assets/vendor/motion-mini-14.1.0.min.js',[],'14.1.0',true);
- wp_enqueue_script('pelham-motion',get_template_directory_uri().'/assets/motion.js',['pelham-site','pelham-motion-engine'],'1.16.0',true);
+ $base=get_template_directory_uri().'/assets/';$previous=[];
+ foreach(['site','experience','stories','refined','industrial','complete','restructure','usability','design-system'] as $name){
+  wp_enqueue_style('pelham-'.$name,$base.$name.'.css',$previous,pelham_asset_version($name.'.css'));
+  $previous=['pelham-'.$name];
+ }
+ wp_enqueue_script('pelham-site',$base.'site.js',[],pelham_asset_version('site.js'),true);
+ wp_enqueue_script('pelham-editorial',$base.'editorial.js',['pelham-site'],pelham_asset_version('editorial.js'),true);
+ wp_enqueue_script('pelham-motion-engine',$base.'vendor/motion-mini-14.1.0.min.js',[],'14.1.0',true);
+ wp_enqueue_script('pelham-motion',$base.'motion.js',['pelham-site','pelham-motion-engine'],pelham_asset_version('motion.js'),true);
 });
 function pelham_detail($key, $fallback='') {
  if(preg_match('/^(ca|fl)_(name|address|phone)$/',$key,$m)){
@@ -37,7 +39,7 @@ add_action('admin_notices',function(){if(current_user_can('activate_plugins')&&!
 add_action('wp_head',function(){
  echo '<style id="pelham-entrance-boot">'.file_get_contents(__DIR__.'/assets/motion-bootstrap.css').'</style>';
  echo '<script id="pelham-entrance-init">'.file_get_contents(__DIR__.'/assets/motion-bootstrap.js').'</script>';
- foreach(['site.js?ver=1.16.0','vendor/motion-mini-14.1.0.min.js?ver=14.1.0','motion.js?ver=1.16.0'] as $file)echo '<link rel="preload" as="script" href="'.esc_url(get_template_directory_uri().'/assets/'.$file).'">';
+ foreach(['site.js?ver='.pelham_asset_version('site.js'),'vendor/motion-mini-14.1.0.min.js?ver=14.1.0','motion.js?ver='.pelham_asset_version('motion.js')] as $file)echo '<link rel="preload" as="script" href="'.esc_url(get_template_directory_uri().'/assets/'.$file).'">';
 },1);
 
 // Mark the active section for flat WordPress pages as well as nested menus.

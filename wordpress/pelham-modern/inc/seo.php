@@ -77,6 +77,9 @@ add_action('wp_head',function(){
  $logo = $logo_id ? wp_get_attachment_image_url($logo_id, 'full') : get_template_directory_uri().'/assets/pelham-logo.png';
  $photo_data=function_exists('pelham_keyword_data')?pelham_keyword_data($post):[];
  $stock=function_exists('pelham_photo_data')?pelham_photo_data($photo_data['photo']??'truck'):[];
+ // A 156px logo is below the size social networks and Article rich results
+ // accept; pages without their own photo share the homepage fleet photo.
+ if(empty($stock['url'])&&function_exists('pelham_photo_data'))$stock=pelham_photo_data('pelham-services');
  $image = get_the_post_thumbnail_url($post, 'large') ?: ($stock['url']??$logo);
  $image_alt = has_post_thumbnail($post) ? get_post_meta(get_post_thumbnail_id($post),'_wp_attachment_image_alt',true) : ($stock['alt']??get_bloginfo('name'));
  echo '<meta name="description" content="'.esc_attr($description).'">'."\n";
@@ -130,7 +133,8 @@ add_action('wp_head',function(){
   $article = ['@type'=>'Article','@id'=>$url.'#article','headline'=>get_the_title($post),'description'=>$description,'datePublished'=>get_the_date(DATE_W3C,$post),'dateModified'=>get_the_modified_date(DATE_W3C,$post),'publisher'=>['@id'=>$org['@id']],'mainEntityOfPage'=>['@id'=>$page['@id']]];
   $article['inLanguage']=get_bloginfo('language');
   $graph[2]['mainEntity']=['@id'=>$article['@id']];
-  if (has_post_thumbnail($post)) $article['image']=$image;
+  $article['author']=['@id'=>$org['@id']];
+  if ($image!==$logo) $article['image']=$image;
   $graph[]=$article;
  }
  echo '<script type="application/ld+json">'.wp_json_encode(['@context'=>'https://schema.org','@graph'=>$graph],JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script>'."\n";
