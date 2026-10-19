@@ -1,0 +1,167 @@
+{
+  "pelham-hero": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/10/slider_ph_001.jpg",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Pelham team member speaking on the phone, from the original contact page",
+    "position": "50% 50%",
+    "width": 1920,
+    "height": 600,
+    "files": {
+      "640": "pelham-hero-640.webp",
+      "960": "pelham-hero-960.webp",
+      "1600": "pelham-hero-1600.webp"
+    },
+    "sha256": "57ebbad85b31a409df01d004da7c556a3ac6186ab56c0ee387897b3aa10cbde3",
+    "representative": false,
+    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+  },
+  "pelham-services": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/10/slider_ph_002-1.jpg",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Line of Pelham-branded trucks published on the company services page",
+    "position": "50% 50%",
+    "width": 1920,
+    "height": 600,
+    "files": {
+      "640": "pelham-services-640.webp",
+      "960": "pelham-services-960.webp",
+      "1600": "pelham-services-1600.webp"
+    },
+    "sha256": "6df9d25336fb4788b935295bd0a2595a0e6359d169b01fbd869f0bb9aabd0c81",
+    "representative": false,
+    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+  },
+  "pelham-driver": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/Pelham_Truck_Driver.png",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Driver inside a truck cab, published by Pelham",
+    "position": "50% 50%",
+    "width": 1896,
+    "height": 830,
+    "files": {
+      "640": "pelham-driver-enhanced-640.webp",
+      "960": "pelham-driver-enhanced-960.webp",
+      "1600": "pelham-driver-enhanced-1600.webp",
+      "1896": "pelham-driver-enhanced-1896.webp"
+    },
+    "sha256": "3009d7e9a8b9c462d4626034fcc81ffd0c194d46102275810142097bc411e63b",
+    "representative": false,
+    "provenance_note": "AI-assisted enhancement of the linked original-site image. Generated detail is not verified photographic information. Original bundled files retained. WebP delivery derivatives created with ImageMagick.",
+    "original_dimensions": [
+      1536,
+      672
+    ],
+    "original_sha256": "6fa9a0b6504fe81239cd32f0bcb43b6be28d3be9bafd3088729ee46a56897096",
+    "enhanced": true
+  },
+  "pelham-truck": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/truckPost.jpg",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Trucks parked outside a freight facility",
+    "position": "50% 50%",
+    "width": 1919,
+    "height": 820,
+    "files": {
+      "640": "pelham-truck-enhanced-640.webp",
+      "960": "pelham-truck-enhanced-960.webp",
+      "1600": "pelham-truck-enhanced-1600.webp",
+      "1919": "pelham-truck-enhanced-1919.webp"
+    },
+    "sha256": "1ecb93cb09bb7f13f5e355a7705229326ba2281facc2d136be3f69ef8447db89",
+    "representative": false,
+    "provenance_note": "AI-assisted enhancement of the linked original-site image. Generated detail is not verified photographic information. Original bundled files retained. WebP delivery derivatives created with ImageMagick.",
+    "original_dimensions": [
+      1382,
+      590
+    ],
+    "original_sha256": "b8de25170e1f8057292e575bcd4deaae37c4ab41592f362488c114a18d3058e5",
+    "enhanced": true
+  },
+  "pelham-green": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/Perlham_Green_truck.png",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Green Pelham-branded truck on the road, from the original website",
+    "position": "50% 50%",
+    "width": 2004,
+    "height": 785,
+    "files": {
+      "640": "pelham-green-enhanced-640.webp",
+      "960": "pelham-green-enhanced-960.webp",
+      "1600": "pelham-green-enhanced-1600.webp",
+      "2004": "pelham-green-enhanced-2004.webp"
+    },
+    "sha256": "0c92df2d47803d30bc103c32ec1af56a6bc7c6285815275d09765790d11618da",
+    "representative": false,
+    "provenance_note": "AI-assisted enhancement of the linked original-site image. Generated detail is not verified photographic information. Original bundled files retained. WebP delivery derivatives created with ImageMagick.",
+    "original_dimensions": [
+      1632,
+      640
+    ],
+    "original_sha256": "9d3e51bbf88fbdd9f1d72bf58c5e82048e66cd4295eb90d1c983c827792fe031",
+    "enhanced": true
+  },
+  "pelham-operations": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/3.jpg",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Trucks parked together, from the original Pelham media library",
+    "position": "50% 50%",
+    "width": 1920,
+    "height": 600,
+    "files": {
+      "640": "pelham-operations-640.webp",
+      "960": "pelham-operations-960.webp",
+      "1600": "pelham-operations-1600.webp"
+    },
+    "sha256": "2bd8ad213ec466ad50876af4cde79625bfa4f8f355e39fbbab48c5c098f49224",
+    "representative": false,
+    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+  },
+  "pelham-warehouse": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/1.jpg",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Truck beside a freight facility, from the original Pelham media library",
+    "position": "50% 50%",
+    "width": 1920,
+    "height": 600,
+    "files": {
+      "640": "pelham-warehouse-640.webp",
+      "960": "pelham-warehouse-960.webp",
+      "1600": "pelham-warehouse-1600.webp"
+    },
+    "sha256": "fc804aaa39c24afbe89daea43e72a7dfa8616fa10b669400ab5a84fa72ea46d9",
+    "representative": false,
+    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+  },
+  "pelham-rig": {
+    "bank": "Original Pelham website",
+    "source": "https://pelhamservices.com/wp-content/uploads/2025/09/Pelham_Truck.png",
+    "license": "https://pelhamservices.com/",
+    "author": "Published by Pelham; photographer not identified",
+    "alt": "Pelham-branded trailer on a highway, from the original website",
+    "position": "50% 50%",
+    "width": 1632,
+    "height": 640,
+    "files": {
+      "640": "pelham-rig-640.webp",
+      "960": "pelham-rig-960.webp",
+      "1600": "pelham-rig-1600.webp"
+    },
+    "sha256": "749240aa2f47cce3ca040b7d20a1ee476c36e37d771a036916dc63059d26a28a",
+    "representative": false,
+    "provenance_note": "Direct original-site publication, reused at the user’s request; does not independently verify capture method, fleet ownership or image authorship."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "existing": [
+    "home",
+    "about",
+    "contact",
+    "locations/gardena-ca",
+    "locations",
+    "quote",
+    "services/freight-consolidation",
+    "services/dedicated-transport",
+    "services",
+    "news",
+    "news/how-pelham-elevates-logistics-in-ca-fl",
+    "news/planning-recurring-california-florida-freight",
+    "news/what-to-include-in-a-freight-quote"
+  ],
+  "create_if_missing": []
+}

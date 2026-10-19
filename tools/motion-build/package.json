@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "motion": "14.1.0",
+    "esbuild": "0.25.12"
+  },
+  "scripts": {
+    "build": "esbuild entry.js --bundle --minify --format=iife --global-name=PelhamMotionEngine --outfile=../../wordpress/pelham-modern/assets/vendor/motion-mini-14.1.0.min.js"
+  }
+}

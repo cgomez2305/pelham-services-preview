@@ -1,4 +1,3 @@
+# Static preview only. WordPress production uses its own robots.txt and wp-sitemap.xml.
 User-agent: *
-Allow: /
-
-Sitemap: https://pelhamservices.com/sitemap.xml
+Disallow: /

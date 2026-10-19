@@ -1,0 +1,12 @@
+const {chromium}=require('/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});const rows=[];const out='docs/audit/design-1.10';fs.mkdirSync(out,{recursive:true});try{
+ const entries=JSON.parse(fs.readFileSync('wordpress/pelham-content/data/pages.json'));const routes=['',...entries.map(x=>x.route)];
+ for(const width of [1440,390]){const p=await b.newPage({viewport:{width,height:900},reducedMotion:'reduce'});let errors=[];p.on('pageerror',e=>errors.push(e.message));
+ for(const route of routes){errors=[];const response=await p.goto('http://127.0.0.1:9401/'+route+(route?'/':''),{waitUntil:'networkidle'});await p.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=700){scrollTo(0,y);await new Promise(r=>setTimeout(r,15));}await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));document.activeElement?.blur();document.documentElement.style.scrollBehavior='auto';scrollTo({top:0,behavior:'instant'});});await p.waitForTimeout(100);
+ const stem=width+'-'+(route.replaceAll('/','-')||'home');await p.screenshot({path:out+'/'+stem+'.png',fullPage:true});
+ const check=await p.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth+1,h1:document.querySelectorAll('h1').length,missingImages:[...document.images].filter(i=>!i.naturalWidth).map(i=>i.src),systemLoaded:!!document.querySelector('link[href*="design-system.css"]')}));
+ const components=[];for(const selector of ['.site-header','.industrial-opening','.industrial-panorama','.service-opening-v3','.service-planning','.service-questions','.contact-v3','.contact-workspace','.registration-v3','.news-grid','.reading-layout','.legal-page','.terminal-grid','.site-footer']){const loc=p.locator(selector).first();if(await loc.count()&&await loc.isVisible()){await loc.screenshot({path:out+'/'+stem+'-'+selector.slice(1)+'.png'});components.push(selector);}}
+ rows.push({route,width,status:response.status(),...check,errors:[...errors],components});fs.writeFileSync(out+'/results.json',JSON.stringify(rows,null,2));console.log(stem,check.overflow?'OVERFLOW':'OK');
+ }await p.close();}
+ if(rows.some(x=>x.status!==200||x.overflow||x.h1!==1||x.missingImages.length||x.errors.length||!x.systemLoaded))process.exitCode=1;
+ }finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,1 @@
+<?php if(is_home()){include get_template_directory().'/index.php';return;} get_header(); while(have_posts()): the_post(); ?><div class="entry-content home-content"><?php the_content(); ?></div><?php endwhile; get_footer(); ?>

@@ -1,0 +1,56 @@
+<?php
+if (!defined('ABSPATH')) exit;
+add_action('after_setup_theme', function () {
+ add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('custom-logo');
+ add_theme_support('responsive-embeds'); add_theme_support('editor-styles');
+ add_editor_style('assets/site.css');
+ register_nav_menus(['primary'=>'Primary navigation','footer'=>'Footer navigation']);
+});
+add_action('wp_enqueue_scripts', function () {
+ wp_enqueue_style('pelham-site', get_template_directory_uri().'/assets/site.css', [], '1.16.0');
+ wp_enqueue_style('pelham-experience', get_template_directory_uri().'/assets/experience.css', ['pelham-site'], '1.16.0');
+ wp_enqueue_style('pelham-stories',get_template_directory_uri().'/assets/stories.css',['pelham-experience'],'1.16.0');
+ wp_enqueue_style('pelham-refined',get_template_directory_uri().'/assets/refined.css',['pelham-stories'],'1.16.0');
+ wp_enqueue_style('pelham-industrial',get_template_directory_uri().'/assets/industrial.css',['pelham-refined'],'1.16.0');
+ wp_enqueue_style('pelham-complete',get_template_directory_uri().'/assets/complete.css',['pelham-industrial'],'1.16.0');
+ wp_enqueue_style('pelham-restructure',get_template_directory_uri().'/assets/restructure.css',['pelham-complete'],'1.16.0');
+ wp_enqueue_style('pelham-usability',get_template_directory_uri().'/assets/usability.css',['pelham-restructure'],'1.16.0');
+ wp_enqueue_style('pelham-design-system',get_template_directory_uri().'/assets/design-system.css',['pelham-usability'],'1.19.0');
+ wp_enqueue_script('pelham-site',get_template_directory_uri().'/assets/site.js',[],'1.16.0',true);
+ wp_enqueue_script('pelham-editorial',get_template_directory_uri().'/assets/editorial.js',['pelham-site'],'1.16.0',true);
+ wp_enqueue_script('pelham-motion-engine',get_template_directory_uri().'/assets/vendor/motion-mini-14.1.0.min.js',[],'14.1.0',true);
+ wp_enqueue_script('pelham-motion',get_template_directory_uri().'/assets/motion.js',['pelham-site','pelham-motion-engine'],'1.16.0',true);
+});
+function pelham_detail($key, $fallback='') {
+ if(preg_match('/^(ca|fl)_(name|address|phone)$/',$key,$m)){
+  $posts=get_posts(['post_type'=>'pelham_terminal','name'=>$m[1]==='ca'?'gardena-ca':'miami-fl','numberposts'=>1]);
+  if($posts){return $m[2]==='name'?$posts[0]->post_title:get_post_meta($posts[0]->ID,'pelham_'.$m[2],true);}
+ }
+ $options=get_option('pelham_company', []); return $options[$key] ?? $fallback; }
+function pelham_link($path) { return home_url('/'.trim($path,'/').'/'); }
+
+require_once get_template_directory().'/inc/seo.php';
+
+add_action('admin_notices',function(){if(current_user_can('activate_plugins')&&!shortcode_exists('pelham_registration_form'))echo '<div class="notice notice-error"><p>Pelham needs the Pelham Content plugin for services, forms and registration. Install and activate the matching plugin ZIP included with this theme.</p></div>';});
+
+// Prepare only editorial openings before first paint; expire safely if scripts fail.
+add_action('wp_head',function(){
+ echo '<style id="pelham-entrance-boot">'.file_get_contents(__DIR__.'/assets/motion-bootstrap.css').'</style>';
+ echo '<script id="pelham-entrance-init">'.file_get_contents(__DIR__.'/assets/motion-bootstrap.js').'</script>';
+ foreach(['site.js?ver=1.16.0','vendor/motion-mini-14.1.0.min.js?ver=14.1.0','motion.js?ver=1.16.0'] as $file)echo '<link rel="preload" as="script" href="'.esc_url(get_template_directory_uri().'/assets/'.$file).'">';
+},1);
+
+// Mark the active section for flat WordPress pages as well as nested menus.
+function pelham_navigation_current($url) {
+ if (wp_parse_url($url, PHP_URL_HOST) !== wp_parse_url(home_url('/'), PHP_URL_HOST)) return '';
+ $current = trim((string) wp_parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
+ $target = trim((string) wp_parse_url($url, PHP_URL_PATH), '/');
+ if ($current === $target) return 'page';
+ return $target !== '' && strpos($current, $target.'/') === 0 ? 'location' : '';
+}
+add_filter('nav_menu_link_attributes', function ($atts, $item, $args) {
+ if (($args->theme_location ?? '') !== 'primary') return $atts;
+ $current = pelham_navigation_current($item->url);
+ if ($current) $atts['aria-current'] = $current;
+ return $atts;
+}, 10, 3);

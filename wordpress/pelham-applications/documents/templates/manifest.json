@@ -1,0 +1,22 @@
+{
+  "Credit-Application.pdf": {
+    "source_sha256": "d25c4861e1dcfcf2e3008f36b282c16f1f52e58851e3d024279b0f360efb008d",
+    "template_sha256": "ebe51e602aa467b0981f94aa85bfe9e03b65879f01fade8bba89c0a9c5ec73ff",
+    "pages": 2
+  },
+  "Claim-Form.pdf": {
+    "source_sha256": "81fefb9c3a4fd21f66a79ce4d01f0ac48c0313e865bb175fc137622dc1796288",
+    "template_sha256": "633c0e365e0342307b6d0d0c3f63faccf2bf5bc56074785ef4a52f94d7a9be2a",
+    "pages": 2
+  },
+  "Terms-and-Agreements-Pelham.pdf": {
+    "source_sha256": "87d1a5d2c600029ec809363ba218d9951d7eae215a588a71cece609843b44f9d",
+    "template_sha256": "1040faeccec9de82e47188b12b8e469232ac0f54e11254196df2693965d804a9",
+    "pages": 4
+  },
+  "Customer-Application.pdf": {
+    "source_sha256": "378171076621c87a2a1d6bfc2acab15241abf2d0d917d7fb4905fce71508434d",
+    "template_sha256": "4438e7d450612af44fcf15b89ac142b30a498545849a90af400472fb77ef6fe5",
+    "pages": 1
+  }
+}

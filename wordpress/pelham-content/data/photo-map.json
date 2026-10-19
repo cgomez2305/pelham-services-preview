@@ -1,0 +1,23 @@
+{
+  "home": "truck",
+  "services": "truck",
+  "dedicated-transport": "truck",
+  "transloading": "containers",
+  "freight-consolidation": "warehouse",
+  "locations": "containers",
+  "gardena-ca": "cargo",
+  "miami-fl": "containers",
+  "quote": "cargo",
+  "contact": "team",
+  "about": "team",
+  "news": "warehouse",
+  "future-of-logistics-trends-pelham-is-embracing": "shipping",
+  "how-pelham-elevates-logistics-in-ca-fl": "truck",
+  "navigating-challenges-in-us-logistics": "warehouse",
+  "transloading-vs-cross-docking": "cargo",
+  "ltl-vs-ftl-california-florida-shipping": "warehouse",
+  "what-to-include-in-a-freight-quote": "cargo",
+  "planning-recurring-california-florida-freight": "truck",
+  "how-a-freight-fuel-surcharge-works": "linehaul",
+  "container-transloading-documents-preparation": "containers"
+}

@@ -1,0 +1,119 @@
+{
+  "truck": {
+    "bank": "Pexels",
+    "source": "https://www.pexels.com/photo/white-volvo-semi-truck-on-side-of-road-2199293/",
+    "author": "Quintin Gellar",
+    "alt": "Semi trucks following a curved highway through a wooded landscape",
+    "position": "42% 55%",
+    "width": 1600,
+    "height": 1068,
+    "license": "https://www.pexels.com/license/",
+    "files": {
+      "640": "truck-640.webp",
+      "960": "truck-960.webp",
+      "1600": "truck-1600.webp"
+    },
+    "sha256": "da53a5bec3926aa71c66be6c57eea30fb7108ae97d93fdc1f4a503eca49526d1",
+    "representative": true
+  },
+  "warehouse": {
+    "bank": "Unsplash",
+    "source": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d",
+    "alt": "Parcels and pallets organized across a warehouse floor",
+    "position": "50% 55%",
+    "width": 1600,
+    "height": 1067,
+    "license": "https://unsplash.com/license",
+    "files": {
+      "640": "warehouse-640.webp",
+      "960": "warehouse-960.webp",
+      "1600": "warehouse-1600.webp"
+    },
+    "sha256": "c1aa70e5e84bcd7caabf49d58e26a36a48868bff94a16fd2834527f7e0ef227b",
+    "representative": true
+  },
+  "containers": {
+    "bank": "Unsplash",
+    "source": "https://images.unsplash.com/photo-1494412519320-aa613dfb7738",
+    "alt": "Aerial view of shipping containers arranged in a freight terminal",
+    "position": "50% 50%",
+    "width": 1600,
+    "height": 1067,
+    "license": "https://unsplash.com/license",
+    "files": {
+      "640": "containers-640.webp",
+      "960": "containers-960.webp",
+      "1600": "containers-1600.webp"
+    },
+    "sha256": "750a756236059c5d7cd8d1990d60d725e8524399a679342e820832de6374b1e2",
+    "representative": true
+  },
+  "team": {
+    "bank": "Pexels",
+    "source": "https://www.pexels.com/photo/workers-walking-along-aisle-in-warehouse-4487383/",
+    "author": "Tiger Lily",
+    "alt": "Two warehouse workers carrying a package between stocked shelves",
+    "position": "52% 48%",
+    "width": 1600,
+    "height": 1067,
+    "license": "https://www.pexels.com/license/",
+    "files": {
+      "640": "team-640.webp",
+      "960": "team-960.webp",
+      "1600": "team-1600.webp"
+    },
+    "sha256": "f0577038fae22335cb75eea8bb6a8580336d214581dcba2fb09a1d57ef80f071",
+    "representative": true
+  },
+  "cargo": {
+    "bank": "Pexels",
+    "source": "https://www.pexels.com/photo/men-working-in-a-warehouse-4481259/",
+    "author": "Tiger Lily",
+    "alt": "Warehouse workers checking palletized boxes beside a pallet jack",
+    "position": "48% 42%",
+    "width": 1600,
+    "height": 1067,
+    "license": "https://www.pexels.com/license/",
+    "files": {
+      "640": "cargo-640.webp",
+      "960": "cargo-960.webp",
+      "1600": "cargo-1600.webp"
+    },
+    "sha256": "49c271f523bcf9a44a1679ffe2150c3a5f26794dcd5ec6192b5c97c6fe57a271",
+    "representative": true
+  },
+  "linehaul": {
+    "bank": "Pexels",
+    "source": "https://www.pexels.com/photo/white-dump-truck-near-pine-tress-during-daytime-93398/",
+    "author": "500photos.com",
+    "alt": "White semi truck travelling along a highway below mountain peaks",
+    "position": "78% 72%",
+    "width": 1600,
+    "height": 1067,
+    "license": "https://www.pexels.com/license/",
+    "files": {
+      "640": "linehaul-640.webp",
+      "960": "linehaul-960.webp",
+      "1600": "linehaul-1600.webp"
+    },
+    "sha256": "0e759d2adf5994f7203cb5b534fc50573c5244b1f292112f311480cade6757b7",
+    "representative": true
+  },
+  "shipping": {
+    "bank": "Pexels",
+    "source": "https://www.pexels.com/photo/boat-in-body-of-water-262353/",
+    "author": "Pixabay",
+    "alt": "Container ship moving across the water in evening light",
+    "position": "38% 50%",
+    "width": 1600,
+    "height": 1067,
+    "license": "https://www.pexels.com/license/",
+    "files": {
+      "640": "shipping-640.webp",
+      "960": "shipping-960.webp",
+      "1600": "shipping-1600.webp"
+    },
+    "sha256": "db430092ed3516bb6f7f9ad3e2faf7a52decbeb36ab6e043928ee1d153e96435",
+    "representative": true
+  }
+}

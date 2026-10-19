@@ -1,0 +1,11 @@
+old_url,new_url,status_when_enabled,evidence
+https://pelhamservices.com/?page_id=12,https://pelhamservices.com/,301,Home
+https://pelhamservices.com/?page_id=30,https://pelhamservices.com/services/,301,Services
+https://pelhamservices.com/?page_id=151,https://pelhamservices.com/about/,301,Team / company
+https://pelhamservices.com/?page_id=13,https://pelhamservices.com/news/,301,News
+https://pelhamservices.com/?page_id=10,https://pelhamservices.com/register/,301,Register
+https://pelhamservices.com/?page_id=74,https://pelhamservices.com/contact/,301,Contact
+https://pelhamservices.com/?p=98,https://pelhamservices.com/news/future-of-logistics-trends-pelham-is-embracing/,301,Article
+https://pelhamservices.com/?p=95,https://pelhamservices.com/news/navigating-challenges-in-us-logistics/,301,Article
+https://pelhamservices.com/?p=1,https://pelhamservices.com/news/how-pelham-elevates-logistics-in-ca-fl/,301,Article
+https://pelhamservices.com/?cat=4,https://pelhamservices.com/news/,301,News category

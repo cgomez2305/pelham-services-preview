@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0e13"/>
+  <g stroke="#1b212a" stroke-width="1">
+    <path d="M0 140 H1200 M0 280 H1200 M0 420 H1200 M0 560 H1200"/>
+    <path d="M150 0 V630 M400 0 V630 M650 0 V630 M900 0 V630 M1050 0 V630"/>
+  </g>
+  <path d="M120 520 C 320 380, 480 520, 640 340 S 980 220, 1100 120" fill="none" stroke="#3d7cc9" stroke-width="4"/>
+  <circle cx="120" cy="520" r="9" fill="#3d7cc9"/>
+  <circle cx="1100" cy="120" r="9" fill="#ffffff"/>
+  <text x="90" y="95" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">PELHAM SERVICES</text>
+  <text x="90" y="140" fill="#97a1ad" font-family="Arial, Helvetica, sans-serif" font-size="24">Coast-to-Coast Freight · California ⇄ Florida</text>
+  <!-- NOTE: replace with a rasterized 1200x630 PNG/JPG export for full social-preview compatibility. -->
+</svg>

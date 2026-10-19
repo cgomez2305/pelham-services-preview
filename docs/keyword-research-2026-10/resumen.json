@@ -1,0 +1,17 @@
+{
+  "filas": 167,
+  "unicas": 149,
+  "duplicadas": 18,
+  "prioridades": {
+    "Excluir": 53,
+    "P2": 28,
+    "P1": 68
+  },
+  "volumen": {
+    "informado": 82,
+    "sin dato": 64,
+    "cero explícito": 3
+  },
+  "conflictos": [],
+  "series_mensuales_con_datos": 0
+}

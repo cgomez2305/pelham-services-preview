@@ -1,0 +1,21 @@
+# Local runtime, credentials and generated QA captures
+.env
+.env.*
+!.env.example
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.sqlite
+*.sqlite3
+wp-config.php
+docs/audit/
+# Historical packages remain local; publish current installable releases.
+dist/*.zip
+!dist/pelham-modern-1.19.0.zip
+!dist/pelham-content-1.15.0.zip
+!dist/pelham-applications-1.1.1.zip
+# Downloaded third-party pages are research inputs, not site source.
+docs/geo-audit/*.html
+docs/geo-audit/google-ai.txt
+docs/geo-audit/openai-bots.txt

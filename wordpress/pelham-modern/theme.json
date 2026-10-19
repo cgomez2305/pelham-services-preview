@@ -1,0 +1,59 @@
+{
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "1200px",
+      "wideSize": "1360px"
+    },
+    "color": {
+      "palette": [
+        {
+          "slug": "ink",
+          "color": "#101713",
+          "name": "Pelham ink"
+        },
+        {
+          "slug": "green",
+          "color": "#00a858",
+          "name": "Pelham green"
+        },
+        {
+          "slug": "lime",
+          "color": "#00a858",
+          "name": "Pelham accent"
+        },
+        {
+          "slug": "paper",
+          "color": "#ffffff",
+          "name": "Paper"
+        }
+      ]
+    },
+    "typography": {
+      "fontSizes": [
+        {
+          "slug": "small",
+          "size": "14px",
+          "name": "Small"
+        },
+        {
+          "slug": "medium",
+          "size": "18px",
+          "name": "Medium"
+        },
+        {
+          "slug": "large",
+          "size": "32px",
+          "name": "Large"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "typography": {
+      "fontFamily": "\"DM Sans\", Arial, sans-serif",
+      "lineHeight": "1.6"
+    }
+  }
+}

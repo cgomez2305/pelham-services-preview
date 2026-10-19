@@ -1,0 +1,20 @@
+{
+  "existing": [
+    "home",
+    "services/freight-consolidation",
+    "services/dedicated-transport",
+    "quote",
+    "news/ltl-vs-ftl-california-florida-shipping",
+    "news/pallet-shipping-cost-california-to-florida",
+    "news/freight-delivery-to-forwarders-in-miami",
+    "locations/gardena-ca",
+    "locations/miami-fl",
+    "locations/orlando-fl",
+    "contact",
+    "about"
+  ],
+  "create_if_missing": [
+    "news/pallet-shipping-cost-california-to-florida",
+    "news/freight-delivery-to-forwarders-in-miami"
+  ]
+}

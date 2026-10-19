@@ -1,0 +1,1 @@
+{"steps": [{"step": "runPHP", "code": "<?php require '/wordpress/wp-load.php'; activate_plugin('pelham-content/pelham-content.php'); switch_theme('pelham-modern'); update_option('home','http://127.0.0.1:9400'); update_option('siteurl','http://127.0.0.1:9400');"}]}

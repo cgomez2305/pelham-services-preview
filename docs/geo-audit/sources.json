@@ -1,0 +1,52 @@
+{
+  "openai-bots": {
+    "url": "https://platform.openai.com/docs/bots",
+    "final_url": "https://developers.openai.com/api/docs/bots",
+    "status": 200,
+    "headers": {
+      "content-type": "text/html; charset=utf-8",
+      "server": "envoy"
+    }
+  },
+  "google-ai": {
+    "url": "https://developers.google.com/search/docs/appearance/ai-features",
+    "final_url": "https://developers.google.com/search/docs/appearance/ai-features",
+    "status": 200,
+    "headers": {
+      "content-type": "text/html; charset=utf-8",
+      "server": "envoy"
+    }
+  },
+  "production-robots": {
+    "url": "https://pelhamservices.com/robots.txt",
+    "error": "HTTP Error 404: Not Found"
+  },
+  "staging-robots": {
+    "url": "https://deeppink-bear-572523.hostingersite.com/robots.txt",
+    "final_url": "https://deeppink-bear-572523.hostingersite.com/robots.txt",
+    "status": 200,
+    "headers": {
+      "content-type": "text/plain,text/plain",
+      "server": "envoy"
+    }
+  },
+  "staging-home": {
+    "url": "https://deeppink-bear-572523.hostingersite.com/",
+    "final_url": "https://deeppink-bear-572523.hostingersite.com/",
+    "status": 200,
+    "headers": {
+      "content-type": "text/html; charset=UTF-8",
+      "x-robots-tag": "noindex, nofollow",
+      "server": "envoy"
+    }
+  },
+  "production-home": {
+    "url": "https://pelhamservices.com/",
+    "final_url": "https://pelhamservices.com/",
+    "status": 200,
+    "headers": {
+      "content-type": "text/html; charset=UTF-8",
+      "server": "envoy"
+    }
+  }
+}

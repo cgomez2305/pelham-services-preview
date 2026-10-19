@@ -1,3 +1,5 @@
+> Documento histórico: sus referencias a cinco instalaciones y oferta anterior quedaron sustituidas por [la estrategia LTL de octubre de 2026](docs/SEO-STRATEGY-LTL-2026-10.md). No usar como fuente operativa actual.
+
 # Pelham Services — SEO Strategy & Roadmap
 
 This complements [design-system.md](design-system.md) (technical/structural SEO already built into the site) with the client's content strategy and long-term roadmap. Metadata below is already implemented site-wide as of this writing — this file is the durable reference for *why* those choices were made and *what comes next*, most of which happens outside this codebase (Google Business Profile, directories, review outreach, PR).

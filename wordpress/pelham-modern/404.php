@@ -1,0 +1,1 @@
+<?php get_header(); ?><section class="shell article-page"><p class="eyebrow">404 / ROUTE NOT FOUND</p><h1>Let’s get you back on track.</h1><p>This page may have moved.</p><a class="button button-dark" href="<?php echo esc_url(home_url('/')); ?>">Back to home ↗</a></section><?php get_footer(); ?>

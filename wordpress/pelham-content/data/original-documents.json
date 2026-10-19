@@ -1,0 +1,22 @@
+[
+  {
+    "file": "Claim-Form.pdf",
+    "source": "https://pelhamservices.com/Docs/Claim-Form.pdf",
+    "sha256": "81fefb9c3a4fd21f66a79ce4d01f0ac48c0313e865bb175fc137622dc1796288"
+  },
+  {
+    "file": "Customer-Application.pdf",
+    "source": "https://pelhamservices.com/Docs/Customer-Application.pdf",
+    "sha256": "378171076621c87a2a1d6bfc2acab15241abf2d0d917d7fb4905fce71508434d"
+  },
+  {
+    "file": "Credit-Application.pdf",
+    "source": "https://pelhamservices.com/Docs/Credit-Application.pdf",
+    "sha256": "d25c4861e1dcfcf2e3008f36b282c16f1f52e58851e3d024279b0f360efb008d"
+  },
+  {
+    "file": "Terms-and-Agreements-Pelham.pdf",
+    "source": "https://pelhamservices.com/Docs/Terms-and-Agreements-Pelham.pdf",
+    "sha256": "87d1a5d2c600029ec809363ba218d9951d7eae215a588a71cece609843b44f9d"
+  }
+]

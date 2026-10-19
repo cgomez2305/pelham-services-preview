@@ -1,0 +1,12 @@
+{
+  "existing": [
+    "services/freight-consolidation",
+    "services/dedicated-transport",
+    "news/ltl-vs-ftl-california-florida-shipping",
+    "news/what-to-include-in-a-freight-quote"
+  ],
+  "new": [
+    "news/pallet-shipping-cost-california-to-florida",
+    "news/freight-delivery-to-forwarders-in-miami"
+  ]
+}

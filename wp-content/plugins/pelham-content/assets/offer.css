@@ -1,0 +1,32 @@
+.pelham-ltl-levels{margin:clamp(2rem,5vw,5rem) auto;width:100%;max-width:1280px;padding:clamp(1rem,3vw,2.5rem);box-sizing:border-box;border:1px solid #cadbd1;border-radius:20px;background:linear-gradient(130deg,#edf5ef,#fff)}
+.pelham-level-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.pelham-level{padding:clamp(18px,2.5vw,32px);border:1px solid #c6d9cf;border-radius:14px;background:#ffffffd9;display:flex;flex-direction:column;align-items:flex-start}.pelham-level h3{margin:0;font-size:1.4rem}.pelham-level-days{font-size:clamp(3rem,5vw,5rem);line-height:1.05;color:#14633b;margin:24px 0 8px}.pelham-level-days span{display:block;font-family:inherit;font-size:.95rem;line-height:1.5;color:#294b3a}.pelham-level .text-link{margin-top:auto;padding-top:20px}.pelham-transit-note{font-size:.95rem;line-height:1.65;margin:24px 0 0;max-width:78ch}.pelham-ltl-choice{min-width:0}.pelham-ltl-choice[hidden]{display:none!important}.pelham-ltl-choice select{max-width:100%;width:100%;min-width:0}.pelham-network{padding:clamp(24px,4vw,56px);background:#173d2c;color:white;border-radius:18px}.pelham-network p:first-child{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:600}.pelham-network a{color:inherit}@media(max-width:760px){.pelham-level-grid{grid-template-columns:1fr}.pelham-level-days{font-size:3.5rem}.pelham-ltl-levels .section-heading{display:block}}
+.pelham-network p,.pelham-network p:first-child,.pelham-network a.text-link{color:#f2fff7}
+.pelham-ltl-levels .pelham-level p.pelham-level-days{font-size:clamp(3rem,5vw,5rem);line-height:1.05;color:#14633b;margin:24px 0 8px}.pelham-ltl-levels .pelham-level p.pelham-level-days span{font-size:.95rem;line-height:1.5}
+#business-shippers a{text-decoration:underline;text-underline-offset:.2em}
+@media(min-width:1100px){.site-footer .footer-grid{grid-template-columns:1.1fr .7fr repeat(3,minmax(0,1fr))}}
+/* Reader resources: scoped to the editorial body, no extra animation or tracking. */
+.reading-story .entry-content .pelham-article-answer{padding:clamp(18px,3vw,28px);margin:0 0 32px;border:1px solid #c6d9cf;border-left:4px solid #00874a;border-radius:12px;background:#edf5ef}
+.reading-story .entry-content .pelham-article-answer h2{font-size:1.15rem;line-height:1.35;margin:0 0 12px}
+.reading-story .entry-content .pelham-article-answer p{margin:0}
+.reading-story .entry-content .keyword-guide{margin-block:32px}
+.reading-story .entry-content .wp-block-list{padding-inline-start:1.4rem;margin-block:20px}
+.reading-story .entry-content .wp-block-list li{margin-block:12px;line-height:1.75}
+.reading-story .entry-content .pelham-reading-table{margin:24px 0;max-width:100%;overflow-x:auto}
+.pelham-reading-table table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:.95rem;line-height:1.6}
+.pelham-reading-table caption{text-align:left;font-weight:600;padding:0 0 12px;color:#173d2c}
+.pelham-reading-table th,.pelham-reading-table td{text-align:left;vertical-align:top;padding:12px;border:1px solid #cadbd1;overflow-wrap:anywhere}
+.pelham-reading-table thead th{background:#edf5ef}.pelham-reading-table tbody th{font-weight:600;background:#f8fbf9}
+@media(max-width:480px){.pelham-reading-table th,.pelham-reading-table td{padding:9px 7px}.pelham-reading-table table{font-size:.85rem}}
+/* On narrow screens, read each three-column comparison as a labelled decision card. */
+@media(max-width:480px){
+ #ltl-ftl-decision table,#handling-comparison table{display:block;font-size:.95rem;line-height:1.6}
+ #ltl-ftl-decision caption,#handling-comparison caption{display:block}
+ #ltl-ftl-decision thead,#handling-comparison thead{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ #ltl-ftl-decision tbody,#handling-comparison tbody{display:block}
+ #ltl-ftl-decision tr,#handling-comparison tr{display:block;border:1px solid #cadbd1;border-radius:8px;margin-bottom:16px;overflow:hidden}
+ #ltl-ftl-decision tbody th,#ltl-ftl-decision td,#handling-comparison tbody th,#handling-comparison td{display:block;width:auto;border:0;padding:12px;overflow-wrap:normal}
+ #ltl-ftl-decision td+td,#handling-comparison td+td{border-top:1px solid #e1ebe5}
+ #ltl-ftl-decision td::before,#handling-comparison td::before{display:block;font-weight:600;color:#173d2c;margin-bottom:4px}
+ #ltl-ftl-decision td:nth-child(2)::before{content:'LTL'}#ltl-ftl-decision td:nth-child(3)::before{content:'FTL'}
+ #handling-comparison td:nth-child(2)::before{content:'Question it answers'}#handling-comparison td:nth-child(3)::before{content:'Example'}
+}

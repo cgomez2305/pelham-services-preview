@@ -1,0 +1,96 @@
+[
+  {
+    "route": "",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "LocalBusiness",
+      "LocalBusiness",
+      "LocalBusiness"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "about/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "LocalBusiness",
+      "LocalBusiness",
+      "LocalBusiness"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "locations/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "LocalBusiness",
+      "LocalBusiness",
+      "LocalBusiness"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "locations/gardena-ca/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "LocalBusiness"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "locations/miami-fl/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "LocalBusiness"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "locations/orlando-fl/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "LocalBusiness"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "services/freight-consolidation/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "Service"
+    ],
+    "rendered_without_javascript": true
+  },
+  {
+    "route": "news/ltl-vs-ftl-california-florida-shipping/",
+    "entities": [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "BreadcrumbList",
+      "Article"
+    ],
+    "rendered_without_javascript": true
+  }
+]
