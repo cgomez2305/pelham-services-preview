@@ -3322,3 +3322,16 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
 .entry-content .audience-jump a{text-decoration:none}
 .contact-v3 h1{font-size:clamp(38px,3.8vw,56px)}
 .pelham-form .form-grid+label{display:block;margin-top:18px}
+/* ==== team 1.22.1 ==== */
+.team-band{margin-top:72px;padding-top:8px}
+.team-band .section-heading{margin-bottom:36px}
+.team-band .section-heading h2{margin-top:0}
+.team-band .section-heading p a{color:var(--p-green);text-decoration:underline;text-underline-offset:4px}
+.entry-content .team-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 32px}
+.entry-content .team-list li{margin:0;padding:24px 0 8px;border-top:2px solid var(--p-green)}
+.team-initials{display:block;margin-bottom:28px;color:var(--p-green);font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:600;letter-spacing:.12em;font-variant-numeric:tabular-nums}
+.entry-content .team-list h3{margin:0;font-size:clamp(22px,1.9vw,26px);line-height:1.15;letter-spacing:-.01em}
+.entry-content .team-list .team-role{margin:6px 0 14px;color:var(--p-green);font-size:14px;font-weight:600;letter-spacing:.02em}
+.entry-content .team-list p:last-child{margin:0;color:var(--p-muted);font-size:16px;line-height:1.6}
+@media(max-width:1000px){.entry-content .team-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}}
+@media(max-width:600px){.team-band{margin-top:48px}.entry-content .team-list{grid-template-columns:1fr;gap:20px}.team-initials{margin-bottom:16px}}

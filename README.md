@@ -1,12 +1,12 @@
-# Pelham Services · WordPress · tema 1.22.0 / contenido 1.17.0
+# Pelham Services · WordPress · tema 1.22.1 / contenido 1.17.1
 
 Sistema de diseño común para todas las páginas. Tema PHP/CSS/JavaScript y plugin de contenidos editables en `wordpress/`. No requiere React ni compilación en el hosting.
 
 - [Registro digital: Pelham Applications 1.1.1](dist/pelham-applications-1.1.1.zip) · [Instalación y cobertura de los cuatro PDF](docs/RELEASE-APPLICATIONS-1.0.md)
 - [Refuerzo de seguridad y requisitos pendientes](docs/SECURITY-HARDENING-1.0.3.md)
-- [Tema 1.22.0](dist/pelham-modern-1.22.0.zip)
-- [Plugin de contenidos 1.17.0](dist/pelham-content-1.17.0.zip)
-- [Diseño y SEO por público 1.22 / 1.17](docs/RELEASE-1.22.md) · [Fotografía profesional 1.21 / 1.16](docs/RELEASE-1.21.md) · [Scroll horizontal y animaciones 1.20](docs/RELEASE-1.20.md) · [Correcciones 1.19.1 / 1.15.1](docs/RELEASE-1.19.1.md) · [Cambios, pruebas e instalación 1.16](docs/RELEASE-1.16.md)
+- [Tema 1.22.1](dist/pelham-modern-1.22.1.zip)
+- [Plugin de contenidos 1.17.1](dist/pelham-content-1.17.1.zip)
+- [Equipo en About y revisión de keywords 1.22.1 / 1.17.1](docs/RELEASE-1.22.1.md) · [Diseño y SEO por público 1.22 / 1.17](docs/RELEASE-1.22.md) · [Fotografía profesional 1.21 / 1.16](docs/RELEASE-1.21.md) · [Scroll horizontal y animaciones 1.20](docs/RELEASE-1.20.md) · [Correcciones 1.19.1 / 1.15.1](docs/RELEASE-1.19.1.md) · [Cambios, pruebas e instalación 1.16](docs/RELEASE-1.16.md)
 - [Sistema visual](DESIGN.md)
 
 Reemplazar el tema, mantener el plugin y vaciar caché. No reimportar contenido. No se publica automáticamente en Hostinger.

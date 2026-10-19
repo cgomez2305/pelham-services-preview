@@ -1,0 +1,11 @@
+{
+ "page": "about",
+ "heading": "The people moving your freight.",
+ "intro": "A small team you can reach directly, from the first quote to the delivery receipt.",
+ "members": [
+  {"name": "Gabriel Reverón", "role": "Chief Executive Officer", "bio": "Leads the team keeping freight moving safely and efficiently, holding every operation to the same standard of reliability and customer care."},
+  {"name": "Dayana Garcia", "role": "VP of Administration", "bio": "Oversees internal operations with precision, making sure every department runs in step with the others."},
+  {"name": "Victor Delurintu", "role": "Chief Operating Officer", "bio": "Oversees every stage of logistics and fleet management, from dispatch to delivery, safely and on schedule."},
+  {"name": "Regina Umaña", "role": "Customer Relations", "bio": "Builds lasting client partnerships through clear communication and support that doesn't disappear after booking."}
+ ]
+}
