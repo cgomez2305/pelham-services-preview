@@ -16,7 +16,7 @@ add_shortcode('pelham_registration_documents',function(){
  return $html.'</ul></div>';
 });
 add_shortcode('pelham_terms_document',function(){return '<p><a class="button button-dark" href="'.esc_url(pelham_document_url('terms_url')).'">Read Pelham terms and agreements (PDF)</a></p>';});
-add_shortcode('pelham_legal_contact',function(){return '<p>For questions about this notice or your information, <a href="'.esc_url(home_url('/contact/')).'">contact Pelham Services</a> at <a href="mailto:'.esc_attr(pelham_detail('email','info@pelhamservicesca.com')).'">'.esc_html(pelham_detail('email','info@pelhamservicesca.com')).'</a>.</p>';});
+add_shortcode('pelham_legal_contact',function(){return '<p>For questions about this notice or your information, <a href="'.esc_url(pelham_link('contact')).'">contact Pelham Services</a> at <a href="mailto:'.esc_attr(pelham_detail('email','info@pelhamservicesca.com')).'">'.esc_html(pelham_detail('email','info@pelhamservicesca.com')).'</a>.</p>';});
 add_shortcode('pelham_registration_form',function(){ob_start();$state=sanitize_key($_GET['pelham_status']??''); ?>
 <form class="pelham-form registration-form" method="post" enctype="multipart/form-data" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" aria-label="Customer registration" tabindex="-1">
 <input type="hidden" name="action" value="pelham_registration"><?php wp_nonce_field('pelham_registration','pelham_nonce'); ?>
@@ -26,7 +26,7 @@ add_shortcode('pelham_registration_form',function(){ob_start();$state=sanitize_k
 </div></fieldset><label>Message (optional)<textarea name="message" rows="4" maxlength="5000"></textarea></label>
 <details class="optional-fields registration-uploads"><summary>Attach completed documents (optional)</summary><fieldset><legend>Completed documents</legend><p class="upload-note">PDF only. Up to 4 MB per file, 16 MB total. Downloads are on this page; uploads are optional.</p>
 <?php foreach(['claim'=>'Claim form','customer'=>'Customer application','credit'=>'Credit application','terms'=>'Terms and agreement','attachment'=>'Additional attachment'] as $key=>$label){?><label><?php echo esc_html($label); ?> (optional)<input type="file" name="<?php echo esc_attr($key); ?>" accept=".pdf,application/pdf"></label><?php } ?></fieldset></details>
-<label class="honey" aria-hidden="true">Leave empty<input name="website" tabindex="-1" autocomplete="off"></label><label class="consent"><input type="checkbox" name="consent" value="1" required>I agree to be contacted about this registration request.</label><p>Review our <a href="<?php echo esc_url(home_url('/privacy-notice/')); ?>">privacy policy</a>. Uploaded PDFs are sent to the team and removed from temporary website storage.</p><button class="button button-dark" type="submit">Send registration request</button>
+<label class="honey" aria-hidden="true">Leave empty<input name="website" tabindex="-1" autocomplete="off"></label><label class="consent"><input type="checkbox" name="consent" value="1" required>I agree to be contacted about this registration request.</label><p>Review our <a href="<?php echo esc_url(pelham_link('privacy-notice')); ?>">privacy policy</a>. Uploaded PDFs are sent to the team and removed from temporary website storage.</p><button class="button button-dark" type="submit">Send registration request</button>
 </form>
 <?php return pelham_form_errors(ob_get_clean(),'registration');});
 function pelham_handle_registration(){

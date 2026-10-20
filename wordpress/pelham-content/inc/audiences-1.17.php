@@ -19,7 +19,7 @@ add_shortcode('pelham_audiences',function($attrs){
 // Homepage: shown after the services rows without editing the saved page. If
 // the layout was customized (no services/network sections), nothing is added.
 add_filter('the_content',function($content){
- if(!is_front_page()||!in_the_loop()||!is_main_query()||str_contains($content,'audience-band'))return $content;
+ if(!pelham_is_home()||!in_the_loop()||!is_main_query()||str_contains($content,'audience-band'))return $content;
  $anchor='<div class="wp-block-group shell section network-grid industrial-network';
  $at=strpos($content,$anchor);if($at===false)return $content;
  return substr($content,0,$at).do_shortcode('[pelham_audiences variant="home"]').substr($content,$at);

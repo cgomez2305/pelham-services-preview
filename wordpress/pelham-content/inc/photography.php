@@ -4,6 +4,7 @@ function pelham_photography_catalog(){static $catalog;if(!isset($catalog))$catal
 function pelham_photo_data($key){
  $catalog=pelham_photography_catalog();if(!isset($catalog[$key]))return [];
  $photo=$catalog[$key];
+ if(function_exists('pelham_t'))$photo['alt']=pelham_t($photo['alt']);
  $photo['url']=plugins_url('assets/photography/'.$photo['files']['1600'],dirname(__DIR__).'/pelham-content.php');
  $ids=get_option('pelham_stock_media',[]);$id=absint($ids[$key]??0);
  // Use a Media copy only if it was imported from this exact catalog photo;
@@ -14,7 +15,7 @@ function pelham_photo_data($key){
 function pelham_photo_markup($key,$class='',$eager=false,$post_id=0){
  static $seen=[];
  $owners=['pelham-services'=>'home','pelham-hero'=>'contact','pelham-green'=>'dedicated-transport','pelham-truck'=>'transloading','pelham-driver'=>'freight-consolidation'];
- if(isset($owners[$key])&&($owners[$key]==='home'?!is_front_page():get_post_field('post_name',get_queried_object_id())!==$owners[$key]))return '';
+ if(isset($owners[$key])&&($owners[$key]==='home'?!pelham_is_home():pelham_route_slug(get_queried_object_id())!==$owners[$key]))return '';
 
  $known=get_option('pelham_stock_media',[]);
  if($post_id&&has_post_thumbnail($post_id)&&!in_array(get_post_thumbnail_id($post_id),$known,true)){
@@ -28,7 +29,7 @@ function pelham_photo_markup($key,$class='',$eager=false,$post_id=0){
  // the narrow column. Account for that width when choosing a source.
  $sizes='(max-width: 600px) calc(100vw - 40px), (max-width: 1000px) 70vw, 800px';
  // The homepage panorama spans the full content width (up to 1200px).
- if($key==='pelham-services'&&is_front_page())$sizes='(max-width: 600px) calc(100vw - 40px), min(1200px, calc(100vw - 80px))';
+ if($key==='pelham-services'&&pelham_is_home())$sizes='(max-width: 600px) calc(100vw - 40px), min(1200px, calc(100vw - 80px))';
  // Article openings span the full content width.
  if($eager&&is_singular('post'))$sizes='(max-width: 760px) calc(100vw - 40px), min(1200px, calc(100vw - 80px))';
  // News cards: one column on phones, two on the insights page, three on home.
@@ -41,7 +42,7 @@ function pelham_photo_markup($key,$class='',$eager=false,$post_id=0){
  return '<img style="object-position:'.esc_attr($photo['position']).'" srcset="'.esc_attr(implode(', ',$srcset)).'" sizes="'.esc_attr($sizes).'" class="freight-photo-image '.esc_attr($class).'" src="'.esc_url($photo['url']).'" alt="'.esc_attr($photo['alt']).'" width="'.absint($photo['width']).'" height="'.absint($photo['height']).'" loading="'.($eager?'eager':'lazy').'" decoding="async" fetchpriority="'.($eager?'high':'auto').'">';
 }
 // The homepage panorama sits above the fold: lazy-loading it delays LCP.
-add_shortcode('pelham_photo',function($attrs){$attrs=shortcode_atts(['key'=>'truck','caption'=>'','eager'=>''],$attrs);$eager=in_array(strtolower((string)$attrs['eager']),['1','true','yes'],true)||($attrs['key']==='pelham-services'&&is_front_page());return '<figure class="freight-photo">'.pelham_photo_markup($attrs['key'],'',$eager).($attrs['caption']?'<figcaption>'.esc_html($attrs['caption']).'</figcaption>':'').'</figure>';});
+add_shortcode('pelham_photo',function($attrs){$attrs=shortcode_atts(['key'=>'truck','caption'=>'','eager'=>''],$attrs);$eager=in_array(strtolower((string)$attrs['eager']),['1','true','yes'],true)||($attrs['key']==='pelham-services'&&pelham_is_home());return '<figure class="freight-photo">'.pelham_photo_markup($attrs['key'],'',$eager).($attrs['caption']?'<figcaption>'.esc_html($attrs['caption']).'</figcaption>':'').'</figure>';});
 add_action('admin_menu',function(){add_submenu_page('pelham-company','Photography','Photography','upload_files','pelham-photography',function(){
  if(!current_user_can('upload_files'))return;
  echo '<div class="wrap"><h1>Pelham — website images</h1><p>These photographs come from the professional shoot at the Gardena terminal supplied by Pelham Services. They are bundled locally as optimized WebP files (640, 960 and 1600 px), without retouching or metadata. Set a featured image in any page, article or service to replace default photography. Imported images can be edited in Media.</p>';

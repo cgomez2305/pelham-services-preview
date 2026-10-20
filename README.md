@@ -1,15 +1,15 @@
-# Pelham Services · WordPress · tema 1.22.2 / contenido 1.17.2
+# Pelham Services · WordPress · tema 1.23.0 / contenido 1.18.0
 
 Sistema de diseño común para todas las páginas. Tema PHP/CSS/JavaScript y plugin de contenidos editables en `wordpress/`. No requiere React ni compilación en el hosting.
 
-- [Registro digital: Pelham Applications 1.1.1](dist/pelham-applications-1.1.1.zip) · [Instalación y cobertura de los cuatro PDF](docs/RELEASE-APPLICATIONS-1.0.md)
+- [Registro digital: Pelham Applications 1.2.0](dist/pelham-applications-1.2.0.zip) · [Instalación y cobertura de los cuatro PDF](docs/RELEASE-APPLICATIONS-1.0.md)
 - [Refuerzo de seguridad y requisitos pendientes](docs/SECURITY-HARDENING-1.0.3.md)
-- [Tema 1.22.2](dist/pelham-modern-1.22.2.zip)
-- [Plugin de contenidos 1.17.2](dist/pelham-content-1.17.2.zip)
-- [Equipo en About y revisión de keywords, H1 y breadcrumbs 1.22.2 / 1.17.2](docs/RELEASE-1.22.1.md) · [Diseño y SEO por público 1.22 / 1.17](docs/RELEASE-1.22.md) · [Fotografía profesional 1.21 / 1.16](docs/RELEASE-1.21.md) · [Scroll horizontal y animaciones 1.20](docs/RELEASE-1.20.md) · [Correcciones 1.19.1 / 1.15.1](docs/RELEASE-1.19.1.md) · [Cambios, pruebas e instalación 1.16](docs/RELEASE-1.16.md)
+- [Tema 1.23.0](dist/pelham-modern-1.23.0.zip)
+- [Plugin de contenidos 1.18.0](dist/pelham-content-1.18.0.zip)
+- **[Sitio bilingüe inglés / español 1.23 / 1.18 / Applications 1.2](docs/RELEASE-1.23.md)** · [Equipo en About y revisión de keywords, H1 y breadcrumbs 1.22.2 / 1.17.2](docs/RELEASE-1.22.1.md) · [Diseño y SEO por público 1.22 / 1.17](docs/RELEASE-1.22.md) · [Fotografía profesional 1.21 / 1.16](docs/RELEASE-1.21.md) · [Scroll horizontal y animaciones 1.20](docs/RELEASE-1.20.md) · [Correcciones 1.19.1 / 1.15.1](docs/RELEASE-1.19.1.md) · [Cambios, pruebas e instalación 1.16](docs/RELEASE-1.16.md)
 - [Sistema visual](DESIGN.md)
 
-Reemplazar el tema, mantener el plugin y vaciar caché. No reimportar contenido. No se publica automáticamente en Hostinger.
+Reemplazar el tema y los dos plugins, vaciar caché y entrar al administrador: la primera visita crea la versión en español (`/es/`). No reimportar contenido. No se publica automáticamente en Hostinger.
 
 La raíz contiene la vista previa exportada desde una copia de desarrollo con contenidos de referencia de los ZIP. Los formularios estáticos no envían solicitudes. `tools/export-preview.py` usa el WordPress local de revisión configurable con `PELHAM_PREVIEW_URL` (por defecto, revisar el script).
 

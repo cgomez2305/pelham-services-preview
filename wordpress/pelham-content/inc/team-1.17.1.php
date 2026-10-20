@@ -9,6 +9,6 @@ add_shortcode('pelham_team',function(){
 });
 // Appended to the About page unless the editor already placed [pelham_team].
 add_filter('the_content',function($content){
- if(!is_page(pelham_team_data()['page'])||!in_the_loop()||!is_main_query()||str_contains($content,'team-band'))return $content;
+ if(!pelham_is_page(pelham_team_data()['page'])||!in_the_loop()||!is_main_query()||str_contains($content,'team-band'))return $content;
  return $content.do_shortcode('[pelham_team]');
 },20);

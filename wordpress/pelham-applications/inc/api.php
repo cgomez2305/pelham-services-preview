@@ -23,7 +23,7 @@ function pa_api(WP_REST_Request $r){
  $op=$r['operation'];if(($op==='session'&&$r->get_method()!=='GET')||($op!=='session'&&$r->get_method()!=='POST'))return pa_error('Method not allowed.',405);
  if(strlen($r->get_body())>5000000)return pa_error('This request is too large.',413);
  $body=$r->get_json_params();if(!is_array($body))$body=[];
- foreach(['email','kind','website','token','slot','method','image','data_hash','name','file'] as $key)if(isset($body[$key])&&!is_string($body[$key]))return pa_error('Invalid request field.',400);
+ foreach(['email','kind','website','token','slot','method','image','data_hash','name','file','lang'] as $key)if(isset($body[$key])&&!is_string($body[$key]))return pa_error('Invalid request field.',400);
  $locked=0;
  try{
   if($op==='start'){
@@ -35,10 +35,11 @@ function pa_api(WP_REST_Request $r){
    $ids=get_posts(['post_type'=>'pelham_application','post_status'=>'private','fields'=>'ids','numberposts'=>1,'meta_query'=>[['key'=>'_pa_email_hash','value'=>pa_secret_hash(strtolower($email))],['key'=>'_pa_kind','value'=>$kind],['key'=>'_pa_status','value'=>['draft','needs_information'],'compare'=>'IN']]]);
    $id=$ids[0]??wp_insert_post(['post_type'=>'pelham_application','post_status'=>'private','post_title'=>'Private Pelham request'],true);if(is_wp_error($id)||!$id)return pa_error('Unable to create the draft. Please try again.',503);
    if(!pa_lock($id))return pa_error('Please retry in a moment.',409);$locked=$id;
+   $lang=($body['lang']??'')==='es'?'es':'en';update_post_meta($id,'_pa_lang',$lang);
    if(!$ids){$p=['kind'=>$kind,'email'=>$email,'data'=>pa_clean_data($kind,['email'=>$email],$email),'documents'=>pa_documents(),'signatures'=>[],'files'=>[],'created_at'=>gmdate('c')];pa_put($id,$p);update_post_meta($id,'_pa_email_hash',pa_secret_hash(strtolower($email)));update_post_meta($id,'_pa_kind',$kind);update_post_meta($id,'_pa_status','draft');wp_update_post(['ID'=>$id,'post_title'=>pa_reference($id)]);}
    $token=bin2hex(random_bytes(32));update_post_meta($id,'_pa_resume_hash',pa_secret_hash($token));update_post_meta($id,'_pa_resume_expires',time()+30*MINUTE_IN_SECONDS);
-   $url=home_url($kind==='claim'?'/claims/':'/register/').'#application-token='.$id.'.'.$token;
-   pa_queue($id,'verify-'.bin2hex(random_bytes(6)),$email,'Pelham — continue your '.($kind==='claim'?'claim':'application'),"Use this private link to verify your email and continue. It expires in 30 minutes and can be used once.\n\n".$url."\n\nIf you did not request this link, you can ignore it.");
+   $url=pa_page_url($kind,$lang).'#application-token='.$id.'.'.$token;
+   pa_queue($id,'verify-'.bin2hex(random_bytes(6)),$email,pa_t_for('Pelham — continue your '.($kind==='claim'?'claim':'application'),$lang),pa_t_for('Use this private link to verify your email and continue. It expires in 30 minutes and can be used once.',$lang)."\n\n".$url."\n\n".pa_t_for('If you did not request this link, you can ignore it.',$lang));
    return ['message'=>'Check your email for a private link to continue. If delivery is delayed, you can request another link.'];
   }
   if($op==='exchange'){
@@ -78,15 +79,16 @@ function pa_api(WP_REST_Request $r){
     $p['files'][$slot]=['scan'=>$scan,'name'=>sanitize_file_name($body['name']??'attachment'),'mime'=>$m[1],'size'=>strlen($bytes),'base64'=>base64_encode($bytes),'sha256'=>hash('sha256',$bytes)];
    }$p['signatures']=[];
   }elseif($op==='submit'){
-   $errors=pa_validate($p);foreach(pa_signatures_needed($p) as $slot=>$spec)if(empty($p['signatures'][$slot])||!hash_equals(pa_fingerprint($p),$p['signatures'][$slot]['data_hash']))$errors['signature_'.$slot]='Sign the '.$spec['label'].'.';
+   $errors=pa_validate($p);foreach(pa_signatures_needed($p) as $slot=>$spec)if(empty($p['signatures'][$slot])||!hash_equals(pa_fingerprint($p),$p['signatures'][$slot]['data_hash']))$errors['signature_'.$slot]=sprintf(pa_t_for('Sign the %s.',pa_request_lang($id)),pa_t_for($spec['label'],pa_request_lang($id)));
    if($errors)return pa_error('Please complete the highlighted items before sending.',422,$errors);
    $rev=(int)get_post_meta($id,'_pa_revision',true)+1;$p['submitted_at']=gmdate('c');$p['revision']=$rev;$p['correction']='';
    pa_put($id,$p);pa_put($id,$p,'_pa_revision_'.$rev);update_post_meta($id,'_pa_revision',$rev);update_post_meta($id,'_pa_status','received');
    $company=$p['data']['company']??$p['data']['contact_name'];wp_update_post(['ID'=>$id,'post_title'=>pa_reference($id).' — '.$company]);
    pa_audit($id,'Customer submitted revision '.$rev);
    $summary=pa_reference($id)."\n".$company."\nContact: ".$p['data']['contact_name']."\nEmail: ".$p['email']."\nPhone: ".$p['data']['phone']."\nCredit requested: ".($p['data']['request_credit']??'Not applicable')."\n\nReview the private record (sign-in required):\n".admin_url('admin.php?page=pelham-applications&record='.$id);
+   $lang=pa_request_lang($id);$summary.="\nCustomer language: ".($lang==='es'?'Spanish (reply in Spanish)':'English');
    pa_queue($id,'sales-'.$rev,pa_sales_email(),'Pelham — new '.$p['kind'].' '.pa_reference($id),$summary);
-   pa_queue($id,'receipt-'.$rev,$p['email'],'Pelham — request received '.pa_reference($id),"We received your ".$p['kind'].". Reference: ".pa_reference($id).". Our team will review the information and contact you. This does not automatically approve credit, a claim, or customer portal access.");
+   pa_queue($id,'receipt-'.$rev,$p['email'],sprintf(pa_t_for('Pelham — request received %s',$lang),pa_reference($id)),strtr(pa_t_for('We received your %1. Reference: %2. Our team will review the information and contact you. This does not automatically approve credit, a claim, or customer portal access.',$lang),['%1'=>pa_t_for($p['kind']==='claim'?'claim':'application',$lang),'%2'=>pa_reference($id)]));
   }
   $p['saved_at']=gmdate('c');pa_put($id,$p);wp_update_post(['ID'=>$id,'post_title'=>pa_reference($id).' — '.($p['data']['company']??$p['data']['contact_name']??''),'post_modified'=>current_time('mysql'),'post_modified_gmt'=>current_time('mysql',true)]);
   return pa_public_payload($id,$p);

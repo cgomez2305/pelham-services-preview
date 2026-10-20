@@ -4,7 +4,7 @@
  if(topics){
   const cards=[...document.querySelectorAll('.news-hub .news-card')],status=document.querySelector('.news-count');
   topics.hidden=false;status.hidden=false;
-  function filter(topic){let count=0;cards.forEach(card=>{card.hidden=topic!=='all'&&card.dataset.topic!==topic;if(!card.hidden)count++;});topics.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.topic===topic)));status.textContent=`${count} ${count===1?'article':'articles'}`;}
+  function filter(topic){let count=0;cards.forEach(card=>{card.hidden=topic!=='all'&&card.dataset.topic!==topic;if(!card.hidden)count++;});topics.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.topic===topic)));status.textContent=`${count} ${count===1?((window.pelhamI18n||{})['article']||'article'):((window.pelhamI18n||{})['articles']||'articles')}`;}
   topics.addEventListener('click',e=>{const b=e.target.closest('button');if(b)filter(b.dataset.topic);});filter('all');
  }
  const form=document.querySelector('.pelham-form');if(!form)return;
@@ -15,8 +15,8 @@
   if(event.defaultPrevented)return;
   if(pending){event.preventDefault();return;}
   pending=true;form.setAttribute('aria-busy','true');
-  if(submit){submit.disabled=true;submit.textContent='Sending…';}
-  sending.textContent='Sending your request. Please wait.';sending.hidden=false;
+  const i18n=(window.pelhamI18n||{});if(submit){submit.disabled=true;submit.textContent=i18n['Sending…']||'Sending…';}
+  sending.textContent=i18n['Sending your request. Please wait.']||'Sending your request. Please wait.';sending.hidden=false;
  });
  window.addEventListener('pageshow',()=>{pending=false;form.removeAttribute('aria-busy');sending.hidden=true;if(submit){submit.disabled=false;submit.innerHTML=submitLabel;}});
  const key='pelham-enquiry-draft:'+location.pathname,fields=['first_name','last_name','name','email','company','phone','business','origin','destination','service','freight','message'],state=new URLSearchParams(location.search).get('pelham_status');
@@ -25,7 +25,7 @@
   if(state==='sent')sessionStorage.removeItem(key);
   else if(['invalid','failed','limited'].includes(state)){
    const draft=JSON.parse(sessionStorage.getItem(key)||'null');
-   if(draft&&Date.now()-draft.time<600000){fields.forEach(name=>{const input=form.elements.namedItem(name);if(input&&typeof draft.values[name]==='string')input.value=draft.values[name];if(input&&draft.values[name])input.closest('details.optional-fields')?.setAttribute('open','');});const note=document.createElement('p');note.className='form-help';note.textContent='Your details have been restored in this tab. Review them and confirm consent before trying again.';form.querySelector('.form-status')?.after(note);}
+   if(draft&&Date.now()-draft.time<600000){fields.forEach(name=>{const input=form.elements.namedItem(name);if(input&&typeof draft.values[name]==='string')input.value=draft.values[name];if(input&&draft.values[name])input.closest('details.optional-fields')?.setAttribute('open','');});const note=document.createElement('p');note.className='form-help';note.textContent=(window.pelhamI18n||{})['Your details have been restored in this tab. Review them and confirm consent before trying again.']||'Your details have been restored in this tab. Review them and confirm consent before trying again.';form.querySelector('.form-status')?.after(note);}
    else sessionStorage.removeItem(key);
   }
   form.addEventListener('submit',()=>{const values={};fields.forEach(name=>{const input=form.elements.namedItem(name);if(input)values[name]=input.value.slice(0,name==='message'?5000:200);});sessionStorage.setItem(key,JSON.stringify({time:Date.now(),values}));});

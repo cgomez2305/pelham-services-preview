@@ -3348,3 +3348,11 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
 .service-cover-copy .story-breadcrumb a{color:#f1faf5}
 .service-cover-copy .story-breadcrumb [aria-current]{color:#d2e5d9}
 @media(max-width:600px){.story-breadcrumb,.service-cover-copy .story-breadcrumb{margin-bottom:18px}.story-breadcrumb li:last-child:not(:first-child){display:none}}
+/* ==== languages 1.23 ==== */
+.language-switch{display:inline-flex;align-items:center;min-height:44px;color:var(--p-ink)!important;font:600 12px/1 'DM Sans',sans-serif;letter-spacing:.08em;text-decoration:none!important}
+.language-switch>span[aria-hidden]{display:inline-grid;place-items:center;min-width:32px;height:26px;padding:0 7px;border:1px solid var(--p-line);border-radius:4px;transition:border-color var(--p-fast) var(--p-ease),color var(--p-fast) var(--p-ease)}
+.language-switch:hover>span[aria-hidden]{border-color:var(--p-green);color:#00592f}
+.language-switch:focus-visible{outline:2px solid var(--p-green);outline-offset:2px;border-radius:4px}
+.language-switch-name{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.language-switch-bar{display:none}
+@media(max-width:900px){.language-switch-bar{display:inline-flex;margin:0 10px 0 auto}.account-navigation .language-switch{display:none!important}}
