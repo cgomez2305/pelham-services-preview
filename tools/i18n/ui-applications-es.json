@@ -312,5 +312,13 @@
  "received": "recibida",
  "rejected": "rechazada",
  "verified email": "correo electrónico verificado",
- "← Back": "← Atrás"
+ "← Back": "← Atrás",
+ "Test mode": "Modo de prueba",
+ "Test account application": "Probar la solicitud de cuenta",
+ "Test freight claim": "Probar la reclamación de carga",
+ "Administrator testing · no SMTP needed": "Pruebas del administrador · no requiere SMTP",
+ "Create a separate test request. Use fictitious data: no emails are sent for these records. This does not verify email delivery.": "Cree una solicitud de prueba independiente. Use datos ficticios: estas solicitudes no envían correos. Esto no comprueba la entrega de correo.",
+ "Create a test request without verifying an email address. Use fictitious data: test requests are marked TEST, no emails are sent and the team can delete them.": "Cree una solicitud de prueba sin verificar un correo electrónico. Use datos ficticios: las solicitudes de prueba se marcan como TEST, no envían correos y el equipo puede borrarlas.",
+ "This testing link has expired or is not valid. Ask the Pelham team for a new link.": "Este enlace de prueba ha caducado o no es válido. Pida un enlace nuevo al equipo de Pelham.",
+ "TEST — no emails sent": "PRUEBA — no se envían correos"
 }
