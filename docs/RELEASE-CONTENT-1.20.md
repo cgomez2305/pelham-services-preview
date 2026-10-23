@@ -1,6 +1,6 @@
 # Pelham Content 1.20 — revisión de los artículos del blog
 
-Pelham Content **1.20.2** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
+Pelham Content **1.20.3** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
 
 Incorpora a las 11 guías del blog, en inglés y en español, los cambios con sentido de los documentos reescritos por el cliente.
 
@@ -14,7 +14,7 @@ Incorpora a las 11 guías del blog, en inglés y en español, los cambios con se
 ## Instalación
 
 1. Hacer una copia de seguridad.
-2. Reemplazar Pelham Content por `pelham-content-1.20.2.zip`.
+2. Reemplazar Pelham Content por `pelham-content-1.20.3.zip`.
 3. Vaciar la caché.
 4. En el administrador aparece el aviso **«Apply article revisions (save backups)»**:
    - actualiza 24 contenidos: los 11 artículos y la página FTL, en inglés y en español;
@@ -54,7 +54,7 @@ Si la versión 1.19 aún no se aplicó, se pueden pulsar los dos botones en cual
 | Tecnología | Evaluar la tecnología por la comunicación, no por las palabras de moda. Hitos de seguimiento. Coherencia entre orden de compra, lista de empaque y BOL. Tabla de evaluación actualizada. |
 | Transbordo vs. cross-docking | «No siempre hay que elegir uno». Ejemplos más concretos en la tabla. Escenario en 3 pasos. 4 datos a describir. Comprobaciones con pallet de 48 × 40. |
 
-## Respuestas del cliente aplicadas (1.20.1 y 1.20.2)
+## Respuestas del cliente aplicadas (1.20.1 a 1.20.3)
 
 | Pregunta | Respuesta | Dónde se aplica |
 |---|---|---|
@@ -66,15 +66,19 @@ Si la versión 1.19 aún no se aplicó, se pueden pulsar los dos botones en cual
 
 - **Tarifas por contrato:** confirmado por el cliente.
 - About sigue diciendo «Business-to-business freight shipping», en línea con el cliente.
-- **Sigue sin confirmar:**
-  - «dispatch team»: se publica «the team»;
-  - el «15 %» de combustible: se quitó;
-  - la ruta «2,400 miles / I-10»: se publica «más de 2,000 millas».
+- **Equipo de atención al cliente y despacho (1.20.3):** el cliente confirma que existe y quiere nombrarlo para las búsquedas. Se publica «customer service and dispatch team» («equipo de atención al cliente y despacho») en:
+  - Retos logísticos;
+  - Proceso (revisión y seguimiento);
+  - Tecnología.
+- **Ruta (1.20.3):** unas 2,700 millas de Los Angeles a Florida, de las que 2,300 a 2,400 van por la I-10 hasta Tallahassee y Jacksonville; después, I-75, I-95 o Florida's Turnpike. Se publica en:
+  - Retos logísticos;
+  - Coste de pallet (fila de códigos ZIP).
+- **Combustible:** el ejemplo del «15 %» del documento del cliente se quitó, porque el porcentaje real depende de cada cuenta.
 
 ## Pruebas
 
 - **WordPress 6.8.3 local:**
-  - cada versión (1.20.1 sobre la 1.20.0 y 1.20.2 sobre la 1.20.1) actualizó 24 contenidos y guardó otra copia;
+  - cada versión aplicada sobre la anterior (1.20.0 → 1.20.3) actualizó 24 contenidos y guardó otra copia;
   - una segunda pasada no cambia nada;
   - el aviso se muestra antes de aplicar y desaparece después.
   - Las 60 URL pasan sin errores PHP ni JS ni desbordamiento en móvil, con `hreflang` y canonical correctos, sin texto en inglés en las páginas en español y con los mismos titles y H1.

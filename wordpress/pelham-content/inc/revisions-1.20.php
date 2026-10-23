@@ -5,10 +5,11 @@
  * unchanged. 1.20.1 adds the client's answers (status milestones, 53' trailers,
  * one or two drivers, contract rates, liftgate). 1.20.2 explains the fuel
  * percentage of contract rates and keeps home deliveries to existing customers.
+ * 1.20.3 names the customer service and dispatch team and the I-10 route.
  * Explicit, backed-up update from Pelham Company; never runs on a public request.
  */
 if (!defined('ABSPATH')) exit;
-const PELHAM_ARTICLES_RELEASE='1.20.2';
+const PELHAM_ARTICLES_RELEASE='1.20.3';
 function pelham_articles_120_routes(){return ['news/ltl-vs-ftl-california-florida-shipping','news/pallet-shipping-cost-california-to-florida','news/what-to-include-in-a-freight-quote','news/transloading-vs-cross-docking','news/container-transloading-documents-preparation','news/freight-delivery-to-forwarders-in-miami','news/how-a-freight-fuel-surcharge-works','news/planning-recurring-california-florida-freight','news/navigating-challenges-in-us-logistics','news/how-pelham-elevates-logistics-in-ca-fl','news/future-of-logistics-trends-pelham-is-embracing','services/dedicated-transport'];}
 /** New article content for a route, from the plugin's seed files ('en' or 'es'). */
 function pelham_articles_120_content($route,$lang){
@@ -47,8 +48,8 @@ add_action('admin_post_pelham_apply_articles_120',function(){
 add_action('admin_notices',function(){
  if(!current_user_can('manage_options')||get_option('pelham_articles_release')===PELHAM_ARTICLES_RELEASE)return;
  // Sites imported with this version already have the new articles.
- $fuel=pelham_i18n_english_post('news/how-a-freight-fuel-surcharge-works');$ftl=pelham_i18n_english_post('services/dedicated-transport');
- if(!$fuel||!$ftl||(str_contains($fuel->post_content,'contract rates add a fuel percentage')&&str_contains($ftl->post_content,'plus a fuel percentage'))){update_option('pelham_articles_release',PELHAM_ARTICLES_RELEASE,false);return;}
+ $challenges=pelham_i18n_english_post('news/navigating-challenges-in-us-logistics');$process=pelham_i18n_english_post('news/how-pelham-elevates-logistics-in-ca-fl');
+ if(!$challenges||!$process||(str_contains($challenges->post_content,'Turnpike')&&str_contains($process->post_content,'dispatch team'))){update_option('pelham_articles_release',PELHAM_ARTICLES_RELEASE,false);return;}
  echo '<div class="notice notice-warning"><p><strong>Pelham:</strong> the client’s revisions to the 11 freight guides and the full truckload page (in English and Spanish) are ready. Addresses, titles and headings stay the same. Applying them replaces those articles’ text and keeps a backup of the current text.</p><form method="post" action="'.esc_url(admin_url('admin-post.php')).'"><input type="hidden" name="action" value="pelham_apply_articles_120">';
  wp_nonce_field('pelham_apply_articles_120');submit_button('Apply article revisions (save backups)','primary','submit',false);echo '</form></div>';
 });
