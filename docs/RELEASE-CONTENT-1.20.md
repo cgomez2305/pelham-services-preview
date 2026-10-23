@@ -1,6 +1,6 @@
 # Pelham Content 1.20 — revisión de los artículos del blog
 
-Pelham Content **1.20.1** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
+Pelham Content **1.20.2** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
 
 Incorpora a las 11 guías del blog, en inglés y en español, los cambios con sentido de los documentos reescritos por el cliente.
 
@@ -14,7 +14,7 @@ Incorpora a las 11 guías del blog, en inglés y en español, los cambios con se
 ## Instalación
 
 1. Hacer una copia de seguridad.
-2. Reemplazar Pelham Content por `pelham-content-1.20.1.zip`.
+2. Reemplazar Pelham Content por `pelham-content-1.20.2.zip`.
 3. Vaciar la caché.
 4. En el administrador aparece el aviso **«Apply article revisions (save backups)»**:
    - actualiza 24 contenidos: los 11 artículos y la página FTL, en inglés y en español;
@@ -54,17 +54,18 @@ Si la versión 1.19 aún no se aplicó, se pueden pulsar los dos botones en cual
 | Tecnología | Evaluar la tecnología por la comunicación, no por las palabras de moda. Hitos de seguimiento. Coherencia entre orden de compra, lista de empaque y BOL. Tabla de evaluación actualizada. |
 | Transbordo vs. cross-docking | «No siempre hay que elegir uno». Ejemplos más concretos en la tabla. Escenario en 3 pasos. 4 datos a describir. Comprobaciones con pallet de 48 × 40. |
 
-## Respuestas del cliente aplicadas (1.20.1)
+## Respuestas del cliente aplicadas (1.20.1 y 1.20.2)
 
 | Pregunta | Respuesta | Dónde se aplica |
 |---|---|---|
 | ¿Seguimiento en vivo? | No hay GPS en vivo. El estado se actualiza por etapas: carga recogida, llegada al almacén de origen, salida hacia Florida, llegada al almacén de destino, entrega y prueba de entrega. | Proceso (paso 5 con las 6 etapas), Tecnología, Retos logísticos, Agentes de carga (prueba de entrega) |
 | FTL | Siempre tráiler de 53'. El cliente elige 1 o 2 choferes. Puede ir directo, sin pasar por terminales. | LTL vs. FTL (filas «Route» y «Drivers»), Proceso, Recurrentes, Contenedores y **página de servicio FTL**: texto de 53' y preguntas nuevas «Can my load travel with two drivers?» y «How are FTL rates set?» |
-| Tarifas | Dinámicas, cambian con el mercado. Hay tarifas por contrato. | Recurrentes (sección nueva «How are recurring shipments priced?»), Coste de pallet, LTL vs. FTL, página FTL |
-| Liftgate y entrega residencial | Sí, las dos. | Coste de pallet (fila «Additional services»), Requisitos de cotización, LTL vs. FTL, Proceso, Agentes de carga |
+| Tarifas | Dinámicas, cambian con el mercado. Hay tarifas por contrato: la tarifa acordada más un porcentaje de combustible que sube o baja con el petróleo. | Recurrentes (sección nueva «How are recurring shipments priced?»), Recargo por combustible (párrafo «At Pelham»), Coste de pallet, LTL vs. FTL, página FTL. No se publica cuántas cuentas tienen contrato. |
+| Liftgate | Sí. | Coste de pallet (fila «Additional services»), Requisitos de cotización, LTL vs. FTL, Proceso, Agentes de carga |
+| Entrega residencial | Se hace solo para clientes que ya trabajan con Pelham, como excepción; no es un servicio al público ni una especialidad. | No se menciona como servicio. Única nota, en Requisitos de cotización: «Pelham delivers to businesses; if you are already a customer and an occasional shipment goes to a home address, tell the team.» |
 
-- **Interpretación pendiente de confirmar:** «tarifas de contacto disponibles» se interpretó como **tarifas por contrato** (contract rates).
-- About sigue diciendo «Business-to-business freight shipping»: es el enfoque principal, y la entrega residencial se presenta como servicio adicional.
+- **Tarifas por contrato:** confirmado por el cliente.
+- About sigue diciendo «Business-to-business freight shipping», en línea con el cliente.
 - **Sigue sin confirmar:**
   - «dispatch team»: se publica «the team»;
   - el «15 %» de combustible: se quitó;
@@ -73,7 +74,7 @@ Si la versión 1.19 aún no se aplicó, se pueden pulsar los dos botones en cual
 ## Pruebas
 
 - **WordPress 6.8.3 local:**
-  - la 1.20.1 sobre la 1.20.0 actualizó 24 contenidos y guardó una segunda copia;
+  - cada versión (1.20.1 sobre la 1.20.0 y 1.20.2 sobre la 1.20.1) actualizó 24 contenidos y guardó otra copia;
   - una segunda pasada no cambia nada;
   - el aviso se muestra antes de aplicar y desaparece después.
   - Las 60 URL pasan sin errores PHP ni JS ni desbordamiento en móvil, con `hreflang` y canonical correctos, sin texto en inglés en las páginas en español y con los mismos titles y H1.
