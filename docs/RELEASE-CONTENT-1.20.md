@@ -1,6 +1,6 @@
 # Pelham Content 1.20 — revisión de los artículos del blog
 
-Pelham Content **1.20.0** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
+Pelham Content **1.20.1** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
 
 Incorpora a las 11 guías del blog, en inglés y en español, los cambios con sentido de los documentos reescritos por el cliente.
 
@@ -14,12 +14,13 @@ Incorpora a las 11 guías del blog, en inglés y en español, los cambios con se
 ## Instalación
 
 1. Hacer una copia de seguridad.
-2. Reemplazar Pelham Content por `pelham-content-1.20.0.zip`.
+2. Reemplazar Pelham Content por `pelham-content-1.20.1.zip`.
 3. Vaciar la caché.
 4. En el administrador aparece el aviso **«Apply article revisions (save backups)»**:
-   - actualiza 22 artículos (11 en inglés y 11 en español);
-   - cada artículo guarda su texto anterior en `pelham_before_articles_1_20` y en sus revisiones;
-   - una segunda pasada no cambia nada.
+   - actualiza 24 contenidos: los 11 artículos y la página FTL, en inglés y en español;
+   - cada contenido guarda su texto anterior en `pelham_before_articles_1_20` y en sus revisiones;
+   - una segunda pasada no cambia nada;
+   - si ya se había aplicado la 1.20.0, el aviso vuelve a aparecer una vez y guarda otra copia antes de actualizar.
 
    Las instalaciones nuevas ya traen el texto nuevo.
 
@@ -53,29 +54,28 @@ Si la versión 1.19 aún no se aplicó, se pueden pulsar los dos botones en cual
 | Tecnología | Evaluar la tecnología por la comunicación, no por las palabras de moda. Hitos de seguimiento. Coherencia entre orden de compra, lista de empaque y BOL. Tabla de evaluación actualizada. |
 | Transbordo vs. cross-docking | «No siempre hay que elegir uno». Ejemplos más concretos en la tabla. Escenario en 3 pasos. 4 datos a describir. Comprobaciones con pallet de 48 × 40. |
 
-## Afirmaciones suavizadas: pendientes de confirmar con el cliente
+## Respuestas del cliente aplicadas (1.20.1)
 
-No se publicaron como promesas porque no constan en la información confirmada:
+| Pregunta | Respuesta | Dónde se aplica |
+|---|---|---|
+| ¿Seguimiento en vivo? | No hay GPS en vivo. El estado se actualiza por etapas: carga recogida, llegada al almacén de origen, salida hacia Florida, llegada al almacén de destino, entrega y prueba de entrega. | Proceso (paso 5 con las 6 etapas), Tecnología, Retos logísticos, Agentes de carga (prueba de entrega) |
+| FTL | Siempre tráiler de 53'. El cliente elige 1 o 2 choferes. Puede ir directo, sin pasar por terminales. | LTL vs. FTL (filas «Route» y «Drivers»), Proceso, Recurrentes, Contenedores y **página de servicio FTL**: texto de 53' y preguntas nuevas «Can my load travel with two drivers?» y «How are FTL rates set?» |
+| Tarifas | Dinámicas, cambian con el mercado. Hay tarifas por contrato. | Recurrentes (sección nueva «How are recurring shipments priced?»), Coste de pallet, LTL vs. FTL, página FTL |
+| Liftgate y entrega residencial | Sí, las dos. | Coste de pallet (fila «Additional services»), Requisitos de cotización, LTL vs. FTL, Proceso, Agentes de carga |
 
-- **«Pelham Reference ID» y «live operational updates»:** se publica «shipment reference» y «latest update».
-- **«Dispatch team»:** se publica «the team».
-- **FTL «53' trailer», «team transit», «zero intermediate dock touches», «dedicated driver», «flat rate per truckload»:** se publica capacidad exclusiva, sin consolidar con otros envíos, cotizada por separado.
-- **Recurrente con «contracted rate stability» y «priority capacity»:** se publica que el equipo confirma capacidad y precio.
-- **«Residential delivery»:** se omite, porque Pelham es B2B.
-- **«Liftgate»:** se menciona solo como requisito que el cliente debe indicar, no como servicio ofrecido.
-- **«15 %», «DOE», «2,400 miles / I-10»:**
-  - el 15 % se quitó;
-  - el índice del Departamento de Energía se menciona como ejemplo del sector;
-  - la distancia se publica como «más de 2,000 millas», sin ruta.
-
-Si el cliente confirma alguna de estas prestaciones, se puede añadir en una revisión menor.
+- **Interpretación pendiente de confirmar:** «tarifas de contacto disponibles» se interpretó como **tarifas por contrato** (contract rates).
+- About sigue diciendo «Business-to-business freight shipping»: es el enfoque principal, y la entrega residencial se presenta como servicio adicional.
+- **Sigue sin confirmar:**
+  - «dispatch team»: se publica «the team»;
+  - el «15 %» de combustible: se quitó;
+  - la ruta «2,400 miles / I-10»: se publica «más de 2,000 millas».
 
 ## Pruebas
 
 - **WordPress 6.8.3 local:**
-  - actualización aplicada a 22 artículos;
+  - la 1.20.1 sobre la 1.20.0 actualizó 24 contenidos y guardó una segunda copia;
   - una segunda pasada no cambia nada;
   - el aviso se muestra antes de aplicar y desaparece después.
   - Las 60 URL pasan sin errores PHP ni JS ni desbordamiento en móvil, con `hreflang` y canonical correctos, sin texto en inglés en las páginas en español y con los mismos titles y H1.
-- **Español:** 219 segmentos nuevos traducidos (memoria `tools/i18n/tm-es.json`); `build_es.py` no informa ningún segmento sin traducir.
-- **Vista previa estática:** solo cambia el bloque del artículo en las 22 páginas.
+- **Español:** 262 segmentos nuevos traducidos (memoria `tools/i18n/tm-es.json`); `build_es.py` no informa ningún segmento sin traducir.
+- **Vista previa estática:** solo cambia el bloque de contenido de los artículos y de la página FTL.
