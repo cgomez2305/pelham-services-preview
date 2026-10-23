@@ -1,6 +1,6 @@
 # Pelham Content 1.20 — revisión de los artículos del blog
 
-Pelham Content **1.20.4** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
+Pelham Content **1.20.5** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
 
 Incorpora a las 11 guías del blog, en inglés y en español, los cambios con sentido de los documentos reescritos por el cliente.
 
@@ -14,7 +14,7 @@ Incorpora a las 11 guías del blog, en inglés y en español, los cambios con se
 ## Instalación
 
 1. Hacer una copia de seguridad.
-2. Reemplazar Pelham Content por `pelham-content-1.20.4.zip`.
+2. Reemplazar Pelham Content por `pelham-content-1.20.5.zip`.
 3. Vaciar la caché.
 4. En el administrador aparece el aviso **«Apply article revisions (save backups)»**:
    - actualiza 32 contenidos, en inglés y en español: los 11 artículos y las páginas FTL, Cross-docking/transbordo, About, Cotizar y Contacto;
@@ -90,10 +90,28 @@ El cliente indicó que el enlazado con los artículos no estaba bien. El rastreo
 
 URLs, titles, H1 y H2 con keyword sin cambios.
 
+## Estructura de enlaces /news/ (1.20.5)
+
+Al preparar el sitio de prueba apareció la causa de fondo del enlazado: los enlaces internos y el sitemap usan `/news/<artículo>/`, pero una instalación normal de WordPress o Hostinger usa `/%postname%/`. Con esa estructura:
+- los artículos quedaban en `/<artículo>/` y la URL canónica cambiaba;
+- al activar el plugin, los enlaces internos se guardaban apuntando a `/<artículo>/`;
+- y cada enlace a un artículo pasaba por una redirección 301.
+
+| Situación | Qué hace la 1.20.5 |
+|---|---|
+| Instalación nueva | Fija `/news/%postname%/` **antes** de crear el contenido: los enlaces se guardan bien desde el principio. |
+| Sitio ya instalado con `/%postname%/` | En la primera visita al administrador cambia la estructura y corrige los enlaces guardados en todas las páginas, guardando revisión de cada una. Muestra un aviso con el número de páginas corregidas. |
+| Estructura personalizada distinta | No la toca; muestra un aviso en el escritorio y en Enlaces permanentes. |
+| Direcciones antiguas `/<artículo>/` | Redirección 301 a `/news/<artículo>/`. |
+
+También se corrigió el aviso «Pelham 1.8: custom … content was preserved», que aparecía por error en instalaciones nuevas por la misma causa.
+
 ## Pruebas
 
 - **WordPress 6.8.3 local:**
   - cada versión aplicada sobre la anterior guardó otra copia; la 1.20.4 actualizó 32 contenidos;
+  - instalación nueva con `/%postname%/` y actualización desde la 1.20.4: estructura y enlaces corregidos, sin avisos falsos;
+  - formularios de punta a punta: Cotizar EN/ES y registro digital ES (correo de verificación);
   - rastreo de enlaces: 60 URL en WordPress y 58 en la vista previa, sin enlaces rotos ni redirecciones; todos los artículos reciben 3 o más enlaces internos;
   - una segunda pasada no cambia nada;
   - el aviso se muestra antes de aplicar y desaparece después.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.20.4
+ * Version: 1.20.5
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -51,6 +51,8 @@ function pelham_settings_page(){ if(!current_user_can('manage_options'))return; 
 <?php }
 add_action('admin_post_pelham_import',function(){if(!current_user_can('manage_options'))wp_die('Forbidden',403); check_admin_referer('pelham_import'); pelham_import_content(); wp_safe_redirect(admin_url('admin.php?page=pelham-company&imported=1'));exit;});
 function pelham_import_content(){
+ // Set the /news/ structure first: internal links below are resolved to real permalinks.
+ pelham_news_permalinks();
  $home=file_get_contents(__DIR__.'/data/home.html');
  $entries=json_decode(file_get_contents(__DIR__.'/data/pages.json'),true);
  array_unshift($entries,['route'=>'home','title'=>'Home','type'=>'page','content'=>$home,'seo'=>json_decode(file_get_contents(__DIR__.'/data/keyword-map.json'),true)['home']]);
@@ -98,7 +100,6 @@ function pelham_import_content(){
  // Copy the original media to a plugin-owned directory; never replace existing media.
  $upload=wp_upload_dir(); $target=$upload['basedir'].'/pelham'; wp_mkdir_p($target);
  foreach(glob(__DIR__.'/data/brand/*.png')?:[] as $file){$dest=$target.'/'.basename($file);if(!file_exists($dest))copy($file,$dest);}
- if(!get_option('permalink_structure'))update_option('permalink_structure','/%postname%/');
  pelham_i18n_rewrite_rules(); flush_rewrite_rules(); return $ids;
 }
 add_action('add_meta_boxes',function(){add_meta_box('pelham-terminal','Terminal details',function($post){wp_nonce_field('pelham_terminal','pelham_terminal_nonce');foreach(['address','phone','hours'] as $key){echo '<p><label>'.esc_html(ucfirst($key)).'<br><textarea style="width:100%" name="pelham_'.$key.'">'.esc_textarea(get_post_meta($post->ID,'pelham_'.$key,true)).'</textarea></label></p>'; }},'pelham_terminal');});
@@ -253,3 +254,4 @@ require_once __DIR__.'/inc/team-1.17.1.php';
 require_once __DIR__.'/inc/keywords-1.17.php';
 require_once __DIR__.'/inc/revisions-1.19.php';
 require_once __DIR__.'/inc/revisions-1.20.php';
+require_once __DIR__.'/inc/permalinks-1.20.php';
