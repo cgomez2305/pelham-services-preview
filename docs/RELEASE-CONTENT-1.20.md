@@ -1,6 +1,6 @@
 # Pelham Content 1.20 — revisión de los artículos del blog
 
-Pelham Content **1.20.3** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
+Pelham Content **1.20.4** · Tema **1.24.0** y Pelham Applications **1.2.0** sin cambios
 
 Incorpora a las 11 guías del blog, en inglés y en español, los cambios con sentido de los documentos reescritos por el cliente.
 
@@ -14,10 +14,10 @@ Incorpora a las 11 guías del blog, en inglés y en español, los cambios con se
 ## Instalación
 
 1. Hacer una copia de seguridad.
-2. Reemplazar Pelham Content por `pelham-content-1.20.3.zip`.
+2. Reemplazar Pelham Content por `pelham-content-1.20.4.zip`.
 3. Vaciar la caché.
 4. En el administrador aparece el aviso **«Apply article revisions (save backups)»**:
-   - actualiza 24 contenidos: los 11 artículos y la página FTL, en inglés y en español;
+   - actualiza 32 contenidos, en inglés y en español: los 11 artículos y las páginas FTL, Cross-docking/transbordo, About, Cotizar y Contacto;
    - cada contenido guarda su texto anterior en `pelham_before_articles_1_20` y en sus revisiones;
    - una segunda pasada no cambia nada;
    - si ya se había aplicado la 1.20.0, el aviso vuelve a aparecer una vez y guarda otra copia antes de actualizar.
@@ -75,10 +75,26 @@ Si la versión 1.19 aún no se aplicó, se pueden pulsar los dos botones en cual
   - Coste de pallet (fila de códigos ZIP).
 - **Combustible:** el ejemplo del «15 %» del documento del cliente se quitó, porque el porcentaje real depende de cada cuenta.
 
+## Enlazado interno (1.20.4)
+
+El cliente indicó que el enlazado con los artículos no estaba bien. El rastreo de las 60 URL no encontró enlaces rotos, redirecciones ni mezcla de idiomas, pero sí estos fallos de estructura:
+
+| Problema | Corrección |
+|---|---|
+| Tecnología, Proceso de Pelham y Retos logísticos no recibían enlaces de ninguna otra página. Combustible, Transbordo vs. cross-docking y Contenedores recibían uno. | Cada artículo recibe ahora 3 o más enlaces desde otras páginas, en inglés y en español. |
+| La página de servicio Cross-docking/transbordo solo enlazaba a «Request a quote». | Nueva sección «Guides for cross-docking and transloading» que enlaza a las dos guías de su keyword, y enlace en la pregunta frecuente sobre la diferencia entre ambos servicios. |
+| Textos de enlace genéricos: «receiving guide», «shipment details», «capacity comparison», «pallet cost guide»… | Textos descriptivos con la keyword del destino, variados para no repetir siempre la misma frase exacta: «freight delivery to forwarders in Miami», «freight quote requirements», «freight fuel surcharges explained»… En español: «diferencia entre LTL y FTL», «cuánto cuesta enviar un pallet», «qué incluir al cotizar un flete», «agentes de carga en Miami», «transbordo de contenedores». |
+| Sin enlaces entre artículos del mismo tema. | Bloque «Related freight guides» / «Guías relacionadas» al final de cada artículo, dentro de la última sección (sin H2 nuevo). Hay 3 guías por artículo, agrupadas por tema: precios y capacidad; manipulación de carga; operación. |
+| Páginas sin enlace a guías clave. | FTL → envíos recurrentes; About → proceso de Pelham; Cotizar → recargo por combustible; Contacto → retrasos y cambios (y el estado por etapas). |
+| La home mostraba un tercer artículo distinto en inglés y en español: seis artículos tienen la misma fecha y el desempate usaba el ID, que es distinto en cada idioma. | El listado desempata por el artículo en inglés: los dos idiomas muestran los mismos artículos en el mismo orden. |
+
+URLs, titles, H1 y H2 con keyword sin cambios.
+
 ## Pruebas
 
 - **WordPress 6.8.3 local:**
-  - cada versión aplicada sobre la anterior (1.20.0 → 1.20.3) actualizó 24 contenidos y guardó otra copia;
+  - cada versión aplicada sobre la anterior guardó otra copia; la 1.20.4 actualizó 32 contenidos;
+  - rastreo de enlaces: 60 URL en WordPress y 58 en la vista previa, sin enlaces rotos ni redirecciones; todos los artículos reciben 3 o más enlaces internos;
   - una segunda pasada no cambia nada;
   - el aviso se muestra antes de aplicar y desaparece después.
   - Las 60 URL pasan sin errores PHP ni JS ni desbordamiento en móvil, con `hreflang` y canonical correctos, sin texto en inglés en las páginas en español y con los mismos titles y H1.

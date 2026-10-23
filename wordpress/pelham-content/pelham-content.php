@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.20.3
+ * Version: 1.20.4
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -116,7 +116,11 @@ add_shortcode('pelham_services',function(){ $posts=get_posts(['post_type'=>'pelh
 add_shortcode('pelham_terminals',function(){ob_start();?><div class="service-grid terminal-grid"><?php foreach(get_posts(['post_type'=>'pelham_terminal','numberposts'=>-1,'orderby'=>'title','order'=>'ASC']) as $post){?><article class="terminal-card"><p class="eyebrow"><?php echo esc_html(pelham_ui('terminal_eyebrow','OUR TERMINALS')); ?></p><h2><a href="<?php echo esc_url(get_permalink($post)); ?>"><?php echo esc_html($post->post_title); ?></a></h2><p><?php echo nl2br(esc_html(get_post_meta($post->ID,'pelham_address',true))); ?></p><p><?php echo esc_html(get_post_meta($post->ID,'pelham_hours',true)); ?></p><?php if(get_post_meta($post->ID,'pelham_phone',true)){ ?><a href="tel:<?php echo esc_attr(preg_replace('/[^+0-9]/','',get_post_meta($post->ID,'pelham_phone',true))); ?>"><?php echo esc_html(get_post_meta($post->ID,'pelham_phone',true)); ?></a><?php } ?></article><?php } ?></div><?php return ob_get_clean();});
 add_shortcode('pelham_news',function($attrs=[]){
  $attrs=shortcode_atts(['count'=>pelham_is_page('news')?12:3],$attrs);$count=max(1,min(24,absint($attrs['count'])));
- $posts=get_posts(['post_type'=>'post','numberposts'=>$count,'category_name'=>term_exists('pelham-insights','category')?'pelham-insights':'']);
+ $posts=get_posts(['post_type'=>'post','numberposts'=>-1,'category_name'=>term_exists('pelham-insights','category')?'pelham-insights':'']);
+ // Same order in both languages: newest first, ties broken by the English post, so /es/ shows the same articles as the English page.
+ $english_id=function($post){$english=pelham_translation($post,'en');return $english?$english->ID:$post->ID;};
+ usort($posts,function($a,$b)use($english_id){return strcmp($b->post_date,$a->post_date)?:$english_id($b)-$english_id($a);});
+ $posts=array_slice($posts,0,$count);
  if(pelham_is_page('news')){usort($posts,function($a,$b){return (pelham_route_slug($b)==='what-to-include-in-a-freight-quote')-(pelham_route_slug($a)==='what-to-include-in-a-freight-quote');});}
  ob_start();if(pelham_is_page('news')){ ?><div class="news-topics" aria-label="<?php echo esc_attr(pelham_t('Filter freight insights')); ?>" hidden><?php foreach(['all'=>'All insights','planning'=>'Freight planning','transloading'=>'Transloading','consolidation'=>'Consolidation'] as $key=>$label){ ?><button type="button" data-topic="<?php echo esc_attr($key); ?>" aria-pressed="<?php echo $key==='all'?'true':'false'; ?>"><?php echo esc_html(pelham_t($label)); ?></button><?php } ?></div><p class="news-count" role="status" hidden></p><h2 class="screen-reader-text"><?php echo esc_html(pelham_t('All freight insights')); ?></h2><?php } ?>
  <div class="news-grid"><?php foreach($posts as $i=>$post){$route=pelham_route_slug($post);$topic=str_contains($route,'transload')?'transloading':((str_contains($route,'consolidat')||str_contains($route,'ltl'))?'consolidation':'planning');?><article class="news-card" data-topic="<?php echo esc_attr($topic); ?>"><a href="<?php echo esc_url(get_permalink($post)); ?>"><div class="news-art news-art-<?php echo esc_attr($i); ?>" aria-hidden="true"><?php echo pelham_photo_markup(pelham_keyword_data($post)['photo']??'none','news-photo',false,$post->ID); ?></div><p class="news-date"><time datetime="<?php echo esc_attr(get_the_date('c',$post)); ?>"><?php echo esc_html(pelham_date('M j, Y',$post)); ?></time></p><h3><?php echo esc_html($post->post_title); ?></h3><p class="news-summary"><?php echo esc_html(wp_trim_words(function_exists('pelham_seo_description')?pelham_seo_description($post):wp_strip_all_tags(strip_shortcodes($post->post_excerpt?:$post->post_content)),28)); ?></p><span class="text-link"><?php echo esc_html(pelham_ui('news_cta','Read the story')); ?> <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path d="M5 19 19 5M6 5h13v13" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span></a></article><?php } ?></div><?php return ob_get_clean();});
