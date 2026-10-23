@@ -1,6 +1,24 @@
 <?php
 if(!defined('ABSPATH'))exit;
 function pa_schema($kind){static $schema; $schema??=json_decode(file_get_contents(PA_DIR.'/inc/schema.json'),true);return $schema[$kind]??[];}
+/** Interface text in the visitor's language (Pelham Content's dictionary). */
+function pa_t($text){return function_exists('pelham_t')?pelham_t($text):$text;}
+/** Page check that also matches the Spanish version of a page. */
+function pa_is_page($slugs){return function_exists('pelham_is_page')?pelham_is_page($slugs):is_page($slugs);}
+function pa_link($route){return function_exists('pelham_link')?pelham_link($route):home_url('/'.trim($route,'/').'/');}
+/** Language a request was started in; emails to the applicant follow it. */
+function pa_request_lang($id){return get_post_meta($id,'_pa_lang',true)==='es'?'es':'en';}
+function pa_t_for($text,$lang){
+ if($lang!=='es'||!function_exists('pelham_t'))return $text;
+ $previous=$GLOBALS['pelham_lang_override']??null;$GLOBALS['pelham_lang_override']='es';$out=pelham_t($text);
+ if($previous===null)unset($GLOBALS['pelham_lang_override']);else $GLOBALS['pelham_lang_override']=$previous;return $out;
+}
+/** Public page of a request type in a language (Spanish registration page when it exists). */
+function pa_page_url($kind,$lang){
+ $route=$kind==='claim'?'claims':'register';
+ if($lang==='es'){$ids=get_option('pelham_i18n_ids',[]);if(!empty($ids[$route])&&get_post_status($ids[$route])==='publish')return get_permalink($ids[$route]);}
+ return home_url($kind==='claim'?'/claims/':'/register/');
+}
 function pa_error($message,$status=400,$fields=[]){return new WP_Error('pelham_application',$message,['status'=>$status,'fields'=>$fields]);}
 function pa_key(){return hash('sha256',defined('PELHAM_APPLICATIONS_KEY')?PELHAM_APPLICATIONS_KEY:wp_salt('auth'),true);}
 function pa_encrypt($value){

@@ -7,7 +7,30 @@
  const blocked=()=>reduce.matches||root.classList.contains('motion-paused');
  const selector='.industrial-title,.industrial-lead,.industrial-panorama,.section-heading,.network-copy,.network-art,.process-card,.industrial-invitation,.service-card,.news-card,.service-cover-copy,.service-cover-photo,.service-introduction,.service-planning>h2,.service-step,.service-preparation,.service-questions>h2,.service-faq,.service-network,.contact-intro,.contact-terminals>h2,.contact-directory article,.terminal-card,.value-card,.team-card,.page-masthead,.registration-copy,.footer-top,.footer-grid>div';
  function clearPending(el){el.removeAttribute('data-pelham-pending');pending.delete(el);}
- function finish(){pending.forEach(clearPending);active.forEach(animations=>animations.forEach(a=>a.cancel()));active.clear();}
+ function finish(){pending.forEach(clearPending);active.forEach(animations=>animations.forEach(a=>a.cancel()));active.clear();counters.forEach(settleCounter);}
+ // Transit-day figures count up once on entry (under a second, then the real
+ // value stays; reduced motion, pause and focus always show the final figure).
+ const counters=[];
+ document.querySelectorAll('.pelham-level-days').forEach(holder=>{
+  const node=holder.firstChild,value=parseInt(node?.nodeType===3?node.textContent:'',10);if(!value)return;
+  const shown=document.createElement('span');
+  shown.className='count-up';shown.style.minWidth=String(value).length+'ch';shown.textContent=String(value);
+  holder.replaceChild(shown,node);counters.push({el:shown,value,frame:0});
+ });
+ function settleCounter(counter){cancelAnimationFrame(counter.frame);counter.frame=0;counter.el.textContent=String(counter.value);}
+ function count(counter,delay){
+  const start=performance.now()+delay,duration=900;
+  const step=now=>{const t=Math.min(1,Math.max(0,(now-start)/duration));counter.el.textContent=String(Math.round(counter.value*(1-Math.pow(1-t,3))));counter.frame=t<1?requestAnimationFrame(step):0;};
+  counter.el.textContent='0';counter.frame=requestAnimationFrame(step);
+ }
+ const counterObserver=counters.length?new IntersectionObserver(records=>{
+  records.filter(r=>r.isIntersecting).forEach((r,i)=>{const counter=counters.find(c=>c.el===r.target);counterObserver.unobserve(r.target);if(!blocked())count(counter,i*120);});
+ },{rootMargin:'0px 0px -12% 0px'}):null;
+ counters.forEach(counter=>{
+  // Below the fold, start from zero so the figure never visibly jumps back.
+  if(!blocked()&&counter.el.getBoundingClientRect().top>=innerHeight)counter.el.textContent='0';
+  counterObserver.observe(counter.el);
+ });
  function targetsFor(el){
   if(el.matches('.network-art'))return [...el.querySelectorAll('.map-route')];
   if(el.matches('.service-faq'))return [...el.querySelectorAll(':scope>details')];

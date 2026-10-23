@@ -7,8 +7,8 @@
     "photo": "pelham-services"
   },
   "services": {
-    "seo_title": "LTL, FTL & Freight Handling Services | Pelham",
-    "heading": "LTL, FTL and freight handling services",
+    "seo_title": "Freight Transportation Services: LTL & FTL | Pelham",
+    "heading": "Freight transportation services",
     "keyword": "freight transportation services",
     "description": "Compare domestic LTL and FTL trucking from Los Angeles to Florida, with cross-docking and palletizing support.",
     "photo": "none"
@@ -28,10 +28,10 @@
     "photo": "pelham-truck"
   },
   "freight-consolidation": {
-    "seo_title": "California to Florida LTL Shipping | Pelham Services",
-    "heading": "LTL shipping from California to Florida",
-    "keyword": "ltl shipping california to florida",
-    "description": "Ship pallets from Los Angeles to Miami, Orlando and Florida businesses. Compare LTL service levels, coverage and estimated transit times with Pelham.",
+    "seo_title": "LTL Freight Shipping: California to Florida | Pelham",
+    "heading": "LTL freight shipping from California to Florida",
+    "keyword": "freight shipping from california to florida",
+    "description": "LTL freight shipping from Los Angeles to Miami, Orlando and businesses across Florida. Compare service levels, coverage and estimated transit times.",
     "photo": "pelham-driver"
   },
   "locations": {
@@ -39,14 +39,14 @@
     "heading": "Freight facilities in California and Florida",
     "keyword": "freight facilities California Florida",
     "description": "Pelham operates facilities in Los Angeles, Orlando and Miami. Contact the team for domestic freight and receiving arrangements.",
-    "photo": "none"
+    "photo": "network"
   },
   "gardena-ca": {
     "seo_title": "Pelham Services Gardena | Los Angeles Freight Facility",
     "heading": "Pelham Services Gardena / Los Angeles",
     "description": "Find Pelham Services in Gardena, Los Angeles: 249 East Redondo Beach Blvd. Plan LTL or FTL freight to Florida and confirm receiving arrangements.",
     "keyword": "pelham services gardena",
-    "photo": "none"
+    "photo": "gardena-terminal"
   },
   "miami-fl": {
     "seo_title": "Pelham Services Miami | Address & Freight Contact",
@@ -74,7 +74,7 @@
     "heading": "About Pelham Services: domestic trucking",
     "keyword": "about Pelham Services",
     "description": "Learn about Pelham Services, its domestic trucking focus and the businesses it serves through facilities in Los Angeles, Miami and Orlando.",
-    "photo": "none"
+    "photo": "team"
   },
   "news": {
     "seo_title": "Freight Shipping Guides & Company News | Pelham",
@@ -91,57 +91,57 @@
     "photo": "shipping"
   },
   "how-pelham-elevates-logistics-in-ca-fl": {
-    "seo_title": "How Pelham Plans a Domestic Freight Shipment | Pelham",
-    "heading": "How Pelham plans a domestic freight shipment",
+    "seo_title": "Freight Shipping Process: How Pelham Plans a Shipment",
+    "heading": "Pelham’s freight shipping process: how a domestic shipment is planned",
     "keyword": "Pelham freight shipping process",
     "description": "Follow the Pelham shipment planning process: share load details, discuss service options and confirm domestic pickup and receiving arrangements.",
     "photo": "truck"
   },
   "navigating-challenges-in-us-logistics": {
-    "seo_title": "Planning for freight delays and changes on a California–Florida shipment | Pelham",
-    "heading": "Planning for freight delays and changes on a California–Florida shipment",
+    "seo_title": "Freight Logistics Challenges: Planning for Delays | Pelham",
+    "heading": "Freight logistics challenges: planning for delays on a California–Florida shipment",
     "keyword": "freight logistics challenges",
     "description": "Prepare for changes in timing, shipment details and receiving arrangements when planning domestic freight from Los Angeles to Florida.",
     "photo": "warehouse"
   },
   "transloading-vs-cross-docking": {
-    "seo_title": "Cross-docking, transloading and palletizing: which do you need? | Pelham",
-    "heading": "Cross-docking, transloading and palletizing: which do you need?",
+    "seo_title": "Transloading vs. Cross-Docking vs. Palletizing | Pelham",
+    "heading": "Transloading vs. cross-docking and palletizing: which do you need?",
     "keyword": "transloading vs cross docking",
     "description": "Understand equipment transfers, cross-docking and pallet preparation for domestic truck shipments with Pelham Services.",
     "photo": "cargo"
   },
   "ltl-vs-ftl-california-florida-shipping": {
     "seo_title": "LTL vs. FTL: Meaning, Differences & Costs | Pelham",
-    "heading": "LTL vs. FTL: which fits your California–Florida shipment?",
+    "heading": "LTL vs. FTL: meaning, differences and which fits your shipment",
     "keyword": "ltl vs ftl",
-    "description": "Learn the difference between LTL and FTL freight shipping, compare shared and exclusive capacity, and choose an option for California–Florida trucking.",
-    "photo": "warehouse"
+    "description": "What do LTL and FTL mean? Compare less-than-truckload and full truckload: shared or exclusive capacity, rates and timing for California–Florida freight.",
+    "photo": "ltl-pallets"
   },
   "what-to-include-in-a-freight-quote": {
     "seo_title": "Freight Quote Requirements & Checklist | Pelham",
     "heading": "Freight quote requirements: what to prepare",
     "keyword": "freight quote requirements",
     "description": "Prepare the addresses, pallet dimensions, weight and receiving details needed for a useful freight quote. Use a practical shipment request checklist.",
-    "photo": "cargo"
+    "photo": "quote-docs"
   },
   "planning-recurring-california-florida-freight": {
     "seo_title": "Recurring California–Florida Freight Planning | Pelham",
     "heading": "Planning recurring California–Florida freight shipments",
     "keyword": "recurring freight planning",
     "description": "Build a recurring shipping enquiry around shipment frequency, pallet sizes, pickup readiness and business receiving requirements.",
-    "photo": "truck"
+    "photo": "dock-backing"
   },
   "how-a-freight-fuel-surcharge-works": {
-    "seo_title": "Understanding fuel surcharges in a freight quote | Pelham",
-    "heading": "Understanding fuel surcharges in a freight quote",
+    "seo_title": "Freight Fuel Surcharge Explained | Pelham",
+    "heading": "Freight fuel surcharge explained: what it means in your quote",
     "keyword": "freight fuel surcharge explained",
     "description": "Ask the right questions about fuel surcharges and compare freight quotes on a consistent basis without relying on an outdated percentage.",
     "photo": "linehaul"
   },
   "container-transloading-documents-preparation": {
-    "seo_title": "Preparing a container-to-truck transfer with Pelham | Pelham",
-    "heading": "Preparing a container-to-truck transfer with Pelham",
+    "seo_title": "Container Transloading Requirements | Pelham",
+    "heading": "Container transloading requirements: preparing a container-to-truck transfer",
     "keyword": "container transloading requirements",
     "description": "Organize cargo, arrival and delivery information for transloading, cross-docking and palletizing before domestic trucking to Florida.",
     "photo": "containers"
@@ -177,24 +177,31 @@
     "photo": "none"
   },
   "orlando-fl": {
-    "seo_title": "Pelham Services Orlando (Land Stand) | Freight Facility",
-    "heading": "Pelham Services Orlando (Land Stand)",
-    "description": "Find Pelham Services Orlando (Land Stand) at 9777 Satellite Blvd suite 130. Discuss Los Angeles–Orlando LTL shipping and receiving arrangements.",
+    "seo_title": "Pelham Services Orlando | Freight Facility",
+    "heading": "Pelham Services Orlando",
+    "description": "Find Pelham Services Orlando at 9777 Satellite Blvd suite 130. Call 323-201-4995 to discuss Los Angeles–Orlando LTL shipping and receiving.",
     "keyword": "pelham services orlando",
     "photo": "none"
   },
   "pallet-shipping-cost-california-to-florida": {
     "seo_title": "Cost to Ship a Pallet: California to Florida | Pelham",
     "heading": "How much does it cost to ship a pallet from California to Florida?",
-    "keyword": "cost to ship a pallet from california to florida",
-    "description": "Learn what affects the cost to ship one or more pallets from California to Florida, including Los Angeles to Miami, and prepare an accurate quote request.",
-    "photo": "none"
+    "keyword": "how much does it cost to ship a pallet",
+    "description": "How much does it cost to ship a pallet? See what changes the price of one or more pallets from California to Florida and how to request an accurate quote.",
+    "photo": "pallets"
   },
   "freight-delivery-to-forwarders-in-miami": {
     "seo_title": "LTL Delivery to Miami Freight Forwarders | Pelham",
-    "heading": "Delivering California freight to a forwarder in Miami",
+    "heading": "Freight delivery to forwarders in Miami from California",
     "keyword": "freight delivery to forwarders in miami",
     "description": "Arrange domestic LTL trucking from Los Angeles to a Miami freight forwarder. Prepare pallet details, receiving instructions and a separate onward shipment.",
-    "photo": "none"
+    "photo": "delivery"
+  },
+  "who-we-serve": {
+    "seo_title": "Freight for Suppliers, Distributors & Forwarders | Pelham",
+    "heading": "Trucking for suppliers, distributors, manufacturers and forwarders",
+    "keyword": "freight shipping for suppliers distributors manufacturers freight forwarders",
+    "description": "Los Angeles to Florida trucking for suppliers, distributors, manufacturers and freight forwarders: LTL pallets, full truckloads and cross-docking.",
+    "photo": "partners"
   }
 }

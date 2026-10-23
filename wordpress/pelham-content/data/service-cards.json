@@ -1,0 +1,7 @@
+{
+ "freight-consolidation": {"detail": "1 to 7 pallets"},
+ "transloading": {"points": [
+  ["Cross-Docking", "Rapid transfer of goods directly from inbound to outbound trailers to minimize handling times and lower storage costs."],
+  ["Palletizing & Re-Palletizing", "Expert shrink-wrapping, stacking and securing to ensure linehaul stability and transit safety."]
+ ]}
+}
