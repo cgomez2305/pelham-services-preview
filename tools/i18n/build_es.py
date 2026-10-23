@@ -34,9 +34,13 @@ for e in sorted(entries, key=lambda e: order.get(e['route'], 999)):
     r = e['route']
     if r not in routes: continue
     slug, meta = by_route[r]
+    content = translate(e['content'], missing)
+    if r == 'who-we-serve':
+        # Spanish searches name Miami ("agente de carga en Miami"); keep it in the heading.
+        content = content.replace('<h2 class="wp-block-heading">Agentes de carga</h2>', '<h2 class="wp-block-heading">Agentes de carga en Miami y Florida</h2>')
     item = {'route': routes[r], 'en_route': r, 'type': e['type'],
             'title': 'Inicio' if r == 'home' else meta['heading'],
-            'content': translate(e['content'], missing),
+            'content': content,
             'excerpt': meta['description']}
     if e.get('service_label'):
         item['service_label'] = tm.get(S.norm(e['service_label']), e['service_label'])

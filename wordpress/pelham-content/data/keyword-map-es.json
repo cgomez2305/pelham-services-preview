@@ -9,7 +9,7 @@
   },
   "servicios": {
     "seo_title": "Servicios de transporte de carga: LTL y FTL | Pelham",
-    "heading": "Servicios de transporte de carga: LTL, FTL y manejo",
+    "heading": "Servicios de transporte de carga",
     "keyword": "servicios de transporte de carga",
     "description": "Compare carga consolidada (LTL) y camión completo (FTL) de Los Angeles a Florida, con cross-docking, transbordo y servicio de paletizado.",
     "photo": "none",
@@ -41,7 +41,7 @@
   },
   "a-quien-servimos": {
     "seo_title": "Carga para proveedores, distribuidores y agentes | Pelham",
-    "heading": "Envío de carga para proveedores, distribuidores, fabricantes y agentes de carga",
+    "heading": "Transporte por camión para proveedores, distribuidores, fabricantes y agentes de carga",
     "keyword": "transporte de carga para distribuidores y proveedores",
     "description": "Transporte de carga de California a Florida para proveedores, distribuidores, fabricantes y agentes de carga: qué servicio conviene y qué incluir al cotizar.",
     "photo": "partners",
@@ -72,10 +72,10 @@
     "en_route": "locations/miami-fl"
   },
   "orlando": {
-    "seo_title": "Pelham Services Orlando (Land Stand) | Instalación",
-    "heading": "Pelham Services Orlando (Land Stand)",
+    "seo_title": "Pelham Services Orlando | Instalación de carga",
+    "heading": "Pelham Services Orlando",
     "keyword": "pelham services orlando",
-    "description": "Instalación de Pelham Services en Orlando: 9777 Satellite Blvd suite 130. Coordine con el equipo la recepción y entrega de su carga en Florida.",
+    "description": "Pelham Services en Orlando: 9777 Satellite Blvd suite 130. Llame al 323-201-4995 para coordinar la recepción y entrega de su carga en Florida.",
     "photo": "none",
     "en_route": "locations/orlando-fl"
   },

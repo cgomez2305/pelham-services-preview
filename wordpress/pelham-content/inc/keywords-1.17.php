@@ -6,7 +6,8 @@ function pelham_keyword_retitles(){return [
  'freight-consolidation'=>['LTL shipping from California to Florida','LTL freight shipping from California to Florida'],
  'ltl-vs-ftl-california-florida-shipping'=>['LTL vs. FTL: which fits your California–Florida shipment?','LTL vs. FTL: meaning, differences and which fits your shipment'],
  // Intent targets without measured volume: the keyword-map keyword, worded naturally.
- 'services'=>['LTL, FTL and freight handling services','Freight transportation services: LTL, FTL and handling'],
+ 'services'=>['LTL, FTL and freight handling services','Freight transportation services'],
+ 'who-we-serve'=>['Freight shipping for suppliers, distributors, manufacturers and forwarders','Trucking for suppliers, distributors, manufacturers and forwarders'],
  'container-transloading-documents-preparation'=>['Preparing a container-to-truck transfer with Pelham','Container transloading requirements: preparing a container-to-truck transfer'],
  'navigating-challenges-in-us-logistics'=>['Planning for freight delays and changes on a California–Florida shipment','Freight logistics challenges: planning for delays on a California–Florida shipment'],
  'how-pelham-elevates-logistics-in-ca-fl'=>['How Pelham plans a domestic freight shipment','Pelham’s freight shipping process: how a domestic shipment is planned'],

@@ -91,6 +91,8 @@ def spanish(doc, route):
     meta = SEO_ES[route]; desc = html.escape(meta['description'], quote=True); title = html.escape(meta['seo_title'], quote=True)
     head, body = doc[:doc.index('<body')], doc[doc.index('<body'):]
     body = es_links(S.apply(body, DIC))
+    if route == 'who-we-serve':
+        body = body.replace('<h2 class="wp-block-heading">Agentes de carga</h2>', '<h2 class="wp-block-heading">Agentes de carga en Miami y Florida</h2>')
     head = head.replace('<html lang="en-US">', '<html lang="es-US">', 1)
     head = re.sub(r'<title>.*?</title>', '<title>%s</title>' % title, head, count=1, flags=re.S)
     head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="%s">' % desc, head, count=1)
