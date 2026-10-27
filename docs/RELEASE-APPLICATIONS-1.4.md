@@ -1,54 +1,35 @@
-# Pelham Applications 1.4 — cuatro formularios independientes
+# Pelham Applications 1.4.1 — vuelta a la solicitud de cuenta única
 
-Pelham Applications **1.4.0** · Pelham Content **1.20.8** (traducciones) · Tema **1.24.0** sin cambios
+Pelham Applications **1.4.1** · Pelham Content **1.20.8** · Tema **1.24.0** sin cambios
 
-El cliente pidió que los 4 documentos de su antigua página de registro fueran **formularios independientes que no se mezclen**. Hasta la 1.3, Customer Application, Credit Application y Terms and Agreements eran una sola solicitud con un único envío.
+## Qué pasó
 
-## Cómo funciona ahora
+- **1.4.0.** Separó los documentos en 4 formularios independientes (Customer, Credit, Terms y Claim) a petición del cliente.
+- **Decisión final.** Tras verlo, el cliente prefirió la estructura simplificada anterior:
+  - una **solicitud de cuenta** que reúne Customer Application, Credit Application (solo si se pide crédito) y Terms and Agreements;
+  - la **reclamación** (Claim Form) aparte.
 
-`/register/` (`/es/registro/`) muestra **«Your four Pelham documents» / «Sus cuatro documentos de Pelham»**. Cada tarjeta abre su propio formulario:
+La 1.4.1 vuelve a esa estructura: la de la 1.3.1, documentada en `RELEASE-APPLICATIONS-1.3.md`.
 
-| Documento | Dirección | Pasos | Firmas |
-|---|---|---|---|
-| Customer Application | `/register/?form=customer` | Empresa → Facturación → Referencias → Acuerdo y firma → Revisar y enviar | Solicitud de cliente |
-| Credit Application | `/register/?form=credit` | Empresa → Negocio y banco → 3 referencias → Acuerdos y firmas → Revisar y enviar | Solicitud de crédito y garantía personal (la garantía puede reutilizar la firma de crédito) |
-| Terms and Agreements | `/register/?form=terms` | Empresa → Leer los términos → Iniciales por página → Acuerdo y firma → Revisar y enviar | Términos y condiciones de transporte (+ contrafirma de Pelham en el panel) |
-| Claim Form | `/claims/` | Sin cambios | Reclamación |
+## Qué incluye la 1.4.1
 
-Las direcciones en español son las mismas con `/es/registro/?form=…`.
+- **Registro.** `/register/` y `/es/registro/` son de nuevo la solicitud de cuenta en 5 pasos, con «Sus cuatro documentos de Pelham» arriba, que indica en qué paso está cada documento.
+- **Reclamación.** `/claims/` sin cambios.
+- **Modo de prueba.** Dos botones: «Probar la solicitud de cuenta» y «Probar la reclamación de carga».
+- **Panel.** Igual que en la 1.3.1.
+- **Mejora conservada de la 1.4.0.** El mensaje final del modo de prueba se muestra traducido al español.
+- **Compatibilidad.** Las solicitudes creadas con la 1.4.0 (Customer, Credit o Terms por separado) se siguen viendo y exportando en el panel. No se pueden empezar nuevas solicitudes de ese tipo.
 
-**Cada formulario es independiente:**
-- tiene su propio borrador (el mismo correo puede tener uno de cada tipo);
-- tiene su referencia (PEL-…), su firma y su envío;
-- envía su propio acuse de recibo al cliente y su propio aviso al equipo, con el nombre del formulario;
-- genera solo su PDF original relleno y firmado.
+## Instalación
 
-El enlace del correo de verificación abre directamente el formulario correspondiente.
-
-## Panel del equipo
-
-- **Filtro por formulario.** Customer Application, Credit Application, Terms and Agreements, Claim Form y «Combined application (before 1.4)». La columna Tipo muestra el nombre del formulario.
-- **Cada ficha muestra solo su documento:**
-  - **Credit Application:** decisión de crédito y límite aprobado.
-  - **Customer Application:** alta en Supply Vision.
-  - **Terms and Agreements:** contrafirma del representante de Pelham.
-- **Solicitudes anteriores a la 1.4.** Las que combinaban los tres documentos se siguen viendo, revisando y exportando igual que antes. Un borrador antiguo se puede retomar con su enlace; para empezar una nueva solicitud se usan solo los 4 formularios.
-
-## Modo de prueba
-
-El enlace de prueba (*Client testing link*) muestra un botón por formulario: **Test Customer Application, Test Credit Application, Test Terms and Agreements y Test Claim Form**. En español: «Probar la solicitud de cliente», etc.
+Subir `pelham-applications-1.4.1.zip` y elegir reemplazar la versión instalada. Pelham Content 1.20.8 no cambia. Si la 1.4.0 no llegó a instalarse, se instala igual.
 
 ## Pruebas (WordPress 6.8.3 local)
 
-- **Por API:** los 4 formularios creados con el enlace de prueba, rellenados, firmados (Credit con 2 firmas) y enviados, cada uno con su referencia. La reclamación incluye la factura adjunta.
-- **En el navegador, como un visitante con el enlace de prueba:** los 4 formularios en español y en inglés, rellenando cada paso, dibujando las firmas (la garantía reutiliza la firma de crédito) y enviando. 8 de 8 completados, sin errores JS.
-- **PDF:** cada envío genera solo su documento original, relleno y firmado:
-  - Customer: 3 páginas;
-  - Credit: 5 páginas, con firma de crédito y de garantía;
-  - Terms: 5 páginas, con iniciales y firma;
-  - Claim: 4 páginas.
-- **Flujo real:** una Credit Application empezada con correo envía «Pelham — continúe su solicitud», con enlace a `/es/registro/?form=credit`. La API rechaza crear solicitudes combinadas nuevas.
-- **Panel:** el filtro, la columna Tipo y las secciones de cada ficha son correctos, y la solicitud antigua combinada sigue completa.
-- **Diseño:** página de inicio y formularios a 1440 px y 390 px, sin desbordamiento. No queda texto en inglés indebido en las páginas en español.
+- **Solicitud de cuenta por API:**
+  - con crédito «Sí»: 4 firmas (cliente, términos, crédito y garantía) y envío;
+  - con crédito «No»: 2 firmas y envío.
+- **Reclamación:** con factura adjunta, firma y envío.
+- **En el navegador, como un visitante con el enlace de prueba:** solicitud de cuenta con crédito «Sí» y reclamación, en español y en inglés, sin errores JS.
+- **Panel:** filtros y fichas de la 1.3.1; las solicitudes 1.4.0 siguen generando su PDF.
 - **Sitio completo:** las 60 URL pasan la auditoría sin errores PHP ni JS.
-- **Límite de seguridad:** al superar 20 solicitudes de prueba en 15 minutos, el servidor responde 429.

@@ -1,54 +1,33 @@
 <?php
 if(!defined('ABSPATH'))exit;
-/** The four independent forms of the former registration page, with the original PDF of each. */
-function pa_form_url($kind){
- $token=function_exists('pa_test_request_token')?pa_test_request_token():'';
- $url=$kind==='claim'?pa_link('claims'):add_query_arg('form',$kind,pa_link('register'));
- return $token?add_query_arg('pa_test',$token,$url):$url;
-}
+/** The four documents of the former registration page: where each is completed online, with the original PDF. */
 function pa_documents_overview($kind){
+ $token=function_exists('pa_test_request_token')?pa_test_request_token():'';
+ $link=function($route)use($token){$url=pa_link($route);return $token?add_query_arg('pa_test',$token,$url):$url;};
  $docs=[
-  'customer'=>['Customer-Application','Company details, billing and trade references, signed online.'],
-  'credit'=>['Credit-Application','Credit terms: business and bank details, three references and personal guaranty.'],
-  'terms'=>['Terms-and-Agreements-Pelham','Read the transport terms, initial each page and sign.'],
-  'claim'=>['Claim-Form','Report loss or damage on a shipment, with supporting evidence.'],
+  ['Customer Application','Customer-Application','Steps 1 and 2 of the online account application: company, billing and references.','application'],
+  ['Credit Application','Credit-Application','Step 3 of the online account application, only if you request credit.','application'],
+  ['Terms and Agreements','Terms-and-Agreements-Pelham','Step 4 of the online account application: read and sign online.','application'],
+  ['Claim Form','Claim-Form','Separate online form to report loss or damage on a shipment.','claim'],
  ];
- $html='<section class="pa-doc-overview" aria-labelledby="pa-doc-overview-title"><h3 id="pa-doc-overview-title">'.esc_html(pa_t('Your four Pelham documents')).'</h3><p>'.esc_html(pa_t('Each document is a separate form with its own signature and submission. Complete only the ones you need.')).'</p><ul class="pa-doc-grid">';
- foreach($docs as $doc=>[$file,$what]){
-  $here=$doc===$kind;
+ $html='<section class="pa-doc-overview" aria-labelledby="pa-doc-overview-title"><h3 id="pa-doc-overview-title">'.esc_html(pa_t('Your four Pelham documents')).'</h3><p>'.esc_html(pa_t($kind==='claim'?'The Claim Form is completed and signed on this page. The Customer Application, Credit Application and Terms and Agreements are part of the online account application.':'The Customer Application, Credit Application and Terms and Agreements are completed and signed in the online application below. The Claim Form has its own page.')).'</p><ul class="pa-doc-grid">';
+ foreach($docs as [$title,$file,$where,$flow]){
+  $here=$flow===$kind;
   $html.='<li class="pa-doc-card'.($here?' is-here':'').'"><svg class="pa-doc-icon" aria-hidden="true" width="28" height="28" viewBox="0 0 24 24"><path d="M6 2.75h8.5L19.25 7.5v13.75H6zM14.25 3v4.75H19M9 12h7M9 15.5h7M9 19h4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
-  $html.='<h4>'.esc_html(pa_t(pa_kind_label($doc))).'</h4><p>'.esc_html(pa_t($what)).'</p><div class="pa-doc-actions">';
-  $html.=$here?'<span class="pa-doc-here">'.esc_html(pa_t('You are completing this form')).'</span>':'<a class="pa-doc-go" href="'.esc_url(pa_form_url($doc)).'">'.esc_html(pa_t('Complete this form')).' <span aria-hidden="true">→</span></a>';
+  $html.='<h4>'.esc_html(pa_t($title)).'</h4><p>'.esc_html(pa_t($where)).'</p><div class="pa-doc-actions">';
+  $html.=$here?'<span class="pa-doc-here">'.esc_html(pa_t($flow==='claim'?'On this page':'In this application')).'</span>':'<a class="pa-doc-go" href="'.esc_url($link($flow==='claim'?'claims':'register')).'">'.esc_html(pa_t($flow==='claim'?'Open the claim form':'Open the account application')).'</a>';
   $html.='<a class="pa-doc-pdf" href="'.esc_url(plugins_url('documents/'.$file.'.pdf',dirname(__DIR__).'/pelham-applications.php')).'" target="_blank" rel="noopener">'.esc_html(pa_t('View original PDF')).'<span class="screen-reader-text"> '.esc_html(pa_t('(opens in a new tab)')).'</span></a></div></li>';
  }
  return $html.'</ul></section>';
 }
-/** /register/: the four documents, or the form chosen with ?form=customer|credit|terms. */
-function pa_register_page(){
- $form=sanitize_key(wp_unslash($_GET['form']??''));
- if(in_array($form,['customer','credit','terms','application'],true))return pa_form($form);
- wp_enqueue_style('pelham-applications',plugins_url('../assets/applications.css',__FILE__),[],PA_VERSION);
- $html='<section class="pa-app pa-hub"><div class="pa-intro"><span class="pa-eyebrow">PELHAM · CUSTOMER DOCUMENTS</span><p>Choose the document you need. Each one is completed, signed and sent online on its own. No printing or scanning required.</p><div class="pa-benefits"><span>Save & continue later</span><span>Draw or upload signatures</span><span>Reviewed by our team</span></div></div>'.pa_documents_overview('').pa_test_controls().'<footer class="pa-form-footer"><p>Need a hand? <a href="'.esc_url(pa_link('contact')).'">Contact Pelham</a>.</p></footer></section>';
- return function_exists('pelham_translate_html')?pelham_translate_html($html):$html;
-}
-/** Steps and field groups of each form (five steps each; the agreements and signatures are always step 4). */
-function pa_form_config($kind){
- $c=[
-  'customer'=>['eyebrow'=>'CUSTOMER APPLICATION','lead'=>'Complete your company, billing and reference details, then sign the Customer Application online.','steps'=>['Your company','Billing','References','Agreement & signature','Review & send'],'groups'=>[['company'],['billing'],['references'],['agreements'],[]],'read'=>3],
-  'credit'=>['eyebrow'=>'CREDIT APPLICATION','lead'=>'Request credit terms: business and bank details, three references, and the credit and personal guaranty signatures.','steps'=>['Your company','Business & bank','References','Agreements & signatures','Review & send'],'groups'=>[['company'],['business','bank'],['references'],['agreements'],[]],'read'=>3],
-  'terms'=>['eyebrow'=>'TERMS AND AGREEMENTS','lead'=>'Read Pelham’s transport terms and agreements, initial each page and sign online.','steps'=>['Your company','Read the terms','Initials','Agreement & signature','Review & send'],'groups'=>[['company'],[],['initials'],['agreements'],[]],'read'=>1],
-  'claim'=>['eyebrow'=>'CLAIMS','lead'=>'Complete your claim, attach supporting evidence and sign online.','steps'=>['Shipment','People involved','Incident & evidence','Agreements & signature','Review & send'],'groups'=>[['shipment'],['parties'],['incident'],['claim_agreement'],[]],'read'=>3],
-  'application'=>['eyebrow'=>'CUSTOMER APPLICATION','lead'=>'Complete your company details, review the agreements and sign online. No printing or scanning of forms required.','steps'=>['Your company','Billing & references','Credit options','Agreements & signatures','Review & send'],'groups'=>[['company'],['billing','references'],['credit'],['agreements'],[]],'read'=>3],
- ];
- return $c[$kind]??$c['customer'];
-}
 function pa_form($kind){
  wp_enqueue_style('pelham-applications',plugins_url('../assets/applications.css',__FILE__),[],PA_VERSION);
  wp_enqueue_script('pelham-applications',plugins_url('../assets/applications.js',__FILE__),[],PA_VERSION,true);
- $config=pa_form_config($kind);$schema=pa_schema($kind);$steps=$config['steps'];$groups=$config['groups'];
+ $schema=pa_schema($kind);$steps=$kind==='claim'?['Shipment','People involved','Incident & evidence','Agreements & signature','Review & send']:['Your company','Billing & references','Credit options','Agreements & signatures','Review & send'];
+ $groups=$kind==='claim'?[['shipment'],['parties'],['incident'],['claim_agreement'],[]]:[['company'],['billing','references'],['credit'],['agreements'],[]];
  ob_start(); ?>
 <section class="pa-app" data-kind="<?php echo esc_attr($kind); ?>" data-api="<?php echo esc_url(rest_url('pelham-applications/v1/')); ?>">
- <div class="pa-intro"><?php if($kind!=='claim'){ ?><p class="pa-back-hub"><a href="<?php echo esc_url(remove_query_arg('form',pa_form_url('customer'))); ?>">← All four documents</a></p><?php } ?><span class="pa-eyebrow">PELHAM · <?php echo esc_html($config['eyebrow']); ?></span><?php if(isset(pa_kinds()[$kind])&&$kind!=='claim'){ ?><h2 class="pa-form-title"><?php echo esc_html(pa_kind_label($kind)); ?></h2><?php }else{ ?><h2><?php echo $kind==='claim'?'Tell us what happened.':'Your next move starts here.'; ?></h2><?php } ?><p><?php echo esc_html($config['lead']); ?></p><div class="pa-benefits"><span>Save & continue later</span><span>Draw or upload signatures</span><span>Reviewed by our team</span></div></div>
+ <div class="pa-intro"><span class="pa-eyebrow">PELHAM · <?php echo $kind==='claim'?'CLAIMS':'CUSTOMER APPLICATION'; ?></span><h2><?php echo $kind==='claim'?'Tell us what happened.':'Your next move starts here.'; ?></h2><p><?php echo $kind==='claim'?'Complete your claim, attach supporting evidence and sign online.':'Complete your company details, review the agreements and sign online. No printing or scanning of forms required.'; ?></p><div class="pa-benefits"><span>Save & continue later</span><span>Draw or upload signatures</span><span>Reviewed by our team</span></div></div>
  <?php echo pa_documents_overview($kind); ?>
  <?php echo pa_test_controls(); ?>
  <div class="pa-status" role="status" aria-live="polite"></div><div class="pa-errors" role="alert" tabindex="-1" hidden></div>
@@ -59,7 +38,7 @@ function pa_form($kind){
  <form class="pa-form" novalidate>
  <?php foreach($steps as $i=>$title){ ?><section class="pa-step" data-panel="<?php echo $i; ?>"<?php echo $i?' hidden':''; ?>><header><p class="pa-eyebrow"><?php echo esc_html(pa_t('STEP '.($i+1).' OF 5')); ?></p><h3 tabindex="-1"><?php echo esc_html(pa_t($title)); ?></h3></header>
  <?php if($i===2&&$kind==='application'){?><p>You only need to complete the credit fields if you want to request credit. All credit requests are subject to review.</p><?php } ?>
- <?php if($i===$config['read']){ if(function_exists('pelham_lang')&&pelham_lang()==='es')echo '<p class="pa-help">'.esc_html(pa_t('The agreements are legal documents in English. The English version is the one you sign.')).'</p>'; ?><div class="pa-documents"></div><?php if($i===3){ ?><p class="pa-help">Read the complete agreements above. Confirm the signer identities and acceptances before adding signatures. Dates are recorded automatically when each document is signed.</p><?php }else{ ?><p class="pa-help">Read every page before continuing. You will initial each page in the next step.</p><?php } } elseif($i===3){ ?><p class="pa-help">Confirm the signer identity and acceptance before adding your signature. The date is recorded automatically when the document is signed.</p><?php } ?>
+ <?php if($i===3){ if(function_exists('pelham_lang')&&pelham_lang()==='es')echo '<p class="pa-help">'.esc_html(pa_t('The agreements are legal documents in English. The English version is the one you sign.')).'</p>'; ?><div class="pa-documents"></div><p class="pa-help">Read the complete agreements above. Confirm the signer identities and acceptances before adding signatures. Dates are recorded automatically when each document is signed.</p><?php } ?>
  <div class="pa-fields"><?php foreach($schema as $f){if(!in_array($f['group'],$groups[$i],true))continue;$key=$f['key'];$type=$f['type'];$credit=($f['condition']??'')==='credit'; ?>
  <div class="pa-field<?php echo $type==='checkbox'?' pa-wide':''; ?>"<?php if($credit)echo ' data-credit'; ?>><label for="pa-<?php echo esc_attr($key); ?>"><?php if($type!=='checkbox')echo esc_html(pa_t($f['label'])).($f['required']?' <span aria-hidden="true">*</span>':''); ?>
  <?php if($type==='select'){?><select name="<?php echo esc_attr($key); ?>" id="pa-<?php echo esc_attr($key); ?>"<?php echo $f['required']?' required':''; ?>><option value="">Select an option</option><?php foreach($f['options'] as $option)echo '<option value="'.esc_attr($option).'">'.esc_html(pa_t($option)).'</option>'; ?></select><?php }
@@ -72,7 +51,7 @@ function pa_form($kind){
  </section><?php } ?>
  <div class="pa-actions"><button class="pa-back" type="button">← Back</button><button class="pa-next button" type="button">Continue <span aria-hidden="true">→</span></button><button class="pa-submit button" type="submit" hidden>Send for review <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path d="M5 19 19 5M6 5h13v13" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button></div>
  </form></div><div class="pa-complete" hidden></div>
- <footer class="pa-form-footer"><p>Need a hand? <a href="<?php echo esc_url(pa_link('contact')); ?>">Contact Pelham</a>. <?php if($kind!=='claim'){?><a href="<?php echo esc_url(pa_link('claims')); ?>">Report a shipment claim</a>.<?php } ?></p><p class="pa-help">Verified drafts and signed submissions are stored privately for review by authorized Pelham staff. <a href="<?php echo esc_url(pa_link('privacy-notice')); ?>">Privacy notice</a>.</p></footer>
+ <footer class="pa-form-footer"><p>Need a hand? <a href="<?php echo esc_url(pa_link('contact')); ?>">Contact Pelham</a>. <?php if($kind==='application'){?><a href="<?php echo esc_url(pa_link('claims')); ?>">Report a shipment claim</a>.<?php } ?></p><p class="pa-help">Verified drafts and signed submissions are stored privately for review by authorized Pelham staff. <a href="<?php echo esc_url(pa_link('privacy-notice')); ?>">Privacy notice</a>.</p></footer>
  <?php if(function_exists('pelham_lang')&&pelham_lang()==='es'){$strings=json_decode(file_get_contents(PA_DIR.'/inc/i18n-strings.json'),true)?:[];foreach($schema as $f){$strings[]=$f['label'];foreach($f['options']??[] as $option)$strings[]=$option;}$map=[];foreach(array_unique($strings) as $text)$map[$text]=pelham_t($text); ?><script type="application/json" class="pa-i18n"><?php echo wp_json_encode($map,JSON_HEX_TAG|JSON_HEX_AMP|JSON_UNESCAPED_UNICODE); ?></script><?php } ?>
  <script type="application/json" class="pa-schema"><?php echo wp_json_encode($schema,JSON_HEX_TAG|JSON_HEX_AMP); ?></script>
 </section>

@@ -28,7 +28,7 @@ function pa_api(WP_REST_Request $r){
  try{
   if($op==='start'){
    if(!empty($body['website']))return pa_error('Unable to start this request.');
-   $raw_email=$body['email']??'';if(!is_string($raw_email)||!pa_email_valid(trim($raw_email)))return pa_error('Enter a valid email address with a public domain.',400,['email'=>'Check your email address.']);$email=trim($raw_email);$kind=$body['kind']??'';if(!isset(pa_kinds()[$kind]))return pa_error('Unknown form.',400);if(!is_email($email))return pa_error('Enter a valid email address.',400,['email'=>'Enter a valid email address.']);
+   $raw_email=$body['email']??'';if(!is_string($raw_email)||!pa_email_valid(trim($raw_email)))return pa_error('Enter a valid email address with a public domain.',400,['email'=>'Check your email address.']);$email=trim($raw_email);$kind=($body['kind']??'')==='claim'?'claim':'application';if(!is_email($email))return pa_error('Enter a valid email address.',400,['email'=>'Enter a valid email address.']);
    if(!pa_rate('start-ip:'.($_SERVER['REMOTE_ADDR']??''),12)||!pa_rate('start-email:'.strtolower($email),4))return pa_error('Please wait before requesting another link.',429);
    // Fail before creating records if encryption is not available.
    pa_encrypt(['check'=>true]);
@@ -85,9 +85,9 @@ function pa_api(WP_REST_Request $r){
    pa_put($id,$p);pa_put($id,$p,'_pa_revision_'.$rev);update_post_meta($id,'_pa_revision',$rev);update_post_meta($id,'_pa_status','received');
    $company=$p['data']['company']??$p['data']['contact_name'];wp_update_post(['ID'=>$id,'post_title'=>pa_reference($id).' — '.$company]);
    pa_audit($id,'Customer submitted revision '.$rev);
-   $summary=pa_reference($id)."\n".$company."\nContact: ".$p['data']['contact_name']."\nEmail: ".$p['email']."\nPhone: ".$p['data']['phone']."\nForm: ".pa_kind_label($p['kind']).($p['kind']==='application'?"\nCredit requested: ".($p['data']['request_credit']??'No'):'')."\n\nReview the private record (sign-in required):\n".admin_url('admin.php?page=pelham-applications&record='.$id);
+   $summary=pa_reference($id)."\n".$company."\nContact: ".$p['data']['contact_name']."\nEmail: ".$p['email']."\nPhone: ".$p['data']['phone']."\nCredit requested: ".($p['data']['request_credit']??'Not applicable')."\n\nReview the private record (sign-in required):\n".admin_url('admin.php?page=pelham-applications&record='.$id);
    $lang=pa_request_lang($id);$summary.="\nCustomer language: ".($lang==='es'?'Spanish (reply in Spanish)':'English');
-   pa_queue($id,'sales-'.$rev,pa_sales_email(),'Pelham — new '.pa_kind_label($p['kind']).' '.pa_reference($id),$summary);
+   pa_queue($id,'sales-'.$rev,pa_sales_email(),'Pelham — new '.$p['kind'].' '.pa_reference($id),$summary);
    pa_queue($id,'receipt-'.$rev,$p['email'],sprintf(pa_t_for('Pelham — request received %s',$lang),pa_reference($id)),strtr(pa_t_for('We received your %1. Reference: %2. Our team will review the information and contact you. This does not automatically approve credit, a claim, or customer portal access.',$lang),['%1'=>pa_t_for($p['kind']==='claim'?'claim':'application',$lang),'%2'=>pa_reference($id)]));
   }
   $p['saved_at']=gmdate('c');pa_put($id,$p);wp_update_post(['ID'=>$id,'post_title'=>pa_reference($id).' — '.($p['data']['company']??$p['data']['contact_name']??''),'post_modified'=>current_time('mysql'),'post_modified_gmt'=>current_time('mysql',true)]);

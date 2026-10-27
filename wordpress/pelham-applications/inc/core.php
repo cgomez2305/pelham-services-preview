@@ -13,7 +13,7 @@ function pa_t_for($text,$lang){
  $previous=$GLOBALS['pelham_lang_override']??null;$GLOBALS['pelham_lang_override']='es';$out=pelham_t($text);
  if($previous===null)unset($GLOBALS['pelham_lang_override']);else $GLOBALS['pelham_lang_override']=$previous;return $out;
 }
-/** The four independent forms (the former registration documents). 'application' is the legacy combined request. */
+/** Request kinds. 'application' (account application) and 'claim' are the forms; customer, credit and terms were the separate forms of 1.4.0, kept readable for records created with it. */
 function pa_kinds(){return ['customer'=>'Customer Application','credit'=>'Credit Application','terms'=>'Terms and Agreements','claim'=>'Claim Form'];}
 function pa_kind_valid($kind){return is_string($kind)&&(isset(pa_kinds()[$kind])||$kind==='application');}
 function pa_kind_label($kind){return pa_kinds()[$kind]??'Account application';}
@@ -21,7 +21,7 @@ function pa_kind_label($kind){return pa_kinds()[$kind]??'Account application';}
 function pa_page_url($kind,$lang){
  $route=$kind==='claim'?'claims':'register';$url=home_url($kind==='claim'?'/claims/':'/register/');
  if($lang==='es'){$ids=get_option('pelham_i18n_ids',[]);if(!empty($ids[$route])&&get_post_status($ids[$route])==='publish')$url=get_permalink($ids[$route]);}
- return $kind==='claim'?$url:add_query_arg('form',$kind,$url);
+ return $url;
 }
 function pa_error($message,$status=400,$fields=[]){return new WP_Error('pelham_application',$message,['status'=>$status,'fields'=>$fields]);}
 function pa_key(){return hash('sha256',defined('PELHAM_APPLICATIONS_KEY')?PELHAM_APPLICATIONS_KEY:wp_salt('auth'),true);}

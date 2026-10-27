@@ -20,8 +20,7 @@ function pa_test_controls(){
  $return=esc_url_raw(home_url(wp_unslash($_SERVER['REQUEST_URI']??'/')));
  $html='<section class="pa-test-panel"><strong>'.esc_html($title).'</strong><p>'.esc_html($text).'</p><form method="post" action="'.esc_url(admin_url('admin-post.php')).'"><input type="hidden" name="action" value="pa_test_start"><input type="hidden" name="return" value="'.esc_attr($return).'">';
  $html.=$admin?wp_nonce_field('pa_test_start','_wpnonce',true,false):'<input type="hidden" name="pa_test" value="'.esc_attr($token).'">';
- foreach(pa_kinds() as $kind=>$label)$html.='<button type="submit" name="kind" value="'.esc_attr($kind).'">'.esc_html(['customer'=>'Test Customer Application','credit'=>'Test Credit Application','terms'=>'Test Terms and Agreements','claim'=>'Test Claim Form'][$kind]).'</button> ';
- $html.='</form></section>';
+ $html.='<button type="submit" name="kind" value="application">Test account application</button> <button type="submit" name="kind" value="claim">Test freight claim</button></form></section>';
  return $html;
 }
 function pa_test_start(){
@@ -29,12 +28,11 @@ function pa_test_start(){
  if($admin)check_admin_referer('pa_test_start');
  elseif(!$token)wp_die(esc_html(pa_t('This testing link has expired or is not valid. Ask the Pelham team for a new link.')),'',['response'=>403]);
  if(!$admin&&!pa_rate('test-ip:'.($_SERVER['REMOTE_ADDR']??''),20))wp_die(esc_html(pa_t('Please wait before requesting another link.')),'',['response'=>429]);
- $kind=sanitize_key($_POST['kind']??'');if(!isset(pa_kinds()[$kind]))$kind='customer';
+ $kind=($_POST['kind']??'')==='claim'?'claim':'application';
  // Open the matching page (application or claim) in the language the test started from, keeping the testing link.
  $from=(string)wp_parse_url(esc_url_raw(wp_unslash($_POST['return']??'')),PHP_URL_PATH);$route=$kind==='claim'?'claims':'register';
  $routes=function_exists('pelham_i18n_routes')?pelham_i18n_routes():[];
  $return=str_contains($from,'/es/')&&!empty($routes[$route])?home_url('/'.$routes[$route].'/'):home_url('/'.$route.'/');
- if($kind!=='claim')$return=add_query_arg('form',$kind,$return);
  if($token)$return=add_query_arg('pa_test',$token,$return);
  try{
   pa_encrypt(['check'=>true]);
@@ -56,11 +54,11 @@ add_action('admin_post_nopriv_pa_test_start','pa_test_start');
 function pa_test_link_panel(){
  if(!current_user_can('manage_options'))return '';
  $tests=get_posts(['post_type'=>'pelham_application','post_status'=>'private','numberposts'=>-1,'fields'=>'ids','meta_key'=>'_pa_test','meta_value'=>1]);
- $html='<details class="pa-admin-panel pa-settings"'.(pa_test_link_active()?' open':'').'><summary>Client testing link</summary><p>Share these private links so a client can try the four forms (Customer Application, Credit Application, Terms and Agreements and Claim Form) without an email check. Test requests are marked TEST and send no emails. The link expires automatically.</p>';
+ $html='<details class="pa-admin-panel pa-settings"'.(pa_test_link_active()?' open':'').'><summary>Client testing link</summary><p>Share this private link so a client can try the account application and the freight claim without an email check. Test requests are marked TEST and send no emails. The link expires automatically.</p>';
  $token=pa_test_link_token();
  if($token){
-  $links=['English · Customer, Credit and Terms forms'=>add_query_arg('pa_test',$token,home_url('/register/')),'English · Claim Form'=>add_query_arg('pa_test',$token,home_url('/claims/'))];
-  if(function_exists('pelham_i18n_routes')){$routes=pelham_i18n_routes();foreach(['register'=>'Spanish · Customer, Credit and Terms forms','claims'=>'Spanish · Claim Form'] as $route=>$label)if(!empty($routes[$route]))$links[$label]=add_query_arg('pa_test',$token,home_url('/'.$routes[$route].'/'));}
+  $links=['English · account application'=>add_query_arg('pa_test',$token,home_url('/register/')),'English · freight claim'=>add_query_arg('pa_test',$token,home_url('/claims/'))];
+  if(function_exists('pelham_i18n_routes')){$routes=pelham_i18n_routes();foreach(['register'=>'Spanish · account application','claims'=>'Spanish · freight claim'] as $route=>$label)if(!empty($routes[$route]))$links[$label]=add_query_arg('pa_test',$token,home_url('/'.$routes[$route].'/'));}
   $html.='<ul>';foreach($links as $label=>$url)$html.='<li>'.esc_html($label).': <input type="text" readonly class="large-text code" value="'.esc_attr($url).'" onfocus="this.select()"></li>';$html.='</ul>';
   $html.='<p>Active until <strong>'.esc_html(wp_date(get_option('date_format').' '.get_option('time_format'),(int)pa_test_link()['expires'])).'</strong>.</p>';
  }

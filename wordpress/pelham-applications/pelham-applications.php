@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Pelham Applications
  * Description: Private digital account applications, credit, transport agreements and freight claims with drawn or uploaded signatures.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Requires PHP: 8.0
  * Requires at least: 6.4
  * License: GPL-2.0-or-later
  */
 if (!defined('ABSPATH')) exit;
 define('PA_DIR', __DIR__);
-define('PA_VERSION', '1.4.0');
+define('PA_VERSION', '1.4.1');
 require_once PA_DIR.'/inc/core.php';
 require_once PA_DIR.'/inc/validation.php';
 require_once PA_DIR.'/inc/security.php';
@@ -37,15 +37,15 @@ function pa_activate(){
 }
 // Replace the legacy registration at render time, preserving the page in the database.
 add_filter('the_content',function($content){
- if(!is_admin()&&pa_is_page('register')&&in_the_loop()&&is_main_query())return pa_register_page();
+ if(!is_admin()&&pa_is_page('register')&&in_the_loop()&&is_main_query())return pa_form('application');
  return $content;
 },30);
 add_filter('body_class',function($classes){if(pa_is_page(['register','claims']))$classes[]='pelham-digital-onboarding';return $classes;});
 add_action('init',function(){
- add_shortcode('pelham_digital_application',fn()=>pa_register_page());
+ add_shortcode('pelham_digital_application',fn()=>pa_form('application'));
  add_shortcode('pelham_claim_form',fn()=>pa_form('claim'));
  // The old theme fallback must not append a second form on /register/.
- add_shortcode('pelham_registration_form',fn()=>pa_is_page('register')?'':pa_register_page());
+ add_shortcode('pelham_registration_form',fn()=>pa_is_page('register')?'':pa_form('application'));
  add_shortcode('pelham_registration_documents',fn()=>'<p>'.pa_t('Complete your <a href="'.esc_url(pa_link('register')).'">account application online</a>. For an existing shipment issue, <a href="'.esc_url(pa_link('claims')).'">submit a claim</a>.').'</p>');
 },100);
 // Disable the old public upload handler while digital onboarding is active.
