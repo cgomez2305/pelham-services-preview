@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Pelham Applications
  * Description: Private digital account applications, credit, transport agreements and freight claims with drawn or uploaded signatures.
- * Version: 1.3.0
+ * Version: 1.3.1
  * Requires PHP: 8.0
  * Requires at least: 6.4
  * License: GPL-2.0-or-later
  */
 if (!defined('ABSPATH')) exit;
 define('PA_DIR', __DIR__);
-define('PA_VERSION', '1.3.0');
+define('PA_VERSION', '1.3.1');
 require_once PA_DIR.'/inc/core.php';
 require_once PA_DIR.'/inc/validation.php';
 require_once PA_DIR.'/inc/security.php';

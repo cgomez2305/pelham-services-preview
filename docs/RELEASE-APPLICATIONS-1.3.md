@@ -1,12 +1,30 @@
-# Pelham Applications 1.3 — enlace de prueba para el cliente
+# Pelham Applications 1.3 — enlace de prueba y los cuatro documentos
 
-Pelham Applications **1.3.0** · Pelham Content **1.20.6** (traducciones del modo de prueba) · Tema **1.24.0** sin cambios
+Pelham Applications **1.3.1** · Pelham Content **1.20.7** (traducciones) · Tema **1.24.0** sin cambios
 
 Permite que el cliente pruebe la **solicitud de cuenta y crédito** y la **reclamación de carga** sin ser administrador y sin verificar un correo.
 
+## Los cuatro documentos de la página anterior (1.3.1)
+
+La página de registro anterior ofrecía 4 PDF para descargar: **Claim Form, Customer Application, Credit Application y Terms and Agreements**. El plugin ya digitalizaba los cuatro, pero en **dos formularios**, y la página no lo explicaba. Además, al reemplazar el contenido de `/register/`, ocultaba la lista de documentos.
+
+| Documento original | Dónde se completa |
+|---|---|
+| Customer Application | Solicitud de cuenta en línea, pasos 1 y 2 (empresa, facturación, referencias) |
+| Credit Application | Solicitud de cuenta, paso 3, solo si se pide crédito (referencias, banco, garantía personal) |
+| Terms and Agreements | Solicitud de cuenta, paso 4: lectura completa, iniciales y firma |
+| Claim Form | Formulario de reclamación en `/claims/` (`/es/reclamaciones/`) |
+
+En 1.3.1, `/register/` y `/claims/` (y sus versiones en español) muestran arriba **«Your four Pelham documents» / «Sus cuatro documentos de Pelham»**. Son cuatro tarjetas, una por documento, y cada una incluye:
+- en qué paso o página se completa ese documento;
+- la marca «In this application» / «On this page» si es el formulario actual, o un enlace al otro formulario si no lo es;
+- **View original PDF / Ver el PDF original**, que abre el PDF original sin modificar (los mismos archivos verificados en `documents/manifest.json`).
+
+En español, cada documento aparece con su nombre en español y el nombre oficial en inglés entre paréntesis, porque los acuerdos legales se firman en inglés. Con el enlace de prueba activo, el salto entre formularios mantiene el modo de prueba.
+
 ## Cómo se usa
 
-1. Instalar `pelham-applications-1.3.0.zip` y `pelham-content-1.20.6.zip` (reemplazan a los anteriores).
+1. Instalar `pelham-applications-1.3.1.zip` y `pelham-content-1.20.7.zip` (reemplazan a los anteriores).
 2. Administrador: *Pelham Applications → Client testing link → Create link (14 days)*.
 3. Aparecen 4 enlaces privados para enviar al cliente:
    - inglés: solicitud de cuenta (`/register/?pa_test=…`) y reclamación (`/claims/?pa_test=…`);

@@ -1,5 +1,25 @@
 <?php
 if(!defined('ABSPATH'))exit;
+/** The four documents of the former registration page: where each is completed online, with the original PDF. */
+function pa_documents_overview($kind){
+ $token=function_exists('pa_test_request_token')?pa_test_request_token():'';
+ $link=function($route)use($token){$url=pa_link($route);return $token?add_query_arg('pa_test',$token,$url):$url;};
+ $docs=[
+  ['Customer Application','Customer-Application','Steps 1 and 2 of the online account application: company, billing and references.','application'],
+  ['Credit Application','Credit-Application','Step 3 of the online account application, only if you request credit.','application'],
+  ['Terms and Agreements','Terms-and-Agreements-Pelham','Step 4 of the online account application: read and sign online.','application'],
+  ['Claim Form','Claim-Form','Separate online form to report loss or damage on a shipment.','claim'],
+ ];
+ $html='<section class="pa-doc-overview" aria-labelledby="pa-doc-overview-title"><h3 id="pa-doc-overview-title">'.esc_html(pa_t('Your four Pelham documents')).'</h3><p>'.esc_html(pa_t($kind==='claim'?'The Claim Form is completed and signed on this page. The Customer Application, Credit Application and Terms and Agreements are part of the online account application.':'The Customer Application, Credit Application and Terms and Agreements are completed and signed in the online application below. The Claim Form has its own page.')).'</p><ul class="pa-doc-grid">';
+ foreach($docs as [$title,$file,$where,$flow]){
+  $here=$flow===$kind;
+  $html.='<li class="pa-doc-card'.($here?' is-here':'').'"><svg class="pa-doc-icon" aria-hidden="true" width="28" height="28" viewBox="0 0 24 24"><path d="M6 2.75h8.5L19.25 7.5v13.75H6zM14.25 3v4.75H19M9 12h7M9 15.5h7M9 19h4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  $html.='<h4>'.esc_html(pa_t($title)).'</h4><p>'.esc_html(pa_t($where)).'</p><div class="pa-doc-actions">';
+  $html.=$here?'<span class="pa-doc-here">'.esc_html(pa_t($flow==='claim'?'On this page':'In this application')).'</span>':'<a class="pa-doc-go" href="'.esc_url($link($flow==='claim'?'claims':'register')).'">'.esc_html(pa_t($flow==='claim'?'Open the claim form':'Open the account application')).'</a>';
+  $html.='<a class="pa-doc-pdf" href="'.esc_url(plugins_url('documents/'.$file.'.pdf',dirname(__DIR__).'/pelham-applications.php')).'" target="_blank" rel="noopener">'.esc_html(pa_t('View original PDF')).'<span class="screen-reader-text"> '.esc_html(pa_t('(opens in a new tab)')).'</span></a></div></li>';
+ }
+ return $html.'</ul></section>';
+}
 function pa_form($kind){
  wp_enqueue_style('pelham-applications',plugins_url('../assets/applications.css',__FILE__),[],PA_VERSION);
  wp_enqueue_script('pelham-applications',plugins_url('../assets/applications.js',__FILE__),[],PA_VERSION,true);
@@ -8,6 +28,7 @@ function pa_form($kind){
  ob_start(); ?>
 <section class="pa-app" data-kind="<?php echo esc_attr($kind); ?>" data-api="<?php echo esc_url(rest_url('pelham-applications/v1/')); ?>">
  <div class="pa-intro"><span class="pa-eyebrow">PELHAM · <?php echo $kind==='claim'?'CLAIMS':'CUSTOMER APPLICATION'; ?></span><h2><?php echo $kind==='claim'?'Tell us what happened.':'Your next move starts here.'; ?></h2><p><?php echo $kind==='claim'?'Complete your claim, attach supporting evidence and sign online.':'Complete your company details, review the agreements and sign online. No printing or scanning of forms required.'; ?></p><div class="pa-benefits"><span>Save & continue later</span><span>Draw or upload signatures</span><span>Reviewed by our team</span></div></div>
+ <?php echo pa_documents_overview($kind); ?>
  <?php echo pa_test_controls(); ?>
  <div class="pa-status" role="status" aria-live="polite"></div><div class="pa-errors" role="alert" tabindex="-1" hidden></div>
  <noscript><p><?php echo pa_t('This digital application needs JavaScript to save securely and capture signatures. Please enable it or <a href="'.esc_url(pa_link('contact')).'">contact our team for assistance</a>.'); ?></p></noscript>

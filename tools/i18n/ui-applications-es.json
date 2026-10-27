@@ -320,5 +320,22 @@
  "Create a separate test request. Use fictitious data: no emails are sent for these records. This does not verify email delivery.": "Cree una solicitud de prueba independiente. Use datos ficticios: estas solicitudes no envían correos. Esto no comprueba la entrega de correo.",
  "Create a test request without verifying an email address. Use fictitious data: test requests are marked TEST, no emails are sent and the team can delete them.": "Cree una solicitud de prueba sin verificar un correo electrónico. Use datos ficticios: las solicitudes de prueba se marcan como TEST, no envían correos y el equipo puede borrarlas.",
  "This testing link has expired or is not valid. Ask the Pelham team for a new link.": "Este enlace de prueba ha caducado o no es válido. Pida un enlace nuevo al equipo de Pelham.",
- "TEST — no emails sent": "PRUEBA — no se envían correos"
+ "TEST — no emails sent": "PRUEBA — no se envían correos",
+ "Your four Pelham documents": "Sus cuatro documentos de Pelham",
+ "The Customer Application, Credit Application and Terms and Agreements are completed and signed in the online application below. The Claim Form has its own page.": "La solicitud de cliente (Customer Application), la solicitud de crédito (Credit Application) y los términos y acuerdos (Terms and Agreements) se completan y firman en la solicitud en línea de abajo. El formulario de reclamación (Claim Form) tiene su propia página.",
+ "The Claim Form is completed and signed on this page. The Customer Application, Credit Application and Terms and Agreements are part of the online account application.": "El formulario de reclamación (Claim Form) se completa y firma en esta página. La solicitud de cliente, la solicitud de crédito y los términos y acuerdos forman parte de la solicitud de cuenta en línea.",
+ "Customer Application": "Solicitud de cliente (Customer Application)",
+ "Credit Application": "Solicitud de crédito (Credit Application)",
+ "Terms and Agreements": "Términos y acuerdos (Terms and Agreements)",
+ "Claim Form": "Formulario de reclamación (Claim Form)",
+ "Steps 1 and 2 of the online account application: company, billing and references.": "Pasos 1 y 2 de la solicitud de cuenta en línea: empresa, facturación y referencias.",
+ "Step 3 of the online account application, only if you request credit.": "Paso 3 de la solicitud de cuenta en línea, solo si solicita crédito.",
+ "Step 4 of the online account application: read and sign online.": "Paso 4 de la solicitud de cuenta en línea: léalos y fírmelos en línea.",
+ "Separate online form to report loss or damage on a shipment.": "Formulario en línea aparte para reportar pérdida o daño en un envío.",
+ "On this page": "En esta página",
+ "In this application": "En esta solicitud",
+ "Open the claim form": "Abrir el formulario de reclamación",
+ "Open the account application": "Abrir la solicitud de cuenta",
+ "View original PDF": "Ver el PDF original",
+ "(opens in a new tab)": "(se abre en una pestaña nueva)"
 }
