@@ -4,8 +4,8 @@ Objetivo: que el cliente pruebe los formularios reales en inglés y en español 
 
 Paquetes:
 - `pelham-modern-1.24.0.zip`
-- `pelham-content-1.20.7.zip`
-- `pelham-applications-1.3.1.zip`
+- `pelham-content-1.20.8.zip`
+- `pelham-applications-1.4.0.zip`
 
 ## 1. Crear el sitio de prueba (unos 15 minutos)
 
@@ -14,8 +14,8 @@ Paquetes:
 3. **WordPress.** En hPanel: *Sitios web → Instalador automático → WordPress*, en el subdominio. Idioma del sitio: **inglés**; el español lo crea el plugin.
 4. **Tema y plugins.**
    1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.24.0.zip` → Activar.
-   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.20.7.zip` → Activar.
-   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.3.1.zip` → Activar.
+   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.20.8.zip` → Activar.
+   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.0.zip` → Activar.
 5. **Primera visita al administrador.**
    - El plugin crea las páginas y la versión en español (aviso «Spanish site created…»).
    - Fija la estructura de enlaces `/news/%postname%/`; no hay que tocar *Ajustes → Enlaces permanentes*.
@@ -55,10 +55,10 @@ wget -q -O - "https://prueba.pelhamservices.com/wp-cron.php?doing_wp_cron" >/dev
 
 ## 5. Enlace de prueba de Pelham Applications
 
-Para que el cliente pruebe la solicitud de cuenta y crédito y la reclamación sin verificar un correo:
+Para que el cliente pruebe los cuatro formularios (Customer Application, Credit Application, Terms and Agreements y Claim Form) sin verificar un correo:
 
 1. *Pelham Applications → Client testing link → Create link (14 days)*.
-2. Enviarle los enlaces que aparecen (inglés y español). En la página verá **«Test mode» / «Modo de prueba»** con los botones para probar cada formulario.
+2. Enviarle los enlaces que aparecen (inglés y español). En la página verá **«Test mode» / «Modo de prueba»** con un botón por formulario.
 3. Las solicitudes de prueba se marcan como **TEST** y no envían correos.
 4. Al terminar: *Delete N test requests* y *Disable link*.
 
@@ -78,12 +78,12 @@ Enviar al cliente la URL de prueba y estas indicaciones:
 | 3 | `/quote/` · elegir LTL y cambiar entre Expedited, Regular y Economy | Debajo aparece el plazo estimado y la cobertura de cada nivel (Expedited: solo de Homestead a West Palm Beach). |
 | 4 | `/contact/` y `/es/contacto/` | Mensaje de confirmación y correo «Contact enquiry». |
 | 5 | Enviar sin rellenar campos obligatorios | Errores junto a cada campo y en el idioma de la página. |
-| 6 | `/register/` · empezar solicitud con su correo (sin enlace de prueba) | Mensaje «Check your email…». Llega un enlace privado; al abrirlo continúa la solicitud guardada. |
-| 7 | `/es/registro/` · completar y firmar | Toda la interfaz en español. Al enviar, acuse de recibo al cliente y aviso al equipo. |
+| 6 | `/register/` · elegir un documento (p. ej. Credit Application) y empezar con su correo (sin enlace de prueba) | Mensaje «Check your email…». Llega un enlace privado que abre ese mismo formulario con la solicitud guardada. |
+| 7 | `/es/registro/` · completar y firmar cada uno de los tres formularios | Toda la interfaz en español. Cada formulario se envía por separado, con su referencia, su acuse de recibo y su aviso al equipo. |
 | 8 | `/claims/` · reclamación de prueba | Mismo flujo con enlace privado y acuse de recibo. |
 | 9 | Selector **ES / EN** en cualquier página | Lleva a la misma página en el otro idioma. |
 | 10 | Artículos del blog: enlaces internos y «Related freight guides» | Cada enlace abre `/news/…` (o `/es/blog/…`) directamente, sin redirección. |
-| 11 | Enlace de prueba · «Probar la solicitud de cuenta» y «Probar la reclamación de carga» | Se abre la solicitud con referencia TEST, sin pedir correo. Se puede completar, firmar y enviar. No llega ningún correo. |
+| 11 | Enlace de prueba · un botón por formulario (Customer, Credit, Terms, Claim) | Cada botón abre su formulario con referencia TEST, sin pedir correo. Se puede completar, firmar y enviar. No llega ningún correo. |
 
 Las solicitudes de prueba del registro se pueden borrar después en el administrador de Pelham Applications.
 
