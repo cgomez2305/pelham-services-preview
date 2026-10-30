@@ -1,6 +1,6 @@
 # Revisiones del cliente del 28 de octubre: tema 1.25 / contenido 1.21
 
-Tema **1.26.0** · Pelham Content **1.21.3** · Pelham Applications **1.4.1** (sin cambios)
+Tema **1.26.0** · Pelham Content **1.21.4** · Pelham Applications **1.4.1** (sin cambios)
 
 Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los títulos SEO, los H1 y los H2 con keywords.
 
@@ -20,6 +20,23 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - La URL de Gardena: `/locations/gardena-ca/` y `/es/ubicaciones/gardena-los-angeles/`.
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
+
+## Commodity por categorías (contenido 1.21.4)
+
+El cliente explicó que «commodity» es el **tipo de mercancía**, que va clasificado, y que con él el equipo ya sabe cómo es la carga y cómo viene empacada. En LTL y FTL el campo es ahora:
+
+- **Commodity (type of goods)**: una lista obligatoria con 12 categorías.
+  - Apparel and textiles · Footwear · Auto parts and accessories · Perfume and cosmetics · Costume jewelry and accessories · Electronics and appliances · Furniture and home goods · Food and beverages (non-perishable) · Packaging, paper and supplies · Building materials and hardware · Machinery and equipment · Other.
+  - En español: Ropa y textiles, Calzado, Autopartes, Perfumes y cosméticos, Bisutería, etc.
+- **Describe the goods**: opcional, con el ejemplo «sneakers in cartons, 12 pairs per box». Si eligen **Other**, pasa a ser obligatorio.
+- Una nota explica para qué sirve: «The commodity is the type of goods you are shipping. It tells our team how the freight looks and how it is packed…».
+- Con **Perfume and cosmetics** aparece un aviso: los productos con alcohol pueden estar regulados como materiales peligrosos y el equipo confirmará la documentación y el empaque.
+- El correo al equipo incluye `Commodity: Footwear` y `Commodity details: …`.
+- El servidor solo acepta categorías de la lista y exige la descripción con «Other».
+
+La lista de categorías está en `pelham_commodities()`, en `pelham-content.php`. Si el cliente usa otra clasificación, se cambia ahí y en `tools/i18n/ui-es.json`.
+
+De paso se corrigió «(optional)», que salía en inglés en algunos campos del español; ahora es «(opcional)».
 
 ## Logo real (1.26.0 / 1.21.3)
 
@@ -77,7 +94,7 @@ El servidor valida los mismos datos que el navegador, con errores junto a cada c
 
 ## Instalación en un sitio existente
 
-1. Subir el tema `pelham-modern-1.26.0.zip` y el plugin `pelham-content-1.21.3.zip`; reemplazan a los anteriores.
+1. Subir el tema `pelham-modern-1.26.0.zip` y el plugin `pelham-content-1.21.4.zip`; reemplazan a los anteriores.
 2. Entrar en el administrador. Aparece el aviso **«the client’s web revisions of October 28 are ready»**; pulsar **Apply web revisions (save backups)**. El botón hace esto:
    - cambia solo las frases afectadas de Quote, About, Our network, Gardena y LTL, en inglés y en español;
    - quita la barra de llamadas;

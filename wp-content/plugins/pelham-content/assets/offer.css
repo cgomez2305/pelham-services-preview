@@ -31,3 +31,4 @@
  #handling-comparison td:nth-child(2)::before{content:'Question it answers'}#handling-comparison td:nth-child(3)::before{content:'Example'}
 }
 .quote-details{margin:6px 0 4px;padding:18px 20px;border:1px solid #d6e5db;border-radius:12px;background:#f6faf7}.quote-details[hidden],.quote-details label[hidden]{display:none!important}.quote-details-title{margin:0 0 10px!important;font-weight:600;color:#173d2c}.quote-details .form-grid{gap:14px 18px}
+.quote-details .quote-wide{grid-column:1/-1}.quote-details select{width:100%}.quote-commodity-help{margin:2px 0 0!important;font-size:14px;line-height:1.55;color:#4c5c53}.quote-commodity-help [data-commodity-note]:not(:empty){display:block;margin-top:6px;color:#7a4b00;font-weight:600}

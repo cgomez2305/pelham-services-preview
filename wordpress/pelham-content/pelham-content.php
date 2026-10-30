@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.21.3
+ * Version: 1.21.4
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -165,7 +165,11 @@ add_shortcode('pelham_form',function($attrs){
  <div class="form-grid quote-route"><?php foreach(['origin'=>['pin','Origin ZIP code','e.g. 90248'],'destination'=>['flag','Destination ZIP code','e.g. 33166']] as $key=>[$icon,$label,$example]){ ?><label><?php echo pelham_icon($icon).esc_html(pelham_t($label)); ?> <span class="field-requirement"><span aria-hidden="true">*</span></span><input type="text" name="<?php echo esc_attr($key); ?>" required inputmode="numeric" autocomplete="postal-code" maxlength="10" pattern="[0-9]{5}(-[0-9]{4})?" aria-describedby="quote-route-help" placeholder="<?php echo esc_attr(pelham_t($example)); ?>"></label><?php } ?></div>
  <?php // Shipment details for LTL (with cubic feet) and FTL (total weight); offer.js shows the set that matches the service. ?>
  <div class="quote-details" data-quote-details><p class="quote-details-title"><?php echo esc_html(pelham_t('Shipment details')); ?></p><div class="form-grid">
- <?php foreach(['pieces'=>['Pieces','number','min="1" step="1" inputmode="numeric"',''],'weight'=>['Weight (lb)','number','min="1" step="any" inputmode="decimal"',''],'cubic_feet'=>['Cubic feet','number','min="0.1" step="any" inputmode="decimal"','ltl'],'commodity'=>['Commodity','text','maxlength="150" placeholder="'.esc_attr(pelham_t('e.g. wearing apparel, auto parts')).'"',''],'value'=>['Value (USD)','number','min="0" step="any" inputmode="decimal"','']] as $key=>[$label,$type,$attributes,$only]){ ?><label<?php if($only)echo ' data-ltl-only'; ?>><span<?php if($key==='weight')echo ' data-label-ltl="'.esc_attr(pelham_t('Weight (lb)')).'" data-label-ftl="'.esc_attr(pelham_t('Total weight (lb)')).'"'; ?>><?php echo esc_html(pelham_t($label)); ?></span> <span class="field-requirement"><span aria-hidden="true">*</span></span><input type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($key); ?>" <?php echo $attributes; ?>></label><?php } ?>
+ <?php foreach(['pieces'=>['Pieces','number','min="1" step="1" inputmode="numeric"',''],'weight'=>['Weight (lb)','number','min="1" step="any" inputmode="decimal"',''],'cubic_feet'=>['Cubic feet','number','min="0.1" step="any" inputmode="decimal"','ltl'],'value'=>['Value (USD)','number','min="0" step="any" inputmode="decimal"','']] as $key=>[$label,$type,$attributes,$only]){ ?><label<?php if($only)echo ' data-ltl-only'; ?>><span<?php if($key==='weight')echo ' data-label-ltl="'.esc_attr(pelham_t('Weight (lb)')).'" data-label-ftl="'.esc_attr(pelham_t('Total weight (lb)')).'"'; ?>><?php echo esc_html(pelham_t($label)); ?></span> <span class="field-requirement"><span aria-hidden="true">*</span></span><input type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($key); ?>" <?php echo $attributes; ?>></label><?php } ?>
+ <?php // Commodity: the type of goods, by category, so the team knows how the freight looks and is packed. ?>
+ <label class="quote-wide"><span><?php echo esc_html(pelham_t('Commodity (type of goods)')); ?></span> <span class="field-requirement"><span aria-hidden="true">*</span></span><select name="commodity" aria-describedby="commodity-help"><option value=""><?php echo esc_html(pelham_t('Choose the type of goods')); ?></option><?php foreach(pelham_commodities() as $value=>[$label,$note]){ ?><option value="<?php echo esc_attr($value); ?>"<?php if($note)echo ' data-note="'.esc_attr(pelham_t($note)).'"'; ?>><?php echo esc_html(pelham_t($label)); ?></option><?php } ?></select></label>
+ <label class="quote-wide"><span><?php echo esc_html(pelham_t('Describe the goods')); ?></span> <span class="field-requirement" data-commodity-optional>(<?php echo esc_html(pelham_ui('form_optional','optional')); ?>)</span><input type="text" name="commodity_detail" maxlength="150" data-optional placeholder="<?php echo esc_attr(pelham_t('e.g. sneakers in cartons, 12 pairs per box')); ?>"></label>
+ <p class="quote-wide quote-commodity-help" id="commodity-help"><?php echo esc_html(pelham_t('The commodity is the type of goods you are shipping. It tells our team how the freight looks and how it is packed, so we can plan the handling and quote accurately.')); ?> <span data-commodity-note></span></p>
  </div></div>
  <div class="quote-guidance" id="quote-guidance" aria-live="polite" aria-atomic="true">
  <?php echo esc_html(pelham_ui('quote_guide_general','Tell us what you are shipping, the approximate quantity or weight, and your preferred dates. If you are unsure which service fits, describe the move and our team can help.')); ?>
@@ -191,21 +195,36 @@ function pelham_handle_enquiry(){
  $finish=function($status,$errors=[])use($return){wp_safe_redirect(add_query_arg(['pelham_status'=>$status,'pelham_errors'=>implode(',',$errors)],$return).'#main-content');exit;};
  if(!isset($_POST['pelham_nonce'])||!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['pelham_nonce'])),'pelham_enquiry'))$finish('invalid',['session']);
  if(!empty($_POST['website']))$finish('invalid');
- $fields=[];foreach(['name','email','company','phone','business','origin','destination','service','ltl_level','freight','pieces','weight','cubic_feet','commodity','value','message','kind'] as $key)$fields[$key]=sanitize_textarea_field(wp_unslash($_POST[$key]??''));
+ $fields=[];foreach(['name','email','company','phone','business','origin','destination','service','ltl_level','freight','pieces','weight','cubic_feet','commodity','commodity_detail','value','message','kind'] as $key)$fields[$key]=sanitize_textarea_field(wp_unslash($_POST[$key]??''));
  $service=$fields['kind']==='quote'?pelham_quote_service_slug($fields['service']):'';$structured=in_array($service,['freight-consolidation','dedicated-transport'],true);
- if(!$structured)foreach(['pieces','weight','cubic_feet','commodity','value'] as $key)$fields[$key]='';
+ if(!$structured)foreach(['pieces','weight','cubic_feet','commodity','commodity_detail','value'] as $key)$fields[$key]='';
  if($service!=='freight-consolidation')$fields['cubic_feet']='';
  $errors=[];if($fields['ltl_level']!==''){ $ltl=get_posts(['post_type'=>'pelham_service','name'=>'freight-consolidation','numberposts'=>1]);$labels=[];foreach(array_filter([$ltl[0]??null,$ltl?pelham_translation($ltl[0],'es'):null]) as $version){$labels[]=$version->post_title;$labels[]=get_post_meta($version->ID,'pelham_service_label',true);}$labels=array_values(array_filter($labels));if($fields['kind']!=='quote'||!in_array($fields['service'],$labels,true)||!isset(pelham_ltl_levels()[$fields['ltl_level']]))$errors[]='service';else{$level=pelham_ltl_levels()[$fields['ltl_level']];$fields['ltl_level']=implode(' | ',[$level[0],$level[1].' calendar days from pickup (estimated, not guaranteed)',$level[2]]);}}$business_options=function_exists('pelham_audience_data')?pelham_audience_data()['business_options']:[];$fields['business']=$business_options[$fields['business']]??'';if(!$fields['name'])$errors[]='name';if(!is_email($fields['email']))$errors[]='email';if((!$structured&&!$fields['message'])||strlen($fields['message'])>5000)$errors[]='message';if(empty($_POST['consent']))$errors[]='consent';if($fields['kind']==='quote')foreach(['origin','destination'] as $key)if(!preg_match('/^\d{5}(-\d{4})?$/',$fields[$key]))$errors[]=$key;
- if($structured){foreach(['pieces'=>1,'weight'=>0.01,'value'=>0]+($service==='freight-consolidation'?['cubic_feet'=>0.01]:[]) as $key=>$min)if(!is_numeric($fields[$key])||(float)$fields[$key]<$min||(float)$fields[$key]>99999999)$errors[]=$key;if(trim($fields['commodity'])==='')$errors[]='commodity';if(is_numeric($fields['pieces'])&&floor((float)$fields['pieces'])!=(float)$fields['pieces'])$errors[]='pieces';}
+ if($structured){foreach(['pieces'=>1,'weight'=>0.01,'value'=>0]+($service==='freight-consolidation'?['cubic_feet'=>0.01]:[]) as $key=>$min)if(!is_numeric($fields[$key])||(float)$fields[$key]<$min||(float)$fields[$key]>99999999)$errors[]=$key;$commodities=pelham_commodities();if(!isset($commodities[$fields['commodity']]))$errors[]='commodity';elseif($fields['commodity']==='other'&&trim($fields['commodity_detail'])==='')$errors[]='commodity_detail';else $fields['commodity']=$fields['commodity']==='other'?'Other':$commodities[$fields['commodity']][0];if(is_numeric($fields['pieces'])&&floor((float)$fields['pieces'])!=(float)$fields['pieces'])$errors[]='pieces';}
  if($errors)$finish('invalid',array_unique($errors));
  $ip=isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'';$rate='pelham_rate_'.hash_hmac('sha256',$ip,wp_salt());if(get_transient($rate))$finish('limited');set_transient($rate,1,2*MINUTE_IN_SECONDS);
  $opts=get_option('pelham_company',pelham_defaults());$to=sanitize_email($opts['recipient']??get_option('admin_email'));
- $names=['origin'=>'Origin ZIP','destination'=>'Destination ZIP','ltl_level'=>'LTL level','pieces'=>'Pieces','weight'=>$service==='dedicated-transport'?'Total weight (lb)':'Weight (lb)','cubic_feet'=>'Cubic feet','commodity'=>'Commodity','value'=>'Value (USD)'];
- $body='New website enquiry'."\n\n";foreach($fields as $key=>$value){if($value===''&&in_array($key,['ltl_level','pieces','weight','cubic_feet','commodity','value'],true))continue;$body.=($names[$key]??ucfirst($key)).': '.$value."\n";}
+ $names=['origin'=>'Origin ZIP','destination'=>'Destination ZIP','ltl_level'=>'LTL level','pieces'=>'Pieces','weight'=>$service==='dedicated-transport'?'Total weight (lb)':'Weight (lb)','cubic_feet'=>'Cubic feet','commodity'=>'Commodity','commodity_detail'=>'Commodity details','value'=>'Value (USD)'];
+ $body='New website enquiry'."\n\n";foreach($fields as $key=>$value){if($value===''&&in_array($key,['ltl_level','pieces','weight','cubic_feet','commodity','commodity_detail','value'],true))continue;$body.=($names[$key]??ucfirst($key)).': '.$value."\n";}
  $body.='Language: '.(pelham_lang()==='es'?'Spanish (reply in Spanish)':'English')."\n";
  $sent=wp_mail($to,'Pelham website — '.($fields['kind']==='quote'?'Quote request':'Contact enquiry'),$body,['Reply-To: '.sanitize_email($fields['email'])]);$finish($sent?'sent':'failed');
 }
 /** English slug of the quoted service from the submitted option label (English or Spanish). */
+/** Commodity categories for quotes: value => [English label, note shown when chosen]. */
+function pelham_commodities(){return [
+ 'apparel'=>['Apparel and textiles',''],
+ 'footwear'=>['Footwear',''],
+ 'auto-parts'=>['Auto parts and accessories',''],
+ 'perfume-cosmetics'=>['Perfume and cosmetics','Perfume and other products with alcohol can be regulated as hazardous materials. Our team will confirm the paperwork and packaging.'],
+ 'jewelry'=>['Costume jewelry and accessories',''],
+ 'electronics'=>['Electronics and appliances',''],
+ 'furniture'=>['Furniture and home goods',''],
+ 'food'=>['Food and beverages (non-perishable)',''],
+ 'packaging'=>['Packaging, paper and supplies',''],
+ 'building'=>['Building materials and hardware',''],
+ 'machinery'=>['Machinery and equipment',''],
+ 'other'=>['Other (describe below)',''],
+];}
 function pelham_quote_service_slug($label){
  if($label==='')return '';
  foreach(get_posts(['post_type'=>'pelham_service','numberposts'=>-1,'pelham_all_languages'=>true]) as $post)if(in_array($label,array_filter([$post->post_title,get_post_meta($post->ID,'pelham_service_label',true)]),true))return pelham_route_slug($post);

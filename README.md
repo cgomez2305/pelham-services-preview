@@ -1,11 +1,11 @@
-# Pelham Services · WordPress · tema 1.26.0 / contenido 1.21.3 / Applications 1.4.1
+# Pelham Services · WordPress · tema 1.26.0 / contenido 1.21.4 / Applications 1.4.1
 
 Sistema de diseño común para todas las páginas. Tema PHP/CSS/JavaScript y plugin de contenidos editables en `wordpress/`. No requiere React ni compilación en el hosting.
 
 - [Registro digital: Pelham Applications 1.4.1](dist/pelham-applications-1.4.1.zip) · **[Solicitud de cuenta única y enlace de prueba](docs/RELEASE-APPLICATIONS-1.3.md)** · [Vuelta desde 4 formularios separados (1.4.1)](docs/RELEASE-APPLICATIONS-1.4.md) · [Instalación y cobertura de los cuatro PDF](docs/RELEASE-APPLICATIONS-1.0.md)
 - [Refuerzo de seguridad y requisitos pendientes](docs/SECURITY-HARDENING-1.0.3.md)
 - [Tema 1.26.0](dist/pelham-modern-1.26.0.zip)
-- [Plugin de contenidos 1.21.3](dist/pelham-content-1.21.3.zip)
+- [Plugin de contenidos 1.21.4](dist/pelham-content-1.21.4.zip)
 - **[Sitio de prueba en Hostinger y formularios para el cliente](docs/STAGING-PRUEBAS.md)**
 - **[Revisiones del cliente del 28/10: Home, cotización por ZIP, Gardena 1.25 / 1.21](docs/RELEASE-1.25.md)**
 - **[Artículos del blog revisados y enlazado interno 1.20](docs/RELEASE-CONTENT-1.20.md)** · [Revisiones del cliente 1.24 / 1.19](docs/RELEASE-1.24.md) · [Sitio bilingüe inglés / español 1.23 / 1.18 / Applications 1.2](docs/RELEASE-1.23.md) · [Equipo en About y revisión de keywords, H1 y breadcrumbs 1.22.2 / 1.17.2](docs/RELEASE-1.22.1.md) · [Diseño y SEO por público 1.22 / 1.17](docs/RELEASE-1.22.md) · [Fotografía profesional 1.21 / 1.16](docs/RELEASE-1.21.md) · [Scroll horizontal y animaciones 1.20](docs/RELEASE-1.20.md) · [Correcciones 1.19.1 / 1.15.1](docs/RELEASE-1.19.1.md) · [Cambios, pruebas e instalación 1.16](docs/RELEASE-1.16.md)
