@@ -1,6 +1,6 @@
 # Revisiones del cliente del 28 de octubre: tema 1.25 / contenido 1.21
 
-Tema **1.25.2** · Pelham Content **1.21.2** · Pelham Applications **1.4.1** (sin cambios)
+Tema **1.26.0** · Pelham Content **1.21.3** · Pelham Applications **1.4.1** (sin cambios)
 
 Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los títulos SEO, los H1 y los H2 con keywords.
 
@@ -20,6 +20,19 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - La URL de Gardena: `/locations/gardena-ca/` y `/es/ubicaciones/gardena-los-angeles/`.
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
+
+## Logo real (1.26.0 / 1.21.3)
+
+- El logo nuevo es el real del cliente (pájaro sobre «Pelham Services»), con los colores de la web y sin fondo:
+  - pájaro en el verde de la web, `#00a858` (el del botón principal);
+  - texto en el tono oscuro del sitio, `#101713`;
+  - versión para fondo oscuro, con el texto en blanco, para el pie de página.
+- Se quitó el fondo calculando la transparencia de cada píxel, así los bordes quedan suaves y sin halo blanco.
+- Web:
+  - cabecera a 52 px de alto (46 px en móvil) para que «SERVICES» se lea;
+  - pie de página a 150 px de ancho.
+- Archivos en alta resolución (928 × 554, PNG transparente): `brand/pelham-logo-color-928.png` y `brand/pelham-logo-white-928.png`.
+- Si en *Apariencia → Personalizar → Identidad del sitio* hay un logo subido, WordPress muestra ese en lugar del del tema. Hay que quitarlo o subir `brand/pelham-logo-color-928.png`.
 
 ## Segunda ronda del cliente (1.25.2 / 1.21.2)
 
@@ -64,7 +77,7 @@ El servidor valida los mismos datos que el navegador, con errores junto a cada c
 
 ## Instalación en un sitio existente
 
-1. Subir el tema `pelham-modern-1.25.2.zip` y el plugin `pelham-content-1.21.2.zip`; reemplazan a los anteriores.
+1. Subir el tema `pelham-modern-1.26.0.zip` y el plugin `pelham-content-1.21.3.zip`; reemplazan a los anteriores.
 2. Entrar en el administrador. Aparece el aviso **«the client’s web revisions of October 28 are ready»**; pulsar **Apply web revisions (save backups)**. El botón hace esto:
    - cambia solo las frases afectadas de Quote, About, Our network, Gardena y LTL, en inglés y en español;
    - quita la barra de llamadas;
