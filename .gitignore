@@ -14,7 +14,7 @@ docs/audit/
 dist/*.zip
 !dist/pelham-modern-1.26.0.zip
 !dist/pelham-content-1.21.4.zip
-!dist/pelham-applications-1.4.1.zip
+!dist/pelham-applications-1.4.2.zip
 # Downloaded third-party pages are research inputs, not site source.
 docs/geo-audit/*.html
 docs/geo-audit/google-ai.txt

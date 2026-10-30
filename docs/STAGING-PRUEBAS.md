@@ -5,7 +5,7 @@ Objetivo: que el cliente pruebe los formularios reales en inglés y en español 
 Paquetes:
 - `pelham-modern-1.26.0.zip`
 - `pelham-content-1.21.4.zip`
-- `pelham-applications-1.4.1.zip`
+- `pelham-applications-1.4.2.zip`
 
 ## 1. Crear el sitio de prueba (unos 15 minutos)
 
@@ -15,7 +15,7 @@ Paquetes:
 4. **Tema y plugins.**
    1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.26.0.zip` → Activar.
    2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.4.zip` → Activar.
-   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.1.zip` → Activar.
+   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.2.zip` → Activar.
 5. **Primera visita al administrador.**
    - El plugin crea las páginas y la versión en español (aviso «Spanish site created…»).
    - Fija la estructura de enlaces `/news/%postname%/`; no hay que tocar *Ajustes → Enlaces permanentes*.

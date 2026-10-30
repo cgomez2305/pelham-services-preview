@@ -33,3 +33,28 @@ Subir `pelham-applications-1.4.1.zip` y elegir reemplazar la versión instalada.
 - **En el navegador, como un visitante con el enlace de prueba:** solicitud de cuenta con crédito «Sí» y reclamación, en español y en inglés, sin errores JS.
 - **Panel:** filtros y fichas de la 1.3.1; las solicitudes 1.4.0 siguen generando su PDF.
 - **Sitio completo:** las 60 URL pasan la auditoría sin errores PHP ni JS.
+
+## 1.4.2 · Una sola solicitud, sin PDF a la vista
+
+El cliente vio en `/register/` el bloque «Your four Pelham documents», con cuatro tarjetas y enlaces «View original PDF». Le pareció que los documentos seguían separados y que había que descargar el PDF y llenarlo. Lo que quiere es lo de la primera versión: **una sola solicitud en línea que llena el cliente**, con la solicitud de crédito y los términos y acuerdos incluidos.
+
+- **Se quita el bloque de los cuatro documentos** de `/register/`, `/claims/` y sus versiones en español. La página ya no enlaza ningún PDF.
+- **Texto de entrada:** «One online application: your company details, the credit application if you need credit, and the terms and agreements, signed online. No printing or scanning required.» En español: «Una sola solicitud en línea: los datos de su empresa, la solicitud de crédito si necesita crédito, y los términos y acuerdos, firmados en línea…».
+- **La solicitud sigue igual,** en 5 pasos:
+  1. Empresa.
+  2. Facturación y referencias.
+  3. Crédito, opcional.
+  4. Acuerdos y firmas: los textos se leen completos en la página.
+  5. Revisión y envío.
+- **Los PDF originales** solo se usan internamente: el equipo recibe el PDF ya llenado y firmado en el panel *Pelham Applications*.
+
+### Instalación
+Subir `pelham-applications-1.4.2.zip` y reemplazar la 1.4.1. Vaciar la caché de LiteSpeed.
+
+### Pruebas (WordPress 6.8.3 local)
+- `/register/`, `/claims/`, `/es/registro/` y `/es/reclamaciones/`: ningún enlace a PDF ni bloque de documentos.
+- **Solicitud por API:**
+  - con crédito «Sí»: 4 firmas y envío;
+  - con crédito «No»: 2 firmas y envío.
+- **Reclamación:** firma y envío.
+- **En el navegador, con el enlace de prueba:** en español y en inglés, completada hasta el final sin errores JS.
