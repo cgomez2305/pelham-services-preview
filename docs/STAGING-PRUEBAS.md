@@ -3,7 +3,7 @@
 Objetivo: que el cliente pruebe los formularios reales en inglés y en español (Cotizar, Contacto, Registro digital y Reclamaciones) en un WordPress de prueba, sin tocar la web actual.
 
 Paquetes:
-- `pelham-modern-1.26.0.zip`
+- `pelham-modern-1.26.1.zip`
 - `pelham-content-1.21.4.zip`
 - `pelham-applications-1.4.2.zip`
 
@@ -13,7 +13,7 @@ Paquetes:
 2. **SSL.** En hPanel: *Seguridad → SSL*, activar el certificado para el subdominio (el formulario de registro exige HTTPS).
 3. **WordPress.** En hPanel: *Sitios web → Instalador automático → WordPress*, en el subdominio. Idioma del sitio: **inglés**; el español lo crea el plugin.
 4. **Tema y plugins.**
-   1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.26.0.zip` → Activar.
+   1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.26.1.zip` → Activar.
    2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.4.zip` → Activar.
    3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.2.zip` → Activar.
 5. **Primera visita al administrador.**

@@ -8,6 +8,11 @@ add_action('after_setup_theme', function () {
 });
 // Version assets by file modification time so every edited file busts browser
 // and CDN caches, instead of hand-maintained version strings that drift.
+/** Theme logo URL with a content hash, so browsers and the host cache load a replaced logo at once. */
+function pelham_logo_url($file) {
+ $path=get_template_directory().'/assets/'.$file;
+ return add_query_arg('ver', file_exists($path) ? substr(md5_file($path),0,8) : wp_get_theme()->get('Version'), get_template_directory_uri().'/assets/'.$file);
+}
 function pelham_asset_version($file) {
  $path=get_template_directory().'/assets/'.$file;
  return file_exists($path) ? (string) filemtime($path) : wp_get_theme()->get('Version');

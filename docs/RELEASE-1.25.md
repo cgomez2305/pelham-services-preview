@@ -1,6 +1,6 @@
 # Revisiones del cliente del 28 de octubre: tema 1.25 / contenido 1.21
 
-Tema **1.26.0** · Pelham Content **1.21.4** · Pelham Applications **1.4.1** (sin cambios)
+Tema **1.26.1** · Pelham Content **1.21.4** · Pelham Applications **1.4.1** (sin cambios)
 
 Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los títulos SEO, los H1 y los H2 con keywords.
 
@@ -20,6 +20,10 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - La URL de Gardena: `/locations/gardena-ca/` y `/es/ubicaciones/gardena-los-angeles/`.
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
+
+## Logo del pie de página (tema 1.26.1)
+
+El pie de página usa el mismo logo que la cabecera en su versión para fondos oscuros: pájaro verde y texto blanco. Los archivos nuevos se llaman igual que los antiguos, así que el navegador o la caché de Hostinger podían seguir mostrando el logo horizontal anterior. Desde la 1.26.1, la dirección de los dos logos lleva una huella del archivo (`?ver=…`). Cuando se cambia el logo, cambia la dirección y todas las cachés cargan el nuevo.
 
 ## Commodity por categorías (contenido 1.21.4)
 
@@ -94,7 +98,7 @@ El servidor valida los mismos datos que el navegador, con errores junto a cada c
 
 ## Instalación en un sitio existente
 
-1. Subir el tema `pelham-modern-1.26.0.zip` y el plugin `pelham-content-1.21.4.zip`; reemplazan a los anteriores.
+1. Subir el tema `pelham-modern-1.26.1.zip` y el plugin `pelham-content-1.21.4.zip`; reemplazan a los anteriores.
 2. Entrar en el administrador. Aparece el aviso **«the client’s web revisions of October 28 are ready»**; pulsar **Apply web revisions (save backups)**. El botón hace esto:
    - cambia solo las frases afectadas de Quote, About, Our network, Gardena y LTL, en inglés y en español;
    - quita la barra de llamadas;

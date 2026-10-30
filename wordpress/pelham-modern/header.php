@@ -4,7 +4,7 @@
 <body <?php body_class(); ?>><?php wp_body_open(); ?>
 <a class="skip-link" href="#main-content"><?php echo esc_html(pelham_t('Skip to content')); ?></a>
 <header class="site-header"><div class="shell header-inner">
-<a class="brand" href="<?php echo esc_url(pelham_home_link()); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name').' — '.pelham_t('home')); ?>"><?php if (has_custom_logo()) { $id=get_theme_mod('custom_logo'); echo wp_get_attachment_image($id,'full',false,['class'=>'brand-logo']); } else { ?><img src="<?php echo esc_url(get_template_directory_uri().'/assets/pelham-logo.png'); ?>" alt="Pelham Services" width="156" height="93"><?php } ?></a>
+<a class="brand" href="<?php echo esc_url(pelham_home_link()); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name').' — '.pelham_t('home')); ?>"><?php if (has_custom_logo()) { $id=get_theme_mod('custom_logo'); echo wp_get_attachment_image($id,'full',false,['class'=>'brand-logo']); } else { ?><img src="<?php echo esc_url(pelham_logo_url('pelham-logo.png')); ?>" alt="Pelham Services" width="156" height="93"><?php } ?></a>
 <?php if ($pelham_switch) echo str_replace('class="language-switch"','class="language-switch language-switch-bar"',$pelham_switch); ?>
 <button class="menu-toggle" aria-expanded="false" aria-controls="site-navigation"><span class="menu-toggle-label"><?php echo esc_html(pelham_t('Menu')); ?></span><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M4 8h16M4 16h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
 <nav id="site-navigation" aria-label="<?php echo esc_attr(pelham_t('Primary')); ?>">
