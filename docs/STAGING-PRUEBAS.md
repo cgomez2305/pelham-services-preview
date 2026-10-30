@@ -3,8 +3,8 @@
 Objetivo: que el cliente pruebe los formularios reales en inglés y en español (Cotizar, Contacto, Registro digital y Reclamaciones) en un WordPress de prueba, sin tocar la web actual.
 
 Paquetes:
-- `pelham-modern-1.24.0.zip`
-- `pelham-content-1.20.8.zip`
+- `pelham-modern-1.25.0.zip`
+- `pelham-content-1.21.0.zip`
 - `pelham-applications-1.4.1.zip`
 
 ## 1. Crear el sitio de prueba (unos 15 minutos)
@@ -13,8 +13,8 @@ Paquetes:
 2. **SSL.** En hPanel: *Seguridad → SSL*, activar el certificado para el subdominio (el formulario de registro exige HTTPS).
 3. **WordPress.** En hPanel: *Sitios web → Instalador automático → WordPress*, en el subdominio. Idioma del sitio: **inglés**; el español lo crea el plugin.
 4. **Tema y plugins.**
-   1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.24.0.zip` → Activar.
-   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.20.8.zip` → Activar.
+   1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.25.0.zip` → Activar.
+   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.0.zip` → Activar.
    3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.1.zip` → Activar.
 5. **Primera visita al administrador.**
    - El plugin crea las páginas y la versión en español (aviso «Spanish site created…»).
@@ -73,7 +73,8 @@ Enviar al cliente la URL de prueba y estas indicaciones:
 
 | # | Prueba | Resultado esperado |
 |---|---|---|
-| 1 | `/quote/` · LTL, nivel Regular, 4 pallets | «Thank you. Your message has been sent…». Llega un correo «Quote request» al destinatario. |
+| 1 | `/quote/` · LTL, nivel Regular: ZIP 90248 → 33166, piezas, peso, pies cúbicos, mercancía y valor | «Thank you. Your message has been sent…». Llega un correo «Quote request» con cada dato. |
+| 1b | `/quote/` · FTL | Pide «Total weight» y no pide pies cúbicos. El mensaje es opcional. |
 | 2 | `/es/cotizacion/` · «Ayúdenme a elegir» | Mensaje en español. El correo al equipo incluye «Language: Spanish (reply in Spanish)». |
 | 3 | `/quote/` · elegir LTL y cambiar entre Expedited, Regular y Economy | Debajo aparece el plazo estimado y la cobertura de cada nivel (Expedited: solo de Homestead a West Palm Beach). |
 | 4 | `/contact/` y `/es/contacto/` | Mensaje de confirmación y correo «Contact enquiry». |
@@ -84,6 +85,7 @@ Enviar al cliente la URL de prueba y estas indicaciones:
 | 9 | Selector **ES / EN** en cualquier página | Lleva a la misma página en el otro idioma. |
 | 10 | Artículos del blog: enlaces internos y «Related freight guides» | Cada enlace abre `/news/…` (o `/es/blog/…`) directamente, sin redirección. |
 | 11 | Enlace de prueba · «Probar la solicitud de cuenta» y «Probar la reclamación de carga» | Se abre la solicitud con referencia TEST, sin pedir correo. Se puede completar, firmar y enviar. No llega ningún correo. |
+| 12 | Menú principal y Our network | **Home** / **Inicio** es el primer elemento. Gardena aparece como «Pelham Services Gardena». |
 
 Las solicitudes de prueba del registro se pueden borrar después en el administrador de Pelham Applications.
 

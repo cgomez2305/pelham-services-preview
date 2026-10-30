@@ -13,7 +13,8 @@ function pelham_news_permalinks(){
  $current=(string)get_option('permalink_structure');
  if(!in_array($current,['','/%postname%/'],true))return false;
  global $wp_rewrite;$wp_rewrite->set_permalink_structure(PELHAM_NEWS_PERMALINKS);
- pelham_i18n_rewrite_rules();flush_rewrite_rules(false);
+ // Services and facilities registered their rewrite rules before the structure existed (plain permalinks): register them again.
+ pelham_register_content();pelham_i18n_rewrite_rules();flush_rewrite_rules(false);
  return true;
 }
 /** Rewrite stored links to /article-name/ as /news/article-name/ (sites imported under /%postname%/); returns pages changed. */

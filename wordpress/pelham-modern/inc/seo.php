@@ -25,7 +25,7 @@ function pelham_seo_description($post) {
  $defaults = [
   'home'=>'LTL pallet shipping from Los Angeles to Florida. Compare Expedited, Regular and Economy, plus full truckload and freight handling services.',
   'services'=>'Explore domestic LTL and FTL trucking from Los Angeles to Florida, cross-docking and palletizing.',
-  'locations'=>'Explore Pelham facilities in Los Angeles, Orlando and Miami. Confirm receiving arrangements with the team.',
+  'locations'=>'Explore Pelham facilities in Gardena, Orlando and Miami. Confirm receiving arrangements with the team.',
   'news'=>'Read Pelham Services insights on freight transportation, logistics, consolidation and transloading between California and Florida.',
   'contact'=>'Contact Pelham Services for freight transportation support. Reach our Gardena and Miami terminals or send a message to our team.',
   'quote'=>'Request an LTL or FTL quote from Los Angeles to Florida. Share your pallet count, dimensions, weight, pickup and business delivery details.'

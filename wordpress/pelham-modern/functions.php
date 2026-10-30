@@ -87,6 +87,8 @@ function pelham_navigation_current($url) {
  $current = trim((string) wp_parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
  $target = trim((string) wp_parse_url($url, PHP_URL_PATH), '/');
  if ($current === $target) return 'page';
+ // The home page (English or Spanish) is only current on itself, not on every page below it.
+ if ($target === trim((string) wp_parse_url(pelham_home_link(), PHP_URL_PATH), '/')) return '';
  return $target !== '' && strpos($current, $target.'/') === 0 ? 'location' : '';
 }
 add_filter('nav_menu_link_attributes', function ($atts, $item, $args) {

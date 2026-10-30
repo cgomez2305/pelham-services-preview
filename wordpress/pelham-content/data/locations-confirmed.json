@@ -1,12 +1,12 @@
 {
   "gardena-ca": {
-    "title": "Pelham Services Los Angeles",
+    "title": "Pelham Services Gardena",
     "address": "249 East Redondo Beach Blvd\nGardena, CA 90248",
     "phone": null,
-    "content": "<!-- wp:paragraph --><p>Pelham’s Los Angeles facility is in Gardena, California. Confirm receiving arrangements with the team before sending freight.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[pelham_terminal_details]<!-- /wp:shortcode --><!-- wp:paragraph --><p><a href=\"/services/freight-consolidation/\">Compare LTL service levels</a> or <a href=\"/quote/\">request a domestic freight quote</a>.</p><!-- /wp:paragraph -->",
+    "content": "<!-- wp:paragraph --><p>Pelham’s California facility is in Gardena. Confirm receiving arrangements with the team before sending freight.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[pelham_terminal_details]<!-- /wp:shortcode --><!-- wp:paragraph --><p><a href=\"/services/freight-consolidation/\">Compare LTL service levels</a> or <a href=\"/quote/\">request a domestic freight quote</a>.</p><!-- /wp:paragraph -->",
     "seo": {
       "seo_title": "Pelham Services Los Angeles | Freight Facility",
-      "heading": "Pelham Services Los Angeles",
+      "heading": "Pelham Services Gardena",
       "description": "Visit Pelham’s Los Angeles facility in Gardena. Confirm receiving arrangements before sending freight.",
       "keyword": "Los Angeles freight facility",
       "photo": "none"

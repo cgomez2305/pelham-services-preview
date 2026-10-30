@@ -3,22 +3,22 @@
   "segments": {
     "suppliers": {
       "label": "Suppliers",
-      "home": "Palletized orders to Florida customers, from one pallet up.",
+      "home": "Flexible LTL shipping for palletized orders heading to Florida buyers, starting at just one pallet.",
       "business": "supplier"
     },
     "distributors": {
       "label": "Distributors",
-      "home": "Planned replenishment for Florida warehouses and stores.",
+      "home": "Reliable, scheduled replenishment for your Florida warehouses, retail stores and fulfillment centers.",
       "business": "distributor"
     },
     "manufacturers": {
       "label": "Manufacturers",
-      "home": "Finished goods from your California plant, prepared and trucked.",
+      "home": "Seamless dock-to-dock transport for finished goods directly from your California plant.",
       "business": "manufacturer"
     },
     "freight-forwarders": {
       "label": "Freight forwarders",
-      "home": "The domestic leg to your receiving facility in Miami.",
+      "home": "Dependable domestic linehaul service direct to your Miami receiving and export facilities.",
       "business": "forwarder"
     }
   },

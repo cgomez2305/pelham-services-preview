@@ -14,7 +14,7 @@ add_shortcode('pelham_audiences',function($attrs){
   return '<section class="shell audience-band audience-band-service" aria-labelledby="audience-'.esc_attr($attrs['service']).'"><div class="section-heading"><h2 id="audience-'.esc_attr($attrs['service']).'">'.esc_html($config['heading']).'</h2><p><a href="'.esc_url(pelham_audience_link()).'">How we work with each business</a></p></div>'.pelham_audience_rows($config['items']).'</section>';
  }
  $items=array_map(fn($s)=>$s['home'],$data['segments']);
- return '<section class="shell section audience-band" aria-labelledby="who-we-ship-for"><div class="section-heading"><h2 id="who-we-ship-for">Who we<br>ship <em>for.</em></h2><p>From California suppliers and factories to Florida distributors and forwarders. <a href="'.esc_url(pelham_audience_link()).'">How we work with your business</a></p></div>'.pelham_audience_rows($items).'</section>';
+ return '<section class="shell section audience-band" aria-labelledby="who-we-ship-for"><div class="section-heading"><h2 id="who-we-ship-for">Who we<br>ship <em>for.</em></h2><p>Connecting California production directly to Florida supply chains, from single pallets to high-volume distribution. <a href="'.esc_url(pelham_audience_link()).'">How we work with your business</a></p></div>'.pelham_audience_rows($items).'</section>';
 });
 // Homepage: shown after the services rows without editing the saved page. If
 // the layout was customized (no services/network sections), nothing is added.
