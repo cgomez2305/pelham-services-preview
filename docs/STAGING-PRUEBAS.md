@@ -5,7 +5,7 @@ Objetivo: que el cliente pruebe los formularios reales en inglés y en español 
 Paquetes:
 - `pelham-modern-1.26.1.zip`
 - `pelham-content-1.21.4.zip`
-- `pelham-applications-1.4.2.zip`
+- `pelham-applications-1.4.3.zip`
 
 ## 1. Crear el sitio de prueba (unos 15 minutos)
 
@@ -15,7 +15,7 @@ Paquetes:
 4. **Tema y plugins.**
    1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.26.1.zip` → Activar.
    2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.4.zip` → Activar.
-   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.2.zip` → Activar.
+   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.3.zip` → Activar.
 5. **Primera visita al administrador.**
    - El plugin crea las páginas y la versión en español (aviso «Spanish site created…»).
    - Fija la estructura de enlaces `/news/%postname%/`; no hay que tocar *Ajustes → Enlaces permanentes*.
@@ -53,16 +53,18 @@ En hPanel: *Avanzado → Cron Jobs*, crear una tarea **cada 5 minutos**:
 wget -q -O - "https://prueba.pelhamservices.com/wp-cron.php?doing_wp_cron" >/dev/null 2>&1
 ```
 
-## 5. Enlace de prueba de Pelham Applications
+## 5. Formularios de prueba de Pelham Applications
 
-Para que el cliente pruebe la solicitud de cuenta y crédito y la reclamación sin verificar un correo:
+**En el sitio de prueba no hace falta nada.** Desde la 1.4.3, en cualquier dominio que no sea `pelhamservices.com`, las páginas `/register/`, `/claims/`, `/es/registro/` y `/es/reclamaciones/` muestran a cualquier visitante el recuadro **«Test mode» / «Modo de prueba»**, con dos botones:
+- **Test account application** / **Probar la solicitud de cuenta**: abre la solicitud única (empresa, crédito opcional, términos y firmas), sin verificar el correo.
+- **Test freight claim** / **Probar la reclamación de carga**.
 
-1. *Pelham Applications → Client testing link → Create link (14 days)*.
-2. Enviarle los enlaces que aparecen (inglés y español). En la página verá **«Test mode» / «Modo de prueba»** con los botones para probar cada formulario.
-3. Las solicitudes de prueba se marcan como **TEST** y no envían correos.
-4. Al terminar: *Delete N test requests* y *Disable link*.
+Las solicitudes de prueba se marcan **TEST** y no envían correos. Al terminar: *Pelham Applications → Client testing link → Delete N test requests*.
 
-Detalle en `docs/RELEASE-APPLICATIONS-1.3.md`. Para probar también los correos del registro, el cliente usa el formulario normal (sin enlace de prueba) con su correo real.
+- **Ocultar los botones** en el sitio de prueba: *Client testing link → Hide test buttons from visitors*. Así solo funcionan el enlace secreto (*Create link (14 days)*) y los administradores.
+- **En `pelhamservices.com` nunca aparecen.** Ahí solo funciona el enlace secreto.
+
+Detalle en `docs/RELEASE-APPLICATIONS-1.4.md`. Para probar también los correos del registro, el cliente usa el formulario normal («Start with your email») con su correo real.
 
 ## 6. Lista de pruebas para el cliente
 

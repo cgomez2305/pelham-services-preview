@@ -1,8 +1,8 @@
-# Pelham Services · WordPress · tema 1.26.1 / contenido 1.21.4 / Applications 1.4.2
+# Pelham Services · WordPress · tema 1.26.1 / contenido 1.21.4 / Applications 1.4.3
 
 Sistema de diseño común para todas las páginas. Tema PHP/CSS/JavaScript y plugin de contenidos editables en `wordpress/`. No requiere React ni compilación en el hosting.
 
-- [Registro digital: Pelham Applications 1.4.2](dist/pelham-applications-1.4.2.zip) · **[Solicitud de cuenta única y enlace de prueba](docs/RELEASE-APPLICATIONS-1.3.md)** · [Vuelta desde 4 formularios separados (1.4.2)](docs/RELEASE-APPLICATIONS-1.4.md) · [Instalación y cobertura de los cuatro PDF](docs/RELEASE-APPLICATIONS-1.0.md)
+- [Registro digital: Pelham Applications 1.4.3](dist/pelham-applications-1.4.3.zip) · **[Solicitud de cuenta única y enlace de prueba](docs/RELEASE-APPLICATIONS-1.3.md)** · [Vuelta desde 4 formularios separados (1.4.3)](docs/RELEASE-APPLICATIONS-1.4.md) · [Instalación y cobertura de los cuatro PDF](docs/RELEASE-APPLICATIONS-1.0.md)
 - [Refuerzo de seguridad y requisitos pendientes](docs/SECURITY-HARDENING-1.0.3.md)
 - [Tema 1.26.1](dist/pelham-modern-1.26.1.zip)
 - [Plugin de contenidos 1.21.4](dist/pelham-content-1.21.4.zip)

@@ -58,3 +58,19 @@ Subir `pelham-applications-1.4.2.zip` y reemplazar la 1.4.1. Vaciar la caché de
   - con crédito «No»: 2 firmas y envío.
 - **Reclamación:** firma y envío.
 - **En el navegador, con el enlace de prueba:** en español y en inglés, completada hasta el final sin errores JS.
+
+## 1.4.3 · Botones de prueba visibles en el sitio de prueba
+
+El cliente entraba en `/register/` y no veía cómo probar los formularios. El recuadro «Test mode» solo aparecía a administradores o con el enlace secreto `?pa_test=…`.
+
+- En cualquier dominio que no sea `pelhamservices.com` (por ejemplo, `deeppink-bear-572523.hostingersite.com`), el recuadro **«Test mode» / «Modo de prueba»** aparece a todos los visitantes en registro y reclamaciones, en inglés y en español.
+  - Cada botón crea una solicitud TEST que no envía correos.
+  - Hay un límite de 20 pruebas cada 15 minutos por conexión.
+- El administrador puede ocultarlo con *Hide test buttons from visitors*, en el panel *Client testing link*.
+- En `pelhamservices.com` nunca se muestra. Ahí siguen funcionando el enlace secreto y el acceso de administrador.
+
+### Pruebas
+- Como visitante anónimo, sin enlace, en `/register/`, `/es/registro/`, `/claims/` y `/es/reclamaciones/`: aparece el recuadro y cada botón abre su solicitud TEST en el idioma de la página, sin errores JS.
+- Simulando el dominio `pelhamservices.com`: el recuadro no aparece.
+- El enlace secreto y los recorridos completos (crédito «Sí» con 4 firmas y reclamación) siguen funcionando.
+
