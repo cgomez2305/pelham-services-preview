@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.21.5
+ * Version: 1.21.6
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later

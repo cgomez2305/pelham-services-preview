@@ -1,6 +1,6 @@
 # Revisiones del cliente del 28 de octubre: tema 1.25 / contenido 1.21
 
-Tema **1.26.2** · Pelham Content **1.21.5** · Pelham Applications **1.4.1** (sin cambios)
+Tema **1.26.3** · Pelham Content **1.21.6** · Pelham Applications **1.4.1** (sin cambios)
 
 Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los títulos SEO, los H1 y los H2 con keywords.
 
@@ -20,6 +20,25 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - La URL de Gardena: `/locations/gardena-ca/` y `/es/ubicaciones/gardena-los-angeles/`.
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
+
+## Falso positivo de Windows Defender (tema 1.26.3 / contenido 1.21.6 / Applications 1.4.4)
+
+Al descargar `pelham-content-1.21.5.zip`, Windows Defender marcó `assets/offer.js` como «Trojan:Script/Ulthar.A!ml» y lo puso en cuarentena. Por eso el ZIP llegaba roto y WordPress respondía «Incompatible Archive».
+
+- **Es un falso positivo.** El sufijo `!ml` indica una detección heurística (machine learning), no una firma de malware. `offer.js` son 3 KB de código propio que solo muestra u oculta campos del formulario de cotización: no hace peticiones de red, no usa `eval` y no descarga ni ejecuta código.
+- **Causa probable:** el código estaba compactado en una sola línea, un patrón que la heurística asocia a scripts ofuscados.
+- **Corrección:**
+  - `offer.js` se reescribió en formato legible y comentado, con el mismo comportamiento;
+  - `applications.js`, `admin.js`, `editorial.js` y `motion.js` se reformatearon automáticamente (jsbeautifier) por la misma razón;
+  - la librería de terceros `motion-mini-14.1.0.min.js` no se modificó.
+- **Caché:** la dirección de `offer.js` llevaba `?ver=1.21.0` desde hace varias versiones, así que una caché podía servir el script antiguo. Ahora lleva `?ver=1.21.6`.
+- **Pruebas:**
+  - cotizaciones LTL, FTL, «Other», nota de perfumes y errores en EN/ES;
+  - solicitud con 4 firmas, reclamación y botones de prueba;
+  - panel de administración;
+  - las 60 páginas sin errores de JavaScript.
+
+Si Defender vuelve a marcar un archivo: en *Seguridad de Windows → Protección contra virus y amenazas → Historial de protección*, abrir la alerta, elegir *Permitir en el dispositivo* y descargarlo de nuevo. También se puede informar del falso positivo a Microsoft en https://www.microsoft.com/wdsi/filesubmission.
 
 ## Iconos en iPhone (tema 1.26.2 / contenido 1.21.5)
 
@@ -106,7 +125,7 @@ El servidor valida los mismos datos que el navegador, con errores junto a cada c
 
 ## Instalación en un sitio existente
 
-1. Subir el tema `pelham-modern-1.26.2.zip` y el plugin `pelham-content-1.21.5.zip`; reemplazan a los anteriores.
+1. Subir el tema `pelham-modern-1.26.3.zip` y el plugin `pelham-content-1.21.6.zip`; reemplazan a los anteriores.
 2. Entrar en el administrador. Aparece el aviso **«the client’s web revisions of October 28 are ready»**; pulsar **Apply web revisions (save backups)**. El botón hace esto:
    - cambia solo las frases afectadas de Quote, About, Our network, Gardena y LTL, en inglés y en español;
    - quita la barra de llamadas;

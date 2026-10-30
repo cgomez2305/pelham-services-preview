@@ -1,59 +1,607 @@
 (() => {
-'use strict';
-const app=document.querySelector('.pa-app');if(!app)return;
-const schema=JSON.parse(app.querySelector('.pa-schema').textContent),kind=app.dataset.kind,base=app.dataset.api;
-const gate=app.querySelector('.pa-gate'),workspace=app.querySelector('.pa-workspace'),form=app.querySelector('.pa-form'),status=app.querySelector('.pa-status'),errors=app.querySelector('.pa-errors');
-let state=null,step=0,saveTimer,chain=Promise.resolve(),dirty=false,busy=false;
-const T=(()=>{try{return JSON.parse(app.querySelector('.pa-i18n')?.textContent||'{}')}catch{return {}}})(),t=s=>T[s]||s,lang=document.documentElement.lang.startsWith('es')?'es':'en';
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function message(text){status.textContent=text;}
-message(t('Opening your secure form…'));
-function clearErrors(){errors.hidden=true;errors.textContent='';form.querySelectorAll('[aria-invalid]').forEach(e=>e.removeAttribute('aria-invalid'));form.querySelectorAll('.pa-field-error').forEach(e=>e.textContent='');}
-function fail(error){errors.hidden=false;errors.textContent=t(error.message||'Please try again.');const fields=error.fields||{};for(const [key,text] of Object.entries(fields)){const el=form.elements.namedItem(key),label=form.querySelector('#pa-'+key+'-error');if(el){el.setAttribute('aria-invalid','true');if(label){label.textContent=t(text);el.setAttribute('aria-describedby',label.id);}}}errors.focus();}
-async function api(op,data){const response=await fetch(base+op,{method:op==='session'?'GET':'POST',credentials:'same-origin',signal:AbortSignal.timeout(20000),headers:{'Content-Type':'application/json','X-Pelham-CSRF':state?.csrf||''},...(op==='session'?{}:{body:JSON.stringify(data||{})})});let result;try{result=await response.json()}catch{throw new Error(t('The server returned an unexpected response. Please retry.'))}if(!response.ok){const error=new Error(t(result.message||'Request failed.'));error.fields=result.data?.fields;error.status=response.status;throw error;}return result;}
-function serial(fn){const task=chain.then(fn);chain=task.catch(()=>{});return task;}
-function values(){const data={};for(const f of schema){const el=form.elements.namedItem(f.key);data[f.key]=el.type==='checkbox'?(el.checked?'1':''):el.value;}return data;}
-function fieldsChanged(){app.querySelectorAll('.pa-sign-confirm input').forEach(input=>input.checked=false);dirty=true;app.querySelector('.pa-save-state').textContent=t('Unsaved changes');state.signatures={};renderSignatureStates();clearTimeout(saveTimer);saveTimer=setTimeout(()=>save().catch(fail),800);conditional();}
-function conditional(){const credit=form.elements.namedItem('request_credit')?.value==='Yes';form.querySelectorAll('[data-credit]').forEach(el=>{el.hidden=!credit;el.querySelectorAll('input,select,textarea').forEach(i=>i.disabled=!credit)});const same=form.elements.namedItem('billing_same')?.checked;for(const key of ['address','city','state','zip']){const el=form.elements.namedItem('billing_'+key);if(!el)continue;if(same)el.value=form.elements.namedItem(key).value;el.readOnly=!!same;}
-const docs=app.querySelector('[data-document=credit]');if(docs)docs.hidden=!credit;
-form.querySelectorAll('[data-signature=credit],[data-signature=guarantee]').forEach(e=>e.hidden=!credit);
-}
-function save(){clearTimeout(saveTimer);return serial(async()=>{if(!state||!['draft','needs_information'].includes(state.status))return state;app.querySelector('.pa-save-state').textContent=t('Saving…');state=await api('save',{data:values()});dirty=false;app.querySelector('.pa-save-state').textContent=t('Saved securely');renderSignatureStates();return state;});}
-function renderSignatureStates(){for(const box of form.querySelectorAll('[data-signature]')){const signed=state?.signatures?.[box.dataset.signature];box.querySelector('.pa-signed').textContent=signed?t('Signed by')+' '+signed.name+' · '+new Date(signed.signed_at).toLocaleString(lang==='es'?'es-US':undefined): t('Not signed');box.classList.toggle('is-signed',!!signed);const preview=box.querySelector('.pa-signed-image');preview.hidden=!signed;if(signed)preview.src=signed.image;}}
-function signaturesNeeded(){return (kind==='claim'?[['claim','Freight claim']]:[['customer','Business account application'],['terms','Transport terms and conditions'],['credit','Credit application'],['guarantee','Personal guaranty']]).map(([slot,label])=>[slot,t(label)]);}
-function buildSignatures(){const holder=form.querySelector('.pa-signatures');holder.innerHTML='<h4>'+esc(t('Your signatures'))+'</h4><p>'+esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). Confirm each document separately.'))+'</p>';
-for(const [slot,label] of signaturesNeeded()){
-const box=document.createElement('section');box.className='pa-signature';box.dataset.signature=slot;box.innerHTML=`<h4>${esc(label)}</h4><p class="pa-signed" aria-live="polite"></p><img class="pa-signed-image" alt="${esc(t('Your saved signature'))}" hidden><div class="pa-sign-tools"><button type="button" class="pa-draw">${esc(t('Draw signature'))}</button><label class="pa-upload-label">${esc(t('Upload signature'))}<input type="file" accept=".png,.jpg,.jpeg,.webp" class="pa-sign-upload"></label><button type="button" class="pa-clear">${esc(t('Clear drawing'))}</button></div><canvas width="1000" height="280" aria-label="${esc(t('Draw your signature for %s').replace('%s',label))}"></canvas><p class="pa-help">${esc(t('Drawing is optional: use Upload signature if you use a keyboard or already have a signature image.'))}</p><label class="pa-sign-confirm"><input type="checkbox"> ${esc(t('I am the named signer and intend to sign the %s with this signature.').replace('%s',label))}</label><div class="pa-sign-actions"><button type="button" class="pa-sign-button">${esc(t('Sign this document'))}</button>${slot==='customer'||slot==='claim'?'':'<button type="button" class="pa-reuse">'+esc(t('Use my account signature'))+'</button>'}</div>`;
-holder.append(box);const canvas=box.querySelector('canvas'),ctx=canvas.getContext('2d');let drawing=false,hasInk=false,method='draw';function reset(){ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#10291d';ctx.lineWidth=3;ctx.lineCap='round';hasInk=false;method='draw';}reset();function point(e){const r=canvas.getBoundingClientRect();return [(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height];}
-canvas.addEventListener('pointerdown',e=>{e.preventDefault();drawing=true;method='draw';canvas.setPointerCapture(e.pointerId);ctx.beginPath();ctx.moveTo(...point(e));});canvas.addEventListener('pointermove',e=>{if(drawing){ctx.lineTo(...point(e));ctx.stroke();hasInk=true;}});for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,()=>drawing=false);
-box.querySelector('.pa-clear').onclick=()=>{reset();box.querySelector('.pa-sign-confirm input').checked=false;};box.querySelector('.pa-draw').onclick=()=>{canvas.scrollIntoView({block:'center',behavior:'auto'});};
-box.querySelector('.pa-sign-upload').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>1000000||!['image/png','image/jpeg','image/webp'].includes(file.type))throw new Error(t('Use a JPG, PNG or WebP signature image up to 1 MB.'));const image=await createImageBitmap(file);if(image.width>4096||image.height>4096){image.close();throw new Error(t('Use a signature image no larger than 4096 × 4096 pixels.'))}reset();const ratio=Math.min(canvas.width/image.width,canvas.height/image.height);ctx.drawImage(image,(canvas.width-image.width*ratio)/2,(canvas.height-image.height*ratio)/2,image.width*ratio,image.height*ratio);image.close();hasInk=true;method='upload';message(t('Signature image loaded. Confirm and sign this document.'));}catch(error){fail(error)}};
-async function sign(reuse){clearErrors();try{if(!box.querySelector('.pa-sign-confirm input').checked)throw new Error(t('Confirm your intention to sign this document.'));await save();let image;if(reuse){image=state.signatures.customer?.image;if(!image)throw new Error(t('Sign the account application first.'))}else{if(!hasInk)throw new Error(t('Draw or upload your signature first.'));image=canvas.toDataURL('image/jpeg',.9);}state=await serial(()=>api('sign',{slot,image,method:reuse?'reuse':method,confirm:true,data_hash:state.data_hash}));renderSignatureStates();message(t('%s signed and saved.').replace('%s',label));}catch(error){fail(error)}}
-box.querySelector('.pa-sign-button').onclick=()=>sign(false);box.querySelector('.pa-reuse')?.addEventListener('click',()=>sign(true));
-}}
-function buildDocuments(){const holder=form.querySelector('.pa-documents');holder.innerHTML='';for(const key of kind==='claim'?['claim']:['customer','credit','terms']){const doc=state.documents[key];const item=document.createElement('details');item.dataset.document=key;item.innerHTML=`<summary>${esc(t('Read the complete %s').replace('%s',t(doc.title)))}</summary><div class="pa-document-text"></div>`;const text=item.querySelector('.pa-document-text');if(key==='terms'){const pages=doc.text.split('\f').filter(p=>p.trim());pages.forEach((page,i)=>{const section=document.createElement('section'),heading=document.createElement('h5'),copy=document.createElement('div');heading.textContent=t('Page %1 of %2').replace('%1',i+1).replace('%2',pages.length);copy.textContent=page;section.append(heading,copy);text.append(section)});}else{text.textContent=doc.text;}holder.append(item);} }
-function fill(){for(const f of schema){const el=form.elements.namedItem(f.key);if(el.type==='checkbox')el.checked=state.data[f.key]==='1';else el.value=state.data[f.key]||'';}buildDocuments();buildSignatures();conditional();renderSignatureStates();renderFiles();}
-function renderFiles(){for(const el of form.querySelectorAll('[data-file-state]')){const file=state.files?.[el.dataset.fileState];el.textContent='';if(file){el.textContent=file.name+' · '+Math.ceil(file.size/1024)+' KB · '+t(file.scan_status==='clean'?'Security check passed':file.scan_status==='blocked'?'File blocked':'Saved — security review pending')+' ';el.setAttribute('role','status');const remove=document.createElement('button');remove.type='button';remove.textContent=t('Remove');remove.onclick=async()=>{try{await save();state=await serial(()=>api('file',{slot:el.dataset.fileState,remove:true}));renderFiles();renderSignatureStates()}catch(error){fail(error)}};el.append(remove);}}}
-function setStep(index,focus=true){step=Math.max(0,Math.min(4,index));form.querySelectorAll('.pa-step').forEach((el,i)=>el.hidden=i!==step);app.querySelectorAll('[data-step]').forEach((el,i)=>{if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');el.closest('li').classList.toggle('is-complete',i<step);});app.querySelector('.pa-back').hidden=step===0;app.querySelector('.pa-next').hidden=step===4;app.querySelector('.pa-submit').hidden=step!==4;if(step===4)review();if(focus)form.querySelector(`[data-panel="${step}"] h3`).focus({preventScroll:false});}
-function fieldFormat(input){
- const f=schema.find(f=>f.key===input.name);if(!f)return;const v=input.value;let error='';
- if(v&&f.type==='tel'){const base=v.replace(/\s*(?:ext\.?|x|#)\s*\d{1,6}$/i,'');let digits=base.replace(/\D/g,'');if(digits.length===11&&digits[0]==='1')digits=digits.slice(1);if(!/^\+?[0-9().\s-]+(?:\s*(?:ext\.?|x|#)\s*\d{1,6})?$/i.test(v)||! /^[2-9][0-9]{2}[2-9][0-9]{6}$/.test(digits)||digits.slice(1,3)==='11'||digits.slice(4,6)==='11'||/^(\d)\1{9}$/.test(digits))error=t('Enter a 10-digit US/NANP number, optionally +1 and an extension.');}
- if(v&&/(^|_)zip$/.test(f.key)&&(!/^\d{5}(?:-\d{4})?$/.test(v)||v.slice(0,5)==='00000'))error=t('Enter a five-digit ZIP code or ZIP+4, such as 90248 or 90248-1234.');
- input.setCustomValidity(error);
-}
-form.addEventListener('input',e=>{if(e.target.setCustomValidity)fieldFormat(e.target)});
-form.addEventListener('focusout',e=>{const input=e.target;if(!input.name||!input.setCustomValidity)return;fieldFormat(input);const label=form.querySelector('#pa-'+input.name+'-error');if(label){label.textContent=input.validity.valid?'':input.validationMessage;input.setAttribute('aria-invalid',String(!input.validity.valid));}});
-for(const f of schema){const input=form.elements.namedItem(f.key);if(f.type==='tel'){input.placeholder='(323) 201-4995';input.maxLength=40;}if(/(^|_)zip$/.test(f.key)){input.placeholder=t('90248 or 90248-1234');input.inputMode='numeric';input.maxLength=10;}}
-function validateStep(){clearErrors();const panel=form.querySelector(`[data-panel="${step}"]`);for(const input of panel.querySelectorAll('input,select,textarea')){if(input.disabled||input.closest('[hidden]')||input.type==='file'||input.closest('.pa-signature'))continue;fieldFormat(input);if(!input.checkValidity()){input.setAttribute('aria-invalid','true');input.reportValidity();return false;}}return true;}
-function review(){const holder=form.querySelector('.pa-review');holder.innerHTML='';const dl=document.createElement('dl');for(const f of schema){const value=values()[f.key];if(!value||(f.condition==='credit'&&values().request_credit!=='Yes'))continue;const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=t(f.label);dd.textContent=f.type==='checkbox'?t('Confirmed'):(['tax_id','bank_account'].includes(f.key)?'•••• '+value.slice(-4):(f.type==='select'?t(value):value));dl.append(dt,dd);}holder.append(dl);const h=document.createElement('h4');h.textContent=t('Signed documents');holder.append(h);for(const [slot,label] of signaturesNeeded()){if(['credit','guarantee'].includes(slot)&&values().request_credit!=='Yes')continue;const line=document.createElement('p');line.textContent=label+': '+(state.signatures[slot]?t('Signed by')+' '+state.signatures[slot].name:t('Signature required'));holder.append(line);}}
-function complete(){message('');gate.hidden=true;workspace.hidden=true;const el=app.querySelector('.pa-complete');el.hidden=false;el.innerHTML=`${state.test?'<p><strong>'+esc(t('TEST COMPLETE — no emails were sent. The Pelham team can review this test request in WordPress → Pelham Applications.'))+'</strong></p>':''}<span class="pa-eyebrow">${esc(state.reference)}</span><h3>${esc(t('Your request is with our team.'))}</h3><p>${esc(t('Your information and signatures have been saved. Our team will review your request and contact you. Email notifications may arrive separately.'))}</p><p><strong>${esc(t('Status:'))}</strong> ${esc(t(state.status.replaceAll('_',' ')))}</p><p>${esc(t('This is not an automatic approval or a customer portal account.'))}</p><button class="pa-logout" type="button">${esc(t('Sign out'))}</button>`;el.querySelector('button').onclick=logout;}
-function open(){if(state.kind!==kind){state=null;gate.hidden=false;message(t('Verify your email to open this type of request.'));return;}gate.hidden=true;if(!['draft','needs_information'].includes(state.status)){complete();return;}workspace.hidden=false;app.querySelector('.pa-reference').textContent=state.reference+(state.test?' · '+t('TEST — no emails sent'):' · '+t('verified email'));fill();setStep(0,false);message(state.correction?t('The team needs more information:')+' '+state.correction:t('Your draft is ready. Required fields are marked *.'));app.querySelector('.pa-save-state').textContent=t('Draft saved securely');}
-async function logout(){try{if(dirty)await save();await serial(()=>api('logout'));location.href=location.pathname;}catch(error){fail(error)}}
-gate.onsubmit=async e=>{e.preventDefault();clearErrors();if(!gate.reportValidity())return;const button=gate.querySelector('button');button.disabled=true;try{const result=await api('start',{email:gate.elements.email.value,kind,website:gate.elements.website.value,lang});message(t(result.message));}catch(error){fail(error)}finally{button.disabled=false}};
-form.addEventListener('input',e=>{if(e.target.name&&schema.some(f=>f.key===e.target.name))fieldsChanged()});form.addEventListener('change',e=>{if(e.target.name&&schema.some(f=>f.key===e.target.name))conditional()});
-form.querySelectorAll('[data-attachment]').forEach(input=>input.onchange=async()=>{try{const file=input.files[0];if(!file)return;if(file.size>2*1024*1024)throw new Error(t('Keep each attachment under 2 MB.'));const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});message(t('Uploading and checking your file…'));input.disabled=true;await save();state=await serial(()=>api('file',{slot:input.dataset.attachment,name:file.name,file:data}));renderFiles();renderSignatureStates();message(t(state.files[input.dataset.attachment]?.scan_status==='clean'?'File saved. Security check passed.':'File saved. Security review is pending; Pelham cannot download it until it is approved.'));}catch(error){fail(error)}finally{input.value='';input.disabled=false}});
-app.querySelector('.pa-next').onclick=async()=>{if(!validateStep())return;try{await save();setStep(step+1)}catch(error){fail(error)}};app.querySelector('.pa-back').onclick=()=>setStep(step-1);app.querySelectorAll('[data-step]').forEach(button=>button.onclick=async()=>{const target=Number(button.dataset.step);if(target>step&&!validateStep())return;try{await save();setStep(target)}catch(error){fail(error)}});app.querySelector('.pa-signout').onclick=logout;
-form.onsubmit=async e=>{e.preventDefault();if(busy)return;busy=true;const button=app.querySelector('.pa-submit');button.disabled=true;clearErrors();try{await save();state=await serial(()=>api('submit'));complete();message(t('Request received:')+' '+state.reference);}catch(error){fail(error);if(error.fields){const first=Object.keys(error.fields)[0];const input=form.elements.namedItem(first);if(input)setStep(Number(input.closest('[data-panel]').dataset.panel));else if(first.startsWith('signature_'))setStep(3);}}finally{busy=false;button.disabled=false}};
-window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-(async()=>{try{const token=new URLSearchParams(location.hash.slice(1)).get('application-token');if(token){history.replaceState(null,'',location.pathname+location.search);state=await api('exchange',{token});}else state=await api('session');open();}catch(error){gate.hidden=false;message('');if(error.status!==401)fail(error)}})();
+	'use strict';
+	const app = document.querySelector('.pa-app');
+	if (!app) return;
+	const schema = JSON.parse(app.querySelector('.pa-schema').textContent),
+		kind = app.dataset.kind,
+		base = app.dataset.api;
+	const gate = app.querySelector('.pa-gate'),
+		workspace = app.querySelector('.pa-workspace'),
+		form = app.querySelector('.pa-form'),
+		status = app.querySelector('.pa-status'),
+		errors = app.querySelector('.pa-errors');
+	let state = null,
+		step = 0,
+		saveTimer, chain = Promise.resolve(),
+		dirty = false,
+		busy = false;
+	const T = (() => {
+			try {
+				return JSON.parse(app.querySelector('.pa-i18n')?.textContent || '{}')
+			} catch {
+				return {}
+			}
+		})(),
+		t = s => T[s] || s,
+		lang = document.documentElement.lang.startsWith('es') ? 'es' : 'en';
+	const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;'
+	} [c]));
+
+	function message(text) {
+		status.textContent = text;
+	}
+	message(t('Opening your secure form…'));
+
+	function clearErrors() {
+		errors.hidden = true;
+		errors.textContent = '';
+		form.querySelectorAll('[aria-invalid]').forEach(e => e.removeAttribute('aria-invalid'));
+		form.querySelectorAll('.pa-field-error').forEach(e => e.textContent = '');
+	}
+
+	function fail(error) {
+		errors.hidden = false;
+		errors.textContent = t(error.message || 'Please try again.');
+		const fields = error.fields || {};
+		for (const [key, text] of Object.entries(fields)) {
+			const el = form.elements.namedItem(key),
+				label = form.querySelector('#pa-' + key + '-error');
+			if (el) {
+				el.setAttribute('aria-invalid', 'true');
+				if (label) {
+					label.textContent = t(text);
+					el.setAttribute('aria-describedby', label.id);
+				}
+			}
+		}
+		errors.focus();
+	}
+	async function api(op, data) {
+		const response = await fetch(base + op, {
+			method: op === 'session' ? 'GET' : 'POST',
+			credentials: 'same-origin',
+			signal: AbortSignal.timeout(20000),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Pelham-CSRF': state?.csrf || ''
+			},
+			...(op === 'session' ? {} : {
+				body: JSON.stringify(data || {})
+			})
+		});
+		let result;
+		try {
+			result = await response.json()
+		} catch {
+			throw new Error(t('The server returned an unexpected response. Please retry.'))
+		}
+		if (!response.ok) {
+			const error = new Error(t(result.message || 'Request failed.'));
+			error.fields = result.data?.fields;
+			error.status = response.status;
+			throw error;
+		}
+		return result;
+	}
+
+	function serial(fn) {
+		const task = chain.then(fn);
+		chain = task.catch(() => {});
+		return task;
+	}
+
+	function values() {
+		const data = {};
+		for (const f of schema) {
+			const el = form.elements.namedItem(f.key);
+			data[f.key] = el.type === 'checkbox' ? (el.checked ? '1' : '') : el.value;
+		}
+		return data;
+	}
+
+	function fieldsChanged() {
+		app.querySelectorAll('.pa-sign-confirm input').forEach(input => input.checked = false);
+		dirty = true;
+		app.querySelector('.pa-save-state').textContent = t('Unsaved changes');
+		state.signatures = {};
+		renderSignatureStates();
+		clearTimeout(saveTimer);
+		saveTimer = setTimeout(() => save().catch(fail), 800);
+		conditional();
+	}
+
+	function conditional() {
+		const credit = form.elements.namedItem('request_credit')?.value === 'Yes';
+		form.querySelectorAll('[data-credit]').forEach(el => {
+			el.hidden = !credit;
+			el.querySelectorAll('input,select,textarea').forEach(i => i.disabled = !credit)
+		});
+		const same = form.elements.namedItem('billing_same')?.checked;
+		for (const key of ['address', 'city', 'state', 'zip']) {
+			const el = form.elements.namedItem('billing_' + key);
+			if (!el) continue;
+			if (same) el.value = form.elements.namedItem(key).value;
+			el.readOnly = !!same;
+		}
+		const docs = app.querySelector('[data-document=credit]');
+		if (docs) docs.hidden = !credit;
+		form.querySelectorAll('[data-signature=credit],[data-signature=guarantee]').forEach(e => e.hidden = !credit);
+	}
+
+	function save() {
+		clearTimeout(saveTimer);
+		return serial(async () => {
+			if (!state || !['draft', 'needs_information'].includes(state.status)) return state;
+			app.querySelector('.pa-save-state').textContent = t('Saving…');
+			state = await api('save', {
+				data: values()
+			});
+			dirty = false;
+			app.querySelector('.pa-save-state').textContent = t('Saved securely');
+			renderSignatureStates();
+			return state;
+		});
+	}
+
+	function renderSignatureStates() {
+		for (const box of form.querySelectorAll('[data-signature]')) {
+			const signed = state?.signatures?.[box.dataset.signature];
+			box.querySelector('.pa-signed').textContent = signed ? t('Signed by') + ' ' + signed.name + ' · ' + new Date(signed.signed_at).toLocaleString(lang === 'es' ? 'es-US' : undefined) : t('Not signed');
+			box.classList.toggle('is-signed', !!signed);
+			const preview = box.querySelector('.pa-signed-image');
+			preview.hidden = !signed;
+			if (signed) preview.src = signed.image;
+		}
+	}
+
+	function signaturesNeeded() {
+		return (kind === 'claim' ? [
+			['claim', 'Freight claim']
+		] : [
+			['customer', 'Business account application'],
+			['terms', 'Transport terms and conditions'],
+			['credit', 'Credit application'],
+			['guarantee', 'Personal guaranty']
+		]).map(([slot, label]) => [slot, t(label)]);
+	}
+
+	function buildSignatures() {
+		const holder = form.querySelector('.pa-signatures');
+		holder.innerHTML = '<h4>' + esc(t('Your signatures')) + '</h4><p>' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). Confirm each document separately.')) + '</p>';
+		for (const [slot, label] of signaturesNeeded()) {
+			const box = document.createElement('section');
+			box.className = 'pa-signature';
+			box.dataset.signature = slot;
+			box.innerHTML = `<h4>${esc(label)}</h4><p class="pa-signed" aria-live="polite"></p><img class="pa-signed-image" alt="${esc(t('Your saved signature'))}" hidden><div class="pa-sign-tools"><button type="button" class="pa-draw">${esc(t('Draw signature'))}</button><label class="pa-upload-label">${esc(t('Upload signature'))}<input type="file" accept=".png,.jpg,.jpeg,.webp" class="pa-sign-upload"></label><button type="button" class="pa-clear">${esc(t('Clear drawing'))}</button></div><canvas width="1000" height="280" aria-label="${esc(t('Draw your signature for %s').replace('%s',label))}"></canvas><p class="pa-help">${esc(t('Drawing is optional: use Upload signature if you use a keyboard or already have a signature image.'))}</p><label class="pa-sign-confirm"><input type="checkbox"> ${esc(t('I am the named signer and intend to sign the %s with this signature.').replace('%s',label))}</label><div class="pa-sign-actions"><button type="button" class="pa-sign-button">${esc(t('Sign this document'))}</button>${slot==='customer'||slot==='claim'?'':'<button type="button" class="pa-reuse">'+esc(t('Use my account signature'))+'</button>'}</div>`;
+			holder.append(box);
+			const canvas = box.querySelector('canvas'),
+				ctx = canvas.getContext('2d');
+			let drawing = false,
+				hasInk = false,
+				method = 'draw';
+
+			function reset() {
+				ctx.fillStyle = '#fff';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.strokeStyle = '#10291d';
+				ctx.lineWidth = 3;
+				ctx.lineCap = 'round';
+				hasInk = false;
+				method = 'draw';
+			}
+			reset();
+
+			function point(e) {
+				const r = canvas.getBoundingClientRect();
+				return [(e.clientX - r.left) * canvas.width / r.width, (e.clientY - r.top) * canvas.height / r.height];
+			}
+			canvas.addEventListener('pointerdown', e => {
+				e.preventDefault();
+				drawing = true;
+				method = 'draw';
+				canvas.setPointerCapture(e.pointerId);
+				ctx.beginPath();
+				ctx.moveTo(...point(e));
+			});
+			canvas.addEventListener('pointermove', e => {
+				if (drawing) {
+					ctx.lineTo(...point(e));
+					ctx.stroke();
+					hasInk = true;
+				}
+			});
+			for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) canvas.addEventListener(event, () => drawing = false);
+			box.querySelector('.pa-clear').onclick = () => {
+				reset();
+				box.querySelector('.pa-sign-confirm input').checked = false;
+			};
+			box.querySelector('.pa-draw').onclick = () => {
+				canvas.scrollIntoView({
+					block: 'center',
+					behavior: 'auto'
+				});
+			};
+			box.querySelector('.pa-sign-upload').onchange = async e => {
+				try {
+					const file = e.target.files[0];
+					if (!file) return;
+					if (file.size > 1000000 || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error(t('Use a JPG, PNG or WebP signature image up to 1 MB.'));
+					const image = await createImageBitmap(file);
+					if (image.width > 4096 || image.height > 4096) {
+						image.close();
+						throw new Error(t('Use a signature image no larger than 4096 × 4096 pixels.'))
+					}
+					reset();
+					const ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
+					ctx.drawImage(image, (canvas.width - image.width * ratio) / 2, (canvas.height - image.height * ratio) / 2, image.width * ratio, image.height * ratio);
+					image.close();
+					hasInk = true;
+					method = 'upload';
+					message(t('Signature image loaded. Confirm and sign this document.'));
+				} catch (error) {
+					fail(error)
+				}
+			};
+			async function sign(reuse) {
+				clearErrors();
+				try {
+					if (!box.querySelector('.pa-sign-confirm input').checked) throw new Error(t('Confirm your intention to sign this document.'));
+					await save();
+					let image;
+					if (reuse) {
+						image = state.signatures.customer?.image;
+						if (!image) throw new Error(t('Sign the account application first.'))
+					} else {
+						if (!hasInk) throw new Error(t('Draw or upload your signature first.'));
+						image = canvas.toDataURL('image/jpeg', .9);
+					}
+					state = await serial(() => api('sign', {
+						slot,
+						image,
+						method: reuse ? 'reuse' : method,
+						confirm: true,
+						data_hash: state.data_hash
+					}));
+					renderSignatureStates();
+					message(t('%s signed and saved.').replace('%s', label));
+				} catch (error) {
+					fail(error)
+				}
+			}
+			box.querySelector('.pa-sign-button').onclick = () => sign(false);
+			box.querySelector('.pa-reuse')?.addEventListener('click', () => sign(true));
+		}
+	}
+
+	function buildDocuments() {
+		const holder = form.querySelector('.pa-documents');
+		holder.innerHTML = '';
+		for (const key of kind === 'claim' ? ['claim'] : ['customer', 'credit', 'terms']) {
+			const doc = state.documents[key];
+			const item = document.createElement('details');
+			item.dataset.document = key;
+			item.innerHTML = `<summary>${esc(t('Read the complete %s').replace('%s',t(doc.title)))}</summary><div class="pa-document-text"></div>`;
+			const text = item.querySelector('.pa-document-text');
+			if (key === 'terms') {
+				const pages = doc.text.split('\f').filter(p => p.trim());
+				pages.forEach((page, i) => {
+					const section = document.createElement('section'),
+						heading = document.createElement('h5'),
+						copy = document.createElement('div');
+					heading.textContent = t('Page %1 of %2').replace('%1', i + 1).replace('%2', pages.length);
+					copy.textContent = page;
+					section.append(heading, copy);
+					text.append(section)
+				});
+			} else {
+				text.textContent = doc.text;
+			}
+			holder.append(item);
+		}
+	}
+
+	function fill() {
+		for (const f of schema) {
+			const el = form.elements.namedItem(f.key);
+			if (el.type === 'checkbox') el.checked = state.data[f.key] === '1';
+			else el.value = state.data[f.key] || '';
+		}
+		buildDocuments();
+		buildSignatures();
+		conditional();
+		renderSignatureStates();
+		renderFiles();
+	}
+
+	function renderFiles() {
+		for (const el of form.querySelectorAll('[data-file-state]')) {
+			const file = state.files?.[el.dataset.fileState];
+			el.textContent = '';
+			if (file) {
+				el.textContent = file.name + ' · ' + Math.ceil(file.size / 1024) + ' KB · ' + t(file.scan_status === 'clean' ? 'Security check passed' : file.scan_status === 'blocked' ? 'File blocked' : 'Saved — security review pending') + ' ';
+				el.setAttribute('role', 'status');
+				const remove = document.createElement('button');
+				remove.type = 'button';
+				remove.textContent = t('Remove');
+				remove.onclick = async () => {
+					try {
+						await save();
+						state = await serial(() => api('file', {
+							slot: el.dataset.fileState,
+							remove: true
+						}));
+						renderFiles();
+						renderSignatureStates()
+					} catch (error) {
+						fail(error)
+					}
+				};
+				el.append(remove);
+			}
+		}
+	}
+
+	function setStep(index, focus = true) {
+		step = Math.max(0, Math.min(4, index));
+		form.querySelectorAll('.pa-step').forEach((el, i) => el.hidden = i !== step);
+		app.querySelectorAll('[data-step]').forEach((el, i) => {
+			if (i === step) el.setAttribute('aria-current', 'step');
+			else el.removeAttribute('aria-current');
+			el.closest('li').classList.toggle('is-complete', i < step);
+		});
+		app.querySelector('.pa-back').hidden = step === 0;
+		app.querySelector('.pa-next').hidden = step === 4;
+		app.querySelector('.pa-submit').hidden = step !== 4;
+		if (step === 4) review();
+		if (focus) form.querySelector(`[data-panel="${step}"] h3`).focus({
+			preventScroll: false
+		});
+	}
+
+	function fieldFormat(input) {
+		const f = schema.find(f => f.key === input.name);
+		if (!f) return;
+		const v = input.value;
+		let error = '';
+		if (v && f.type === 'tel') {
+			const base = v.replace(/\s*(?:ext\.?|x|#)\s*\d{1,6}$/i, '');
+			let digits = base.replace(/\D/g, '');
+			if (digits.length === 11 && digits[0] === '1') digits = digits.slice(1);
+			if (!/^\+?[0-9().\s-]+(?:\s*(?:ext\.?|x|#)\s*\d{1,6})?$/i.test(v) || !/^[2-9][0-9]{2}[2-9][0-9]{6}$/.test(digits) || digits.slice(1, 3) === '11' || digits.slice(4, 6) === '11' || /^(\d)\1{9}$/.test(digits)) error = t('Enter a 10-digit US/NANP number, optionally +1 and an extension.');
+		}
+		if (v && /(^|_)zip$/.test(f.key) && (!/^\d{5}(?:-\d{4})?$/.test(v) || v.slice(0, 5) === '00000')) error = t('Enter a five-digit ZIP code or ZIP+4, such as 90248 or 90248-1234.');
+		input.setCustomValidity(error);
+	}
+	form.addEventListener('input', e => {
+		if (e.target.setCustomValidity) fieldFormat(e.target)
+	});
+	form.addEventListener('focusout', e => {
+		const input = e.target;
+		if (!input.name || !input.setCustomValidity) return;
+		fieldFormat(input);
+		const label = form.querySelector('#pa-' + input.name + '-error');
+		if (label) {
+			label.textContent = input.validity.valid ? '' : input.validationMessage;
+			input.setAttribute('aria-invalid', String(!input.validity.valid));
+		}
+	});
+	for (const f of schema) {
+		const input = form.elements.namedItem(f.key);
+		if (f.type === 'tel') {
+			input.placeholder = '(323) 201-4995';
+			input.maxLength = 40;
+		}
+		if (/(^|_)zip$/.test(f.key)) {
+			input.placeholder = t('90248 or 90248-1234');
+			input.inputMode = 'numeric';
+			input.maxLength = 10;
+		}
+	}
+
+	function validateStep() {
+		clearErrors();
+		const panel = form.querySelector(`[data-panel="${step}"]`);
+		for (const input of panel.querySelectorAll('input,select,textarea')) {
+			if (input.disabled || input.closest('[hidden]') || input.type === 'file' || input.closest('.pa-signature')) continue;
+			fieldFormat(input);
+			if (!input.checkValidity()) {
+				input.setAttribute('aria-invalid', 'true');
+				input.reportValidity();
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function review() {
+		const holder = form.querySelector('.pa-review');
+		holder.innerHTML = '';
+		const dl = document.createElement('dl');
+		for (const f of schema) {
+			const value = values()[f.key];
+			if (!value || (f.condition === 'credit' && values().request_credit !== 'Yes')) continue;
+			const dt = document.createElement('dt'),
+				dd = document.createElement('dd');
+			dt.textContent = t(f.label);
+			dd.textContent = f.type === 'checkbox' ? t('Confirmed') : (['tax_id', 'bank_account'].includes(f.key) ? '•••• ' + value.slice(-4) : (f.type === 'select' ? t(value) : value));
+			dl.append(dt, dd);
+		}
+		holder.append(dl);
+		const h = document.createElement('h4');
+		h.textContent = t('Signed documents');
+		holder.append(h);
+		for (const [slot, label] of signaturesNeeded()) {
+			if (['credit', 'guarantee'].includes(slot) && values().request_credit !== 'Yes') continue;
+			const line = document.createElement('p');
+			line.textContent = label + ': ' + (state.signatures[slot] ? t('Signed by') + ' ' + state.signatures[slot].name : t('Signature required'));
+			holder.append(line);
+		}
+	}
+
+	function complete() {
+		message('');
+		gate.hidden = true;
+		workspace.hidden = true;
+		const el = app.querySelector('.pa-complete');
+		el.hidden = false;
+		el.innerHTML = `${state.test?'<p><strong>'+esc(t('TEST COMPLETE — no emails were sent. The Pelham team can review this test request in WordPress → Pelham Applications.'))+'</strong></p>':''}<span class="pa-eyebrow">${esc(state.reference)}</span><h3>${esc(t('Your request is with our team.'))}</h3><p>${esc(t('Your information and signatures have been saved. Our team will review your request and contact you. Email notifications may arrive separately.'))}</p><p><strong>${esc(t('Status:'))}</strong> ${esc(t(state.status.replaceAll('_',' ')))}</p><p>${esc(t('This is not an automatic approval or a customer portal account.'))}</p><button class="pa-logout" type="button">${esc(t('Sign out'))}</button>`;
+		el.querySelector('button').onclick = logout;
+	}
+
+	function open() {
+		if (state.kind !== kind) {
+			state = null;
+			gate.hidden = false;
+			message(t('Verify your email to open this type of request.'));
+			return;
+		}
+		gate.hidden = true;
+		if (!['draft', 'needs_information'].includes(state.status)) {
+			complete();
+			return;
+		}
+		workspace.hidden = false;
+		app.querySelector('.pa-reference').textContent = state.reference + (state.test ? ' · ' + t('TEST — no emails sent') : ' · ' + t('verified email'));
+		fill();
+		setStep(0, false);
+		message(state.correction ? t('The team needs more information:') + ' ' + state.correction : t('Your draft is ready. Required fields are marked *.'));
+		app.querySelector('.pa-save-state').textContent = t('Draft saved securely');
+	}
+	async function logout() {
+		try {
+			if (dirty) await save();
+			await serial(() => api('logout'));
+			location.href = location.pathname;
+		} catch (error) {
+			fail(error)
+		}
+	}
+	gate.onsubmit = async e => {
+		e.preventDefault();
+		clearErrors();
+		if (!gate.reportValidity()) return;
+		const button = gate.querySelector('button');
+		button.disabled = true;
+		try {
+			const result = await api('start', {
+				email: gate.elements.email.value,
+				kind,
+				website: gate.elements.website.value,
+				lang
+			});
+			message(t(result.message));
+		} catch (error) {
+			fail(error)
+		} finally {
+			button.disabled = false
+		}
+	};
+	form.addEventListener('input', e => {
+		if (e.target.name && schema.some(f => f.key === e.target.name)) fieldsChanged()
+	});
+	form.addEventListener('change', e => {
+		if (e.target.name && schema.some(f => f.key === e.target.name)) conditional()
+	});
+	form.querySelectorAll('[data-attachment]').forEach(input => input.onchange = async () => {
+		try {
+			const file = input.files[0];
+			if (!file) return;
+			if (file.size > 2 * 1024 * 1024) throw new Error(t('Keep each attachment under 2 MB.'));
+			const data = await new Promise((resolve, reject) => {
+				const r = new FileReader();
+				r.onload = () => resolve(r.result);
+				r.onerror = reject;
+				r.readAsDataURL(file)
+			});
+			message(t('Uploading and checking your file…'));
+			input.disabled = true;
+			await save();
+			state = await serial(() => api('file', {
+				slot: input.dataset.attachment,
+				name: file.name,
+				file: data
+			}));
+			renderFiles();
+			renderSignatureStates();
+			message(t(state.files[input.dataset.attachment]?.scan_status === 'clean' ? 'File saved. Security check passed.' : 'File saved. Security review is pending; Pelham cannot download it until it is approved.'));
+		} catch (error) {
+			fail(error)
+		} finally {
+			input.value = '';
+			input.disabled = false
+		}
+	});
+	app.querySelector('.pa-next').onclick = async () => {
+		if (!validateStep()) return;
+		try {
+			await save();
+			setStep(step + 1)
+		} catch (error) {
+			fail(error)
+		}
+	};
+	app.querySelector('.pa-back').onclick = () => setStep(step - 1);
+	app.querySelectorAll('[data-step]').forEach(button => button.onclick = async () => {
+		const target = Number(button.dataset.step);
+		if (target > step && !validateStep()) return;
+		try {
+			await save();
+			setStep(target)
+		} catch (error) {
+			fail(error)
+		}
+	});
+	app.querySelector('.pa-signout').onclick = logout;
+	form.onsubmit = async e => {
+		e.preventDefault();
+		if (busy) return;
+		busy = true;
+		const button = app.querySelector('.pa-submit');
+		button.disabled = true;
+		clearErrors();
+		try {
+			await save();
+			state = await serial(() => api('submit'));
+			complete();
+			message(t('Request received:') + ' ' + state.reference);
+		} catch (error) {
+			fail(error);
+			if (error.fields) {
+				const first = Object.keys(error.fields)[0];
+				const input = form.elements.namedItem(first);
+				if (input) setStep(Number(input.closest('[data-panel]').dataset.panel));
+				else if (first.startsWith('signature_')) setStep(3);
+			}
+		} finally {
+			busy = false;
+			button.disabled = false
+		}
+	};
+	window.addEventListener('beforeunload', e => {
+		if (dirty) {
+			e.preventDefault();
+			e.returnValue = '';
+		}
+	});
+	(async () => {
+		try {
+			const token = new URLSearchParams(location.hash.slice(1)).get('application-token');
+			if (token) {
+				history.replaceState(null, '', location.pathname + location.search);
+				state = await api('exchange', {
+					token
+				});
+			} else state = await api('session');
+			open();
+		} catch (error) {
+			gate.hidden = false;
+			message('');
+			if (error.status !== 401) fail(error)
+		}
+	})();
 })();
