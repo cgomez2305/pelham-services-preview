@@ -3346,3 +3346,14 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
 .news-section .section-heading p a.section-cta::after{content:'→';transition:translate var(--p-fast) var(--p-ease)}
 .news-section .section-heading p a.section-cta:hover{background:var(--p-green);color:#fff}
 .news-section .section-heading p a.section-cta:hover::after{translate:3px 0}
+/* 1.25.1: the heading keeps its two lines when the intro is long; stacked panels keep a gap. */
+@media(min-width:901px){.audience-band .section-heading h2{flex:0 0 auto}.audience-band .section-heading p{max-width:58ch}}
+.onboarding-panel+.onboarding-panel{margin-top:20px!important}
+/* The "1 to 7 pallets" label sits under the LTL title, so every service card keeps the same columns. */
+@media(min-width:1051px){.page-story:not(.news-hub) .card-body>h3,.page-story:not(.news-hub) .card-body>.card-detail{grid-column:1}.page-story:not(.news-hub) .card-body>.card-detail{grid-row:2;margin:0}.page-story:not(.news-hub) .card-body>p:not(.card-detail){grid-column:2;grid-row:1/span 2}.page-story:not(.news-hub) .card-body>.card-link{grid-column:3;grid-row:1/span 2}}
+@media(min-width:1001px){.industrial-services .card-body>h3,.industrial-services .card-body>.card-detail{grid-column:1}.industrial-services .card-body>.card-detail{grid-row:2;margin:0}.industrial-services .card-body>p:not(.card-detail){grid-column:2;grid-row:1/span 2}.industrial-services .card-body>.card-link{grid-column:3;grid-row:1/span 2}}
+/* Facility cards: title at the top of the card, close to its address; no empty hours line. */
+.terminal-card h2{margin:0 0 14px!important;font-size:clamp(26px,3vw,32px)!important;line-height:1.15!important}
+.terminal-card p:empty{display:none}
+.terminal-card p{margin:0 0 6px}
+.page-story:not(.news-hub) .legacy-content .service-grid{margin-top:32px}

@@ -8,8 +8,8 @@
  * Company; never runs on a public request.
  */
 if (!defined('ABSPATH')) exit;
-const PELHAM_REVISIONS_121='1.21.0';
-function pelham_revisions_121_routes(){return ['quote','about','locations','locations/gardena-ca','services/freight-consolidation'];}
+const PELHAM_REVISIONS_121='1.21.1';
+function pelham_revisions_121_routes(){return ['home','quote','about','locations','locations/gardena-ca','services/freight-consolidation'];}
 /** Old sentence => new sentence, English and Spanish. */
 function pelham_revisions_121_pairs(){return [
  'Our operated facilities are in Gardena / Los Angeles,'=>'Our operated facilities are in Gardena,',
@@ -18,6 +18,8 @@ function pelham_revisions_121_pairs(){return [
  'Pelham operates facilities in Los Angeles, Orlando and Miami.'=>'Pelham operates facilities in Gardena (California), Orlando and Miami.',
  'Pelham’s Los Angeles facility is in Gardena, California.'=>'Pelham’s California facility is in Gardena.',
  'Pelham Services Los Angeles is located in Gardena at'=>'Pelham Services Gardena is located at',
+ 'Our Los Angeles, Orlando and Miami facilities support'=>'Our Gardena, Orlando and Miami facilities support',
+ 'Nuestras instalaciones en Los Angeles, Orlando y Miami apoyan'=>'Nuestras instalaciones en Gardena, Orlando y Miami apoyan',
  'provide the pickup and receiving city/state/ZIP.'=>'provide the pickup and receiving ZIP codes.',
  'Nuestras instalaciones propias están en Gardena / Los Angeles,'=>'Nuestras instalaciones propias están en Gardena,',
  'Nuestra instalación de Los Angeles está en'=>'Nuestra instalación de California está en',

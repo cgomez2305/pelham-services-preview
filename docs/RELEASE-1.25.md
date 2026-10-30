@@ -1,6 +1,6 @@
 # Revisiones del cliente del 28 de octubre: tema 1.25 / contenido 1.21
 
-Tema **1.25.0** · Pelham Content **1.21.0** · Pelham Applications **1.4.1** (sin cambios)
+Tema **1.25.1** · Pelham Content **1.21.1** · Pelham Applications **1.4.1** (sin cambios)
 
 Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los títulos SEO, los H1 y los H2 con keywords.
 
@@ -21,6 +21,21 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
 
+## Revisión visual (1.25.1 / 1.21.1)
+
+Revisé las 60 páginas (EN/ES) a 1366, 1024 y 390 px, con capturas de los casos dudosos.
+
+| Dónde | Problema | Corrección |
+|---|---|---|
+| Portada · Who we ship for | Con la entrada más larga, el título se partía en 4 líneas («Who / we / ship / for.»). | El título conserva sus 2 líneas y el texto se ajusta a su columna. |
+| Cotizar · «Getting ready to ship?» y «Request rates…» | Las dos tarjetas estaban pegadas, sin separación. | 20 px entre tarjetas. |
+| Services, About, Portada · tarjeta LTL | La etiqueta «1 to 7 pallets» ocupaba una columna: el título caía en 3 líneas y la descripción no se alineaba con FTL y Cross-docking. | La etiqueta va debajo del título y las tres tarjetas comparten columnas. |
+| Our network · tarjetas | En móvil había un hueco vacío arriba y el título quedaba pegado a la dirección; había una línea vacía de horario. | El título va arriba, separado de la dirección, y sin líneas vacías. |
+| Services · entrada → tarjetas | Poco espacio entre el párrafo y la primera tarjeta. | 32 px. |
+| Portada · red | Todavía decía «Los Angeles, Orlando and Miami facilities». | «Gardena, Orlando and Miami», en EN y ES. También en la actualización del administrador. |
+
+Si un sitio ya aplicó la 1.21.0, el aviso aparece de nuevo una sola vez para cambiar la frase de la portada.
+
 ## El problema de About → LTL
 
 En el sitio del cliente, WordPress usaba los **enlaces permanentes «simples»** (`?page_id=…`). Con esa configuración, las direcciones de los servicios, como `/services/freight-consolidation/`, no existen y WordPress muestra la portada en su lugar. Por eso aparecían otras imágenes según desde dónde se entraba.
@@ -40,7 +55,7 @@ El servidor valida los mismos datos que el navegador, con errores junto a cada c
 
 ## Instalación en un sitio existente
 
-1. Subir el tema `pelham-modern-1.25.0.zip` y el plugin `pelham-content-1.21.0.zip`; reemplazan a los anteriores.
+1. Subir el tema `pelham-modern-1.25.1.zip` y el plugin `pelham-content-1.21.1.zip`; reemplazan a los anteriores.
 2. Entrar en el administrador. Aparece el aviso **«the client’s web revisions of October 28 are ready»**; pulsar **Apply web revisions (save backups)**. El botón hace esto:
    - cambia solo las frases afectadas de Quote, About, Our network, Gardena y LTL, en inglés y en español;
    - quita la barra de llamadas;
