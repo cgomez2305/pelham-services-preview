@@ -12,8 +12,8 @@ wp-config.php
 docs/audit/
 # Historical packages remain local; publish current installable releases.
 dist/*.zip
-!dist/pelham-modern-1.26.1.zip
-!dist/pelham-content-1.21.4.zip
+!dist/pelham-modern-1.26.2.zip
+!dist/pelham-content-1.21.5.zip
 !dist/pelham-applications-1.4.3.zip
 # Downloaded third-party pages are research inputs, not site source.
 docs/geo-audit/*.html
