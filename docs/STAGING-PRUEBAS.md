@@ -4,7 +4,7 @@ Objetivo: que el cliente pruebe los formularios reales en inglés y en español 
 
 Paquetes:
 - `pelham-modern-1.26.3.zip`
-- `pelham-content-1.21.6.zip`
+- `pelham-content-1.21.7.zip`
 - `pelham-applications-1.4.4.zip`
 
 ## 1. Crear el sitio de prueba (unos 15 minutos)
@@ -14,7 +14,7 @@ Paquetes:
 3. **WordPress.** En hPanel: *Sitios web → Instalador automático → WordPress*, en el subdominio. Idioma del sitio: **inglés**; el español lo crea el plugin.
 4. **Tema y plugins.**
    1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.26.3.zip` → Activar.
-   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.6.zip` → Activar.
+   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.7.zip` → Activar.
    3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.4.4.zip` → Activar.
 5. **Primera visita al administrador.**
    - El plugin crea las páginas y la versión en español (aviso «Spanish site created…»).

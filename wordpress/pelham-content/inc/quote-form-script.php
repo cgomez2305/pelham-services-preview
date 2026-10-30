@@ -1,10 +1,13 @@
+<?php
+if(!defined('ABSPATH'))exit;
 /**
- * Pelham quote form.
- * - LTL: shows the transit level and its coverage note.
- * - LTL and FTL: show the shipment details (LTL adds cubic feet; FTL asks for total weight).
- *   The message is optional when these details are used.
+ * Quote form behavior, printed inline after the form (no separate .js file in the plugin package).
+ * - LTL: shows the transit level and its coverage note. The server preselects ?ltl_level=.
+ * - LTL and FTL: show the shipment details; the message is optional with these details.
  * - Commodity: "Other" needs a description; some categories show a note.
  */
+function pelham_quote_form_script(){
+ return <<<'JS'
 (function () {
 	'use strict';
 
@@ -28,12 +31,6 @@
 		economy: translate('Economy: estimated 10 calendar days from pickup. All Florida destinations. Our lowest-cost LTL option. Not guaranteed.')
 	};
 	var genericNote = note.textContent;
-
-	// A link such as /quote/?service=freight-consolidation&ltl_level=regular preselects the level.
-	var requestedLevel = new URLSearchParams(window.location.search).get('ltl_level');
-	if (Object.prototype.hasOwnProperty.call(levelNotes, requestedLevel)) {
-		level.value = requestedLevel;
-	}
 
 	var details = form.querySelector('[data-quote-details]');
 	var message = form.querySelector('textarea[name="message"]');
@@ -111,3 +108,5 @@
 	window.addEventListener('pageshow', update);
 	update();
 })();
+JS;
+}

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.21.6
+ * Version: 1.21.7
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -268,6 +268,7 @@ add_shortcode('pelham_direct_contact',function(){return '<div class="direct-cont
 require_once __DIR__.'/inc/upgrade-1.8.php';
 require_once __DIR__.'/inc/upgrade-quote.php';
 
+require_once __DIR__.'/inc/quote-form-script.php';
 require_once __DIR__.'/inc/offer-1.9.php';
 
 require_once __DIR__.'/inc/seo-migration.php';
