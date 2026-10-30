@@ -1,6 +1,10 @@
 {
-  "theme": "1.19.0",
-  "plugin": "1.15.0",
+  "theme": "1.26.3",
+  "plugin": "1.21.7",
   "forms": "disabled",
-  "routes": 28
+  "routes": 58,
+  "languages": [
+    "en-US",
+    "es-US"
+  ]
 }

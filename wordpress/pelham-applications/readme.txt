@@ -1,7 +1,7 @@
 === Pelham Applications ===
 Requires at least: 6.4
 Requires PHP: 8.0
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPL-2.0-or-later
 
 Digital customer applications, optional credit, transport agreements and separate freight claims. Draw or upload signatures; authorized staff review private encrypted records and generate signed PDFs.

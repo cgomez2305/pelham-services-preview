@@ -45,9 +45,9 @@
     nav.classList.remove('is-open');
     nav.removeAttribute('role');
     nav.removeAttribute('aria-modal');
-    nav.setAttribute('aria-label', 'Primary');
+    nav.setAttribute('aria-label', (window.pelhamI18n||{})['Primary'] || 'Primary');
     toggle.setAttribute('aria-expanded', 'false');
-    toggle.querySelector('.menu-toggle-label').textContent = 'Menu';
+    toggle.querySelector('.menu-toggle-label').textContent = (window.pelhamI18n||{})['Menu'] || 'Menu';
     scrim.hidden = true;
     body.classList.remove('menu-is-open');
     body.style.removeProperty('--menu-scroll');
@@ -68,9 +68,9 @@
     nav.classList.add('is-open');
     nav.setAttribute('role', 'dialog');
     nav.setAttribute('aria-modal', 'true');
-    nav.setAttribute('aria-label', 'Site navigation');
+    nav.setAttribute('aria-label', (window.pelhamI18n||{})['Site navigation'] || 'Site navigation');
     toggle.setAttribute('aria-expanded', 'true');
-    toggle.querySelector('.menu-toggle-label').textContent = 'Close';
+    toggle.querySelector('.menu-toggle-label').textContent = (window.pelhamI18n||{})['Close'] || 'Close';
     scrim.hidden = false;
     nav.querySelector('.menu-close').focus({ preventScroll: true });
   }
@@ -98,9 +98,10 @@
     controls.forEach(button => {
       button.disabled = reduce.matches;
       button.setAttribute('aria-pressed', String(paused));
-      const label = reduce.matches ? 'Reduced motion enabled' : paused ? 'Resume animations' : 'Pause animations';
+      const i18n = (window.pelhamI18n||{});
+      const label = reduce.matches ? i18n['Reduced motion enabled'] || 'Reduced motion enabled' : paused ? i18n['Resume animations'] || 'Resume animations' : i18n['Pause animations'] || 'Pause animations';
       button.setAttribute('aria-label', label);
-      button.title = reduce.matches ? 'Your device is set to reduced motion.' : label;
+      button.title = reduce.matches ? i18n['Your device is set to reduced motion.'] || 'Your device is set to reduced motion.' : label;
       if (button.classList.contains('scene-motion')) {
         button.dataset.state = paused ? 'paused' : 'running';
         button.textContent = '';

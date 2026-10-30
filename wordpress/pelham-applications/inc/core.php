@@ -1,6 +1,28 @@
 <?php
 if(!defined('ABSPATH'))exit;
 function pa_schema($kind){static $schema; $schema??=json_decode(file_get_contents(PA_DIR.'/inc/schema.json'),true);return $schema[$kind]??[];}
+/** Interface text in the visitor's language (Pelham Content's dictionary). */
+function pa_t($text){return function_exists('pelham_t')?pelham_t($text):$text;}
+/** Page check that also matches the Spanish version of a page. */
+function pa_is_page($slugs){return function_exists('pelham_is_page')?pelham_is_page($slugs):is_page($slugs);}
+function pa_link($route){return function_exists('pelham_link')?pelham_link($route):home_url('/'.trim($route,'/').'/');}
+/** Language a request was started in; emails to the applicant follow it. */
+function pa_request_lang($id){return get_post_meta($id,'_pa_lang',true)==='es'?'es':'en';}
+function pa_t_for($text,$lang){
+ if($lang!=='es'||!function_exists('pelham_t'))return $text;
+ $previous=$GLOBALS['pelham_lang_override']??null;$GLOBALS['pelham_lang_override']='es';$out=pelham_t($text);
+ if($previous===null)unset($GLOBALS['pelham_lang_override']);else $GLOBALS['pelham_lang_override']=$previous;return $out;
+}
+/** Request kinds. 'application' (account application) and 'claim' are the forms; customer, credit and terms were the separate forms of 1.4.0, kept readable for records created with it. */
+function pa_kinds(){return ['customer'=>'Customer Application','credit'=>'Credit Application','terms'=>'Terms and Agreements','claim'=>'Claim Form'];}
+function pa_kind_valid($kind){return is_string($kind)&&(isset(pa_kinds()[$kind])||$kind==='application');}
+function pa_kind_label($kind){return pa_kinds()[$kind]??'Account application';}
+/** Public page of a request type in a language (Spanish registration page when it exists). */
+function pa_page_url($kind,$lang){
+ $route=$kind==='claim'?'claims':'register';$url=home_url($kind==='claim'?'/claims/':'/register/');
+ if($lang==='es'){$ids=get_option('pelham_i18n_ids',[]);if(!empty($ids[$route])&&get_post_status($ids[$route])==='publish')$url=get_permalink($ids[$route]);}
+ return $url;
+}
 function pa_error($message,$status=400,$fields=[]){return new WP_Error('pelham_application',$message,['status'=>$status,'fields'=>$fields]);}
 function pa_key(){return hash('sha256',defined('PELHAM_APPLICATIONS_KEY')?PELHAM_APPLICATIONS_KEY:wp_salt('auth'),true);}
 function pa_encrypt($value){
@@ -25,15 +47,22 @@ function pa_documents(){
  return $out;
 }
 function pa_signatures_needed($p){
+ $customer=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Business account application']];
+ $terms=['terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Transport terms and conditions']];
+ $credit=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit application'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guaranty']];
  if($p['kind']==='claim')return ['claim'=>['name'=>'claim_signer','title'=>null,'doc'=>'claim','label'=>'Freight claim']];
+ if($p['kind']==='customer')return $customer;
+ if($p['kind']==='credit')return $credit;
+ if($p['kind']==='terms')return $terms;
+ // Legacy combined application.
  $s=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Business account application'],'terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Transport terms and conditions']];
  if(($p['data']['request_credit']??'')==='Yes')$s+=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit application'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guaranty']];return $s;
 }
 function pa_clean_data($kind,$input,$email){
  $data=[];foreach(pa_schema($kind) as $f){$v=$input[$f['key']]??'';if(!is_scalar($v))$v='';$v=$f['type']==='checkbox'?(!empty($v)?'1':''):sanitize_textarea_field((string)$v);$data[$f['key']]=substr($v,0,$f['type']==='textarea'?5000:250);}
  $data['email']=$email;
+ if(in_array($kind,['application','customer'],true)&&!empty($data['billing_same']))foreach(['address','city','state','zip'] as $key)$data['billing_'.$key]=$data[$key];
  if($kind==='application'){
-  if(!empty($data['billing_same']))foreach(['address','city','state','zip'] as $key)$data['billing_'.$key]=$data[$key];
   if(($data['request_credit']??'')!=='Yes')foreach(pa_schema($kind) as $f)if(($f['condition']??'')==='credit')$data[$f['key']]='';
  }
  return $data;
@@ -50,10 +79,10 @@ function pa_validate($p){
   if($f['type']==='number'&&(!is_numeric($v)||!is_finite((float)$v)||(float)$v<0))$errors[$f['key']]='Enter a valid non-negative number.';
   if($f['type']==='date'){ $d=DateTime::createFromFormat('!Y-m-d',$v);if(!$d||$d->format('Y-m-d')!==$v||$v>gmdate('Y-m-d'))$errors[$f['key']]='Enter a valid date that is not in the future.'; }
  }
+ if(in_array($p['kind'],['application','customer'],true)&&($data['entity']??'')==='Other'&&empty($data['entity_other']))$errors['entity_other']='Describe the business structure.';
  if($p['kind']==='application'){
-  if(($data['entity']??'')==='Other'&&empty($data['entity_other']))$errors['entity_other']='Describe the business structure.';
   if(($data['request_credit']??'')==='Yes')foreach([1,2] as $i)if(empty($data['ref'.$i.'_contact']))$errors['ref'.$i.'_contact']='A reference contact is required for credit.';
- }else{
+ }elseif($p['kind']==='claim'){
   if(str_contains(strtolower($data['incident']??''),'loss')&&empty($data['lost_pieces']))$errors['lost_pieces']='Describe the lost pieces.';
   if(str_contains(strtolower($data['incident']??''),'damage')&&empty($data['damage']))$errors['damage']='Describe the extent of damage.';
   if(empty($p['files']['invoice']))$errors['invoice']='Attach the cost invoice supporting the claim value.';

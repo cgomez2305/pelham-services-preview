@@ -1,0 +1,41 @@
+grupo,keyword,intencion,destino_si_se_traduce,nota
+Ruta (comercial),transporte de carga de california a florida,Comercial,Servicio LTL,Equivalente de la keyword comercial principal en inglés
+Ruta (comercial),envío de carga de california a florida,Comercial,Servicio LTL,
+Ruta (comercial),flete de california a florida,Comercial,Servicio LTL,«Flete» es muy usado en México y el Caribe
+Ruta (comercial),flete de los angeles a miami,Comercial,Servicio LTL,
+Ruta (comercial),transporte de carga los angeles miami,Comercial,Servicio LTL,
+Ruta (comercial),envíos de los angeles a miami,Mixta,Servicio LTL,"Puede atraer particulares (paquetes, mudanzas)"
+Ruta (comercial),camiones de carga de california a florida,Comercial,Servicio FTL,
+Empresa,compañía de transporte de carga en miami,Comercial,Home / Miami,
+Empresa,empresa de transporte de carga en los angeles,Comercial,Home / Gardena,
+Empresa,empresa de trucking en miami,Comercial,Home / Miami,Spanglish frecuente en el sector
+Empresa,transporte terrestre de carga en estados unidos,Comercial,Servicios,
+LTL / FTL,carga consolidada,Comercial,Servicio LTL,En Latinoamérica LTL se llama «carga consolidada»
+LTL / FTL,carga consolidada estados unidos,Comercial,Servicio LTL,
+LTL / FTL,carga parcial camión,Comercial,Servicio LTL,
+LTL / FTL,camión completo de carga,Comercial,Servicio FTL,
+LTL / FTL,qué significa ltl,Informativa,Artículo LTL vs FTL,Equivalente de «ltl meaning»
+LTL / FTL,diferencia entre ftl y ltl,Informativa,Artículo LTL vs FTL,En inglés este grupo suma 3 × 500
+LTL / FTL,ftl y ltl que significa,Informativa,Artículo LTL vs FTL,
+Pallets,envío de pallets,Comercial,Servicio LTL,
+Pallets,envío de paletas,Comercial,Servicio LTL,«Paleta»: Caribe y Centroamérica
+Pallets,envío de tarimas,Comercial,Servicio LTL,«Tarima»: México; probar las tres variantes
+Pallets,cuánto cuesta enviar un pallet,Informativa-comercial,Artículo coste de pallet,En inglés: 500/mes
+Pallets,cuánto cuesta enviar una paleta,Informativa-comercial,Artículo coste de pallet,
+Pallets,cuánto cuesta enviar una tarima,Informativa-comercial,Artículo coste de pallet,
+Pallets,precio envío pallet estados unidos,Comercial,Artículo coste de pallet / Quote,
+Pallets,mercancía paletizada,Informativa,Cross-docking y paletizado,
+Servicios,cross docking que es,Informativa,Artículo transloading vs cross-docking,
+Servicios,cross docking miami,Comercial,Cross-docking y paletizado,
+Servicios,cross docking los angeles,Comercial,Cross-docking y paletizado,
+Servicios,transloading que es,Informativa,Artículo transloading vs cross-docking,
+Servicios,transbordo de contenedores,Comercial,Cross-docking y paletizado,
+Servicios,servicio de paletizado,Comercial,Cross-docking y paletizado,
+Cotización,cotizar flete,Comercial,Quote,
+Cotización,cotización de transporte de carga,Comercial,Quote,
+Públicos,transporte de mercancía para distribuidores,Comercial,Who we serve,
+Públicos,transporte de carga para proveedores,Comercial,Who we serve,
+Públicos,transporte de carga para fábricas,Comercial,Who we serve,
+Públicos,agente de carga en miami,Control,Artículo forwarders Miami,Mide el ecosistema forwarder; la mayoría busca envío internacional
+Públicos,agencia de carga en miami,Control,No es destino,Alto volumen esperado pero intención internacional (envíos a Latinoamérica): Pelham no lo ofrece
+Marca,pelham services en español,Marca,Home,"Si tiene datos, hay clientes buscándolos en español"
