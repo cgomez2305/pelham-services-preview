@@ -3357,3 +3357,7 @@ body :is(.card-link,.text-link) svg{transition:transform 180ms ease}
 .terminal-card p:empty{display:none}
 .terminal-card p{margin:0 0 6px}
 .page-story:not(.news-hub) .legacy-content .service-grid{margin-top:32px}
+/* Inside a section (a service, a facility, an article) the menu marks the parent with an underline, not the filled state of the page itself. */
+@media(min-width:901px){#site-navigation .nav-links>li>a[aria-current=location]{background:transparent;box-shadow:inset 0 -2px 0 var(--p-green);border-radius:0}}
+@media(max-width:900px){#site-navigation .nav-links>li>a[aria-current=location]{background:transparent;text-decoration:underline;text-underline-offset:6px}}
+.mobile-service-links a[aria-current=page]{color:#c4f0d6;font-weight:600;text-decoration-thickness:2px}

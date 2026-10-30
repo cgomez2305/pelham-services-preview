@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.21.1
+ * Version: 1.21.2
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -165,7 +165,7 @@ add_shortcode('pelham_form',function($attrs){
  <div class="form-grid quote-route"><?php foreach(['origin'=>['pin','Origin ZIP code','e.g. 90248'],'destination'=>['flag','Destination ZIP code','e.g. 33166']] as $key=>[$icon,$label,$example]){ ?><label><?php echo pelham_icon($icon).esc_html(pelham_t($label)); ?> <span class="field-requirement"><span aria-hidden="true">*</span></span><input type="text" name="<?php echo esc_attr($key); ?>" required inputmode="numeric" autocomplete="postal-code" maxlength="10" pattern="[0-9]{5}(-[0-9]{4})?" aria-describedby="quote-route-help" placeholder="<?php echo esc_attr(pelham_t($example)); ?>"></label><?php } ?></div>
  <?php // Shipment details for LTL (with cubic feet) and FTL (total weight); offer.js shows the set that matches the service. ?>
  <div class="quote-details" data-quote-details><p class="quote-details-title"><?php echo esc_html(pelham_t('Shipment details')); ?></p><div class="form-grid">
- <?php foreach(['pieces'=>['Pieces','number','min="1" step="1" inputmode="numeric"',''],'weight'=>['Weight (lb)','number','min="1" step="any" inputmode="decimal"',''],'cubic_feet'=>['Cubic feet','number','min="0.1" step="any" inputmode="decimal"','ltl'],'commodity'=>['Commodity','text','maxlength="150" placeholder="'.esc_attr(pelham_t('e.g. boxed packaging on pallets')).'"',''],'value'=>['Value (USD)','number','min="0" step="any" inputmode="decimal"','']] as $key=>[$label,$type,$attributes,$only]){ ?><label<?php if($only)echo ' data-ltl-only'; ?>><span<?php if($key==='weight')echo ' data-label-ltl="'.esc_attr(pelham_t('Weight (lb)')).'" data-label-ftl="'.esc_attr(pelham_t('Total weight (lb)')).'"'; ?>><?php echo esc_html(pelham_t($label)); ?></span> <span class="field-requirement"><span aria-hidden="true">*</span></span><input type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($key); ?>" <?php echo $attributes; ?>></label><?php } ?>
+ <?php foreach(['pieces'=>['Pieces','number','min="1" step="1" inputmode="numeric"',''],'weight'=>['Weight (lb)','number','min="1" step="any" inputmode="decimal"',''],'cubic_feet'=>['Cubic feet','number','min="0.1" step="any" inputmode="decimal"','ltl'],'commodity'=>['Commodity','text','maxlength="150" placeholder="'.esc_attr(pelham_t('e.g. wearing apparel, auto parts')).'"',''],'value'=>['Value (USD)','number','min="0" step="any" inputmode="decimal"','']] as $key=>[$label,$type,$attributes,$only]){ ?><label<?php if($only)echo ' data-ltl-only'; ?>><span<?php if($key==='weight')echo ' data-label-ltl="'.esc_attr(pelham_t('Weight (lb)')).'" data-label-ftl="'.esc_attr(pelham_t('Total weight (lb)')).'"'; ?>><?php echo esc_html(pelham_t($label)); ?></span> <span class="field-requirement"><span aria-hidden="true">*</span></span><input type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($key); ?>" <?php echo $attributes; ?>></label><?php } ?>
  </div></div>
  <div class="quote-guidance" id="quote-guidance" aria-live="polite" aria-atomic="true">
  <?php echo esc_html(pelham_ui('quote_guide_general','Tell us what you are shipping, the approximate quantity or weight, and your preferred dates. If you are unsure which service fits, describe the move and our team can help.')); ?>

@@ -1,6 +1,6 @@
 # Revisiones del cliente del 28 de octubre: tema 1.25 / contenido 1.21
 
-Tema **1.25.1** · Pelham Content **1.21.1** · Pelham Applications **1.4.1** (sin cambios)
+Tema **1.25.2** · Pelham Content **1.21.2** · Pelham Applications **1.4.1** (sin cambios)
 
 Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los títulos SEO, los H1 y los H2 con keywords.
 
@@ -20,6 +20,15 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - La URL de Gardena: `/locations/gardena-ca/` y `/es/ubicaciones/gardena-los-angeles/`.
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
+
+## Segunda ronda del cliente (1.25.2 / 1.21.2)
+
+- **Commodity:** el ejemplo del campo es ahora «e.g. wearing apparel, auto parts» («p. ej., ropa, autopartes» en español). Commodity es el tipo de mercancía.
+- **«Dos páginas bajo Services».** No hay dos páginas grabadas: `/services/` es la página general y `/services/freight-consolidation/` es la página de LTL, con su propia foto. Lo comprobé en el sitio de Hostinger: desde About, la tarjeta LTL abre la página de LTL, igual que desde Services. La confusión venía del menú, que resaltaba «Services» igual en las dos páginas. Ahora:
+  - en la página general, «Services» sigue resaltado con el fondo verde;
+  - en una página de servicio (y de ubicación o artículo), el menú solo subraya la sección, así se ve que es una subpágina;
+  - el breadcrumb sigue mostrando Home › Services › LTL.
+- **Menú móvil.** Los enlaces a servicios tenían los nombres antiguos (Dedicated transport, Freight consolidation, Transloading). Ahora son Less Than Truckload (LTL), Full Truckload (FTL) y Cross-Docking & Palletizing, en el mismo orden que en Services, y se marca el servicio en el que estás.
 
 ## Revisión visual (1.25.1 / 1.21.1)
 
@@ -55,7 +64,7 @@ El servidor valida los mismos datos que el navegador, con errores junto a cada c
 
 ## Instalación en un sitio existente
 
-1. Subir el tema `pelham-modern-1.25.1.zip` y el plugin `pelham-content-1.21.1.zip`; reemplazan a los anteriores.
+1. Subir el tema `pelham-modern-1.25.2.zip` y el plugin `pelham-content-1.21.2.zip`; reemplazan a los anteriores.
 2. Entrar en el administrador. Aparece el aviso **«the client’s web revisions of October 28 are ready»**; pulsar **Apply web revisions (save backups)**. El botón hace esto:
    - cambia solo las frases afectadas de Quote, About, Our network, Gardena y LTL, en inglés y en español;
    - quita la barra de llamadas;
