@@ -11,3 +11,14 @@
 .pelham-digital-onboarding .entry-content:has(>.pa-app){max-width:none;width:100%;margin-inline:0;padding-inline:0}
 .pa-test-panel{padding:20px 24px;margin:24px 0;border:1px dashed #8baf99;border-radius:12px;background:#f0f6f2;max-width:740px}
 .pa-test-panel p{margin:8px 0 14px}.pa-test-panel button{padding:10px 16px;border:1px solid #9ab9a7;border-radius:8px;background:white;color:#143b2a}.pa-test-panel form{display:flex;flex-wrap:wrap;gap:10px}
+/* 1.5: completed documents with PDF preview, and the A / B / C sections of the signing step. */
+.pa-section-title{margin:30px 0 8px;font-size:20px;color:var(--pa-ink)}
+.pa-step .pa-section-title:first-of-type{margin-top:6px}
+.pa-document{margin:0 0 12px;padding:14px 18px;border:1px solid var(--pa-line);border-radius:12px;background:#f2f7f4}
+.pa-document[hidden]{display:none}
+.pa-document-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.pa-document-head strong{font-size:16px;color:var(--pa-ink)}
+.pa-preview{background:white;border:1px solid #adc9b8;padding:10px 16px;border-radius:8px;color:#143b2a;min-height:44px;font-weight:600;cursor:pointer}
+.pa-preview:hover{border-color:var(--pa-green);color:var(--pa-green)}
+.pa-document details{margin-top:10px;background:white!important}
+.pa-initials-note{margin-top:-6px}

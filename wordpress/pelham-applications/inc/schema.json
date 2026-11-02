@@ -277,8 +277,12 @@
       "label": "Preferred billing method",
       "group": "billing",
       "required": true,
-      "type": "text",
-      "doc": "customer"
+      "type": "select",
+      "doc": "customer",
+      "options": [
+        "Email",
+        "Customer portal"
+      ]
     },
     {
       "key": "billing_phone",
@@ -301,8 +305,14 @@
       "label": "Preferred payment method",
       "group": "billing",
       "required": true,
-      "type": "text",
-      "doc": "customer"
+      "type": "select",
+      "doc": "customer",
+      "options": [
+        "ACH",
+        "Check",
+        "Credit card",
+        "Zelle"
+      ]
     },
     {
       "key": "ap_contact",
@@ -466,8 +476,12 @@
       "label": "Reference 1 \u2014 Type of account",
       "group": "references",
       "required": true,
-      "type": "text",
-      "doc": "customer"
+      "type": "select",
+      "doc": "customer",
+      "options": [
+        "Bank reference",
+        "Trade reference"
+      ]
     },
     {
       "key": "ref2_company",
@@ -607,8 +621,12 @@
       "label": "Reference 2 \u2014 Type of account",
       "group": "references",
       "required": true,
-      "type": "text",
-      "doc": "customer"
+      "type": "select",
+      "doc": "customer",
+      "options": [
+        "Bank reference",
+        "Trade reference"
+      ]
     },
     {
       "key": "ref3_company",
@@ -757,9 +775,13 @@
       "label": "Reference 3 \u2014 Type of account",
       "group": "credit",
       "required": false,
-      "type": "text",
+      "type": "select",
       "doc": "credit",
-      "condition": "credit"
+      "condition": "credit",
+      "options": [
+        "Bank reference",
+        "Trade reference"
+      ]
     },
     {
       "key": "request_credit",
@@ -956,75 +978,42 @@
       "condition": "credit"
     },
     {
-      "key": "customer_signer",
-      "label": "Account application \u2014 signer name",
-      "group": "agreements",
+      "key": "signer_name",
+      "label": "Authorized signer \u2014 full name",
+      "group": "signer",
       "required": true,
       "type": "text",
       "doc": "customer"
     },
     {
-      "key": "customer_title",
-      "label": "Account application \u2014 signer title",
-      "group": "agreements",
+      "key": "signer_title",
+      "label": "Title / corporate office (e.g. Owner, VP of Logistics, CFO)",
+      "group": "signer",
       "required": true,
       "type": "text",
       "doc": "customer"
     },
     {
-      "key": "terms_signer",
-      "label": "Transport conditions \u2014 shipper name",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
-      "doc": "terms"
-    },
-    {
-      "key": "terms_title",
-      "label": "Transport conditions \u2014 shipper title",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
-      "doc": "terms"
-    },
-    {
-      "key": "credit_signer",
-      "label": "Credit application \u2014 owner / officer name",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
-      "doc": "credit",
-      "condition": "credit"
-    },
-    {
-      "key": "credit_title",
-      "label": "Credit application \u2014 owner / officer title",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
+      "key": "guarantor_same",
+      "label": "The personal guarantor is the same person as the signer",
+      "group": "signer",
+      "required": false,
+      "type": "checkbox",
       "doc": "credit",
       "condition": "credit"
     },
     {
       "key": "guarantor",
       "label": "Personal guarantor \u2014 full name",
-      "group": "agreements",
+      "group": "signer",
       "required": true,
       "type": "text",
       "doc": "credit",
       "condition": "credit"
     },
     {
-      "key": "accept_customer",
-      "label": "I accept the account application agreement and authorize inquiries into the references provided.",
-      "group": "agreements",
-      "required": true,
-      "type": "checkbox",
-      "doc": "customer"
-    },
-    {
       "key": "accept_terms",
-      "label": "I have read and agree to the complete Terms and Conditions of Contract.",
+      "label": "General & transportation terms: I have read, accept and agree to the Customer Account Agreement and the Terms and Conditions of Contract.",
       "group": "agreements",
       "required": true,
       "type": "checkbox",
@@ -1032,7 +1021,7 @@
     },
     {
       "key": "accept_credit",
-      "label": "I accept the credit application terms and authorize the inquiries described in the credit agreement.",
+      "label": "Credit & investigation authorization: I authorize Pelham Services to verify commercial credit references, run financial inquiries and extend credit terms per the agreement.",
       "group": "agreements",
       "required": true,
       "type": "checkbox",
@@ -1041,7 +1030,7 @@
     },
     {
       "key": "accept_guarantee",
-      "label": "I accept the personal guaranty in my own name as the named guarantor.",
+      "label": "Personal guaranty: I execute the Personal Guaranty in my individual capacity for all obligations incurred under this credit account.",
       "group": "agreements",
       "required": true,
       "type": "checkbox",
@@ -1049,48 +1038,16 @@
       "condition": "credit"
     },
     {
-      "key": "consent_contact",
-      "label": "I agree to be contacted about this application.",
-      "group": "agreements",
-      "required": true,
-      "type": "checkbox",
-      "doc": "customer"
-    },
-    {
       "key": "consent_signature",
-      "label": "I intend the signatures I draw or upload to be my signatures on the documents identified below.",
+      "label": "Electronic signature consent: I agree that the signature and initials I apply below are legally binding electronic signatures under the ESIGN Act.",
       "group": "agreements",
       "required": true,
       "type": "checkbox",
       "doc": "terms"
     },
     {
-      "key": "terms_initials_1",
-      "label": "Transport conditions \u2014 initials for page 1",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
-      "doc": "terms"
-    },
-    {
-      "key": "terms_initials_2",
-      "label": "Transport conditions \u2014 initials for page 2",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
-      "doc": "terms"
-    },
-    {
-      "key": "terms_initials_3",
-      "label": "Transport conditions \u2014 initials for page 3",
-      "group": "agreements",
-      "required": true,
-      "type": "text",
-      "doc": "terms"
-    },
-    {
-      "key": "terms_initials_4",
-      "label": "Transport conditions \u2014 initials for page 4",
+      "key": "terms_initials",
+      "label": "Initials for all pages of the Terms and Conditions",
       "group": "agreements",
       "required": true,
       "type": "text",

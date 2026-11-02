@@ -15,12 +15,12 @@ function pa_public_payload($id,$p){
  return ['test'=>!empty($p['test']),'reference'=>pa_reference($id),'kind'=>$p['kind'],'status'=>get_post_meta($id,'_pa_status',true),'data'=>$p['data'],'data_hash'=>pa_fingerprint($p),'signatures'=>$signs,'files'=>$files,'documents'=>$p['documents'],'csrf'=>pa_csrf(),'correction'=>$p['correction']??'','saved_at'=>$p['saved_at']??null];
 }
 add_action('rest_api_init',function(){
- register_rest_route('pelham-applications/v1','/(?P<operation>start|exchange|session|save|sign|file|submit|logout)',[
+ register_rest_route('pelham-applications/v1','/(?P<operation>start|exchange|session|preview|save|sign|file|submit|logout)',[
   'methods'=>['GET','POST'],'permission_callback'=>'__return_true','callback'=>'pa_api']);
 });
 function pa_api(WP_REST_Request $r){
  if(!pa_origin_ok())return pa_error('This request must come from the Pelham website.',403);
- $op=$r['operation'];if(($op==='session'&&$r->get_method()!=='GET')||($op!=='session'&&$r->get_method()!=='POST'))return pa_error('Method not allowed.',405);
+ $op=$r['operation'];$read=in_array($op,['session','preview'],true);if(($read&&$r->get_method()!=='GET')||(!$read&&$r->get_method()!=='POST'))return pa_error('Method not allowed.',405);
  if(strlen($r->get_body())>5000000)return pa_error('This request is too large.',413);
  $body=$r->get_json_params();if(!is_array($body))$body=[];
  foreach(['email','kind','website','token','slot','method','image','data_hash','name','file','lang'] as $key)if(isset($body[$key])&&!is_string($body[$key]))return pa_error('Invalid request field.',400);
@@ -52,10 +52,17 @@ function pa_api(WP_REST_Request $r){
    setcookie('pelham_application',$cookie,['expires'=>time()+DAY_IN_SECONDS,'path'=>'/','secure'=>is_ssl(),'httponly'=>true,'samesite'=>'Strict']);$_COOKIE['pelham_application']=$cookie;
    $p=pa_get($id);return pa_public_payload($id,$p);
   }
-  $id=pa_session();if($id&&$op!=='session'&&!pa_rate('session-write:'.$id,600))return pa_error('Too many updates. Please wait before trying again.',429);if(!$id)return pa_error('Verify your email to open or resume your request.',401);
-  if($op!=='session'&&!hash_equals(pa_csrf(),(string)$r->get_header('X-Pelham-CSRF')))return pa_error('Your session needs to be refreshed.',403);
+  $id=pa_session();if($id&&!$read&&!pa_rate('session-write:'.$id,600))return pa_error('Too many updates. Please wait before trying again.',429);if(!$id)return pa_error('Verify your email to open or resume your request.',401);
+  if(!$read&&!hash_equals(pa_csrf(),(string)$r->get_header('X-Pelham-CSRF')))return pa_error('Your session needs to be refreshed.',403);
   if($op==='logout'){delete_post_meta($id,'_pa_session');setcookie('pelham_application','',['expires'=>time()-3600,'path'=>'/','secure'=>is_ssl(),'httponly'=>true,'samesite'=>'Strict']);return ['ok'=>true];}
   if($op==='session')return pa_public_payload($id,pa_get($id));
+  if($op==='preview'){
+   // The applicant's own documents, filled with the saved information, before submitting (marked DRAFT).
+   if(!pa_rate('preview:'.$id,60))return pa_error('Please wait before opening more previews.',429);
+   $p=pa_get($id);$document=sanitize_key($r->get_param('document')??'');if(!in_array($document,pa_document_keys($p),true))return pa_error('This document is not part of your request.',404);
+   $bytes=pa_original_pdf($id,0,$document);
+   nocache_headers();header('Content-Type: application/pdf');header('X-Content-Type-Options: nosniff');header('X-Robots-Tag: noindex');header('Content-Disposition: inline; filename="'.pa_reference($id).'-'.$document.'-preview.pdf"');header('Content-Length: '.strlen($bytes));echo $bytes;exit;
+  }
   if(!pa_lock($id))return pa_error('A save is already in progress. Try again.',409);$locked=$id;$p=pa_get($id);$status=get_post_meta($id,'_pa_status',true);
   if(!in_array($status,['draft','needs_information'],true))return $op==='submit'?pa_public_payload($id,$p):pa_error('This request has already been submitted and is locked for review.',409);
   if($op==='save'){
@@ -65,9 +72,11 @@ function pa_api(WP_REST_Request $r){
   }elseif($op==='sign'){
    if(!hash_equals(pa_fingerprint($p),(string)($body['data_hash']??'')))return pa_error('Your information changed. Save it and sign again.',409);
    $errors=pa_validate($p);if($errors)return pa_error('Complete the required information before signing.',422,$errors);
-   $slot=sanitize_key($body['slot']??'');$needed=pa_signatures_needed($p);if(!isset($needed[$slot]))return pa_error('Unknown document.');
+   $slot=sanitize_key($body['slot']??'');$needed=pa_signatures_needed($p);
+   // One signature for the account and transport agreement signs the account application and the terms.
+   $slots=$slot==='main'&&$p['kind']==='application'?['customer','terms']:[$slot];foreach($slots as $one)if(!isset($needed[$one]))return pa_error('Unknown document.');
    $image=pa_image($body['image']??'');if(!$image||!in_array($body['method']??'',['draw','upload','reuse'],true)||empty($body['confirm']))return pa_error('Draw or upload a valid signature and confirm your intention to sign.');
-   $spec=$needed[$slot];$p['signatures'][$slot]=['name'=>$p['data'][$spec['name']],'title'=>$spec['title']?$p['data'][$spec['title']]:'','method'=>$body['method'],'image'=>$image,'signed_at'=>gmdate('c'),'data_hash'=>pa_fingerprint($p),'document_sha256'=>$p['documents'][$spec['doc']]['sha256']];
+   $hash=pa_fingerprint($p);foreach($slots as $one){$spec=$needed[$one];$p['signatures'][$one]=['name'=>$p['data'][$spec['name']],'title'=>$spec['title']?$p['data'][$spec['title']]:'','method'=>$body['method'],'image'=>$image,'signed_at'=>gmdate('c'),'data_hash'=>$hash,'document_sha256'=>$p['documents'][$spec['doc']]['sha256']];}
   }elseif($op==='file'){
    if($p['kind']!=='claim')return pa_error('Attachments are only requested for a claim.');
    $slot=sanitize_key($body['slot']??'');if(!in_array($slot,['invoice','repairs','photos'],true))return pa_error('Unknown attachment.');

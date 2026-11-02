@@ -54,16 +54,22 @@ function pa_signatures_needed($p){
  if($p['kind']==='customer')return $customer;
  if($p['kind']==='credit')return $credit;
  if($p['kind']==='terms')return $terms;
- // Legacy combined application.
- $s=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Business account application'],'terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Transport terms and conditions']];
- if(($p['data']['request_credit']??'')==='Yes')$s+=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit application'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guaranty']];return $s;
+ // Combined account application: one signature for the account and transport agreement is stored for both documents.
+ $s=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Account and transport agreement'],'terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Account and transport agreement']];
+ if(($p['data']['request_credit']??'')==='Yes')$s+=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit applicant signature'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guarantor signature']];return $s;
 }
 function pa_clean_data($kind,$input,$email){
  $data=[];foreach(pa_schema($kind) as $f){$v=$input[$f['key']]??'';if(!is_scalar($v))$v='';$v=$f['type']==='checkbox'?(!empty($v)?'1':''):sanitize_textarea_field((string)$v);$data[$f['key']]=substr($v,0,$f['type']==='textarea'?5000:250);}
  $data['email']=$email;
  if(in_array($kind,['application','customer'],true)&&!empty($data['billing_same']))foreach(['address','city','state','zip'] as $key)$data['billing_'.$key]=$data[$key];
  if($kind==='application'){
-  if(($data['request_credit']??'')!=='Yes')foreach(pa_schema($kind) as $f)if(($f['condition']??'')==='credit')$data[$f['key']]='';
+  $credit=($data['request_credit']??'')==='Yes';
+  if(!$credit)foreach(pa_schema($kind) as $f)if(($f['condition']??'')==='credit')$data[$f['key']]='';
+  // One authorized signer and one set of initials (1.5): fill the per-document fields the original PDFs use.
+  if($credit&&!empty($data['guarantor_same']))$data['guarantor']=$data['signer_name']??'';
+  foreach(['customer','terms','credit'] as $doc){$data[$doc.'_signer']=$doc==='credit'&&!$credit?'':($data['signer_name']??'');$data[$doc.'_title']=$doc==='credit'&&!$credit?'':($data['signer_title']??'');}
+  for($page=1;$page<=4;$page++)$data['terms_initials_'.$page]=$data['terms_initials']??'';
+  $data['accept_customer']=$data['accept_terms']??'';
  }
  return $data;
 }
@@ -82,6 +88,7 @@ function pa_validate($p){
  if(in_array($p['kind'],['application','customer'],true)&&($data['entity']??'')==='Other'&&empty($data['entity_other']))$errors['entity_other']='Describe the business structure.';
  if($p['kind']==='application'){
   if(($data['request_credit']??'')==='Yes')foreach([1,2] as $i)if(empty($data['ref'.$i.'_contact']))$errors['ref'.$i.'_contact']='A reference contact is required for credit.';
+  if(($data['terms_initials']??'')!==''&&(mb_strlen($data['terms_initials'])>10||!preg_match('/^[\p{L}][\p{L}.\s-]*$/u',$data['terms_initials'])))$errors['terms_initials']='Enter your initials, for example J.D.';
  }elseif($p['kind']==='claim'){
   if(str_contains(strtolower($data['incident']??''),'loss')&&empty($data['lost_pieces']))$errors['lost_pieces']='Describe the lost pieces.';
   if(str_contains(strtolower($data['incident']??''),'damage')&&empty($data['damage']))$errors['damage']='Describe the extent of damage.';

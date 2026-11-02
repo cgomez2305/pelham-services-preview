@@ -128,6 +128,14 @@
 			if (same) el.value = form.elements.namedItem(key).value;
 			el.readOnly = !!same;
 		}
+		const guarantor = form.elements.namedItem('guarantor'),
+			sameGuarantor = form.elements.namedItem('guarantor_same')?.checked;
+		if (guarantor) {
+			if (sameGuarantor) guarantor.value = form.elements.namedItem('signer_name')?.value || '';
+			guarantor.readOnly = !!sameGuarantor;
+		}
+		const companyName = form.elements.namedItem('company')?.value;
+		app.querySelectorAll('[data-company-name]').forEach(el => el.textContent = companyName || t('your company'));
 		const docs = app.querySelector('[data-document=credit]');
 		if (docs) docs.hidden = !credit;
 		form.querySelectorAll('[data-signature=credit],[data-signature=guarantee]').forEach(e => e.hidden = !credit);
@@ -150,7 +158,7 @@
 
 	function renderSignatureStates() {
 		for (const box of form.querySelectorAll('[data-signature]')) {
-			const signed = state?.signatures?.[box.dataset.signature];
+			const signed = signatureOf(box.dataset.signature);
 			box.querySelector('.pa-signed').textContent = signed ? t('Signed by') + ' ' + signed.name + ' · ' + new Date(signed.signed_at).toLocaleString(lang === 'es' ? 'es-US' : undefined) : t('Not signed');
 			box.classList.toggle('is-signed', !!signed);
 			const preview = box.querySelector('.pa-signed-image');
@@ -159,25 +167,39 @@
 		}
 	}
 
+	function signatureOf(slot) {
+		const signatures = state?.signatures || {};
+		if (slot !== 'main') return signatures[slot];
+		return signatures.customer && signatures.terms ? signatures.customer : null;
+	}
+
 	function signaturesNeeded() {
+		// "main" signs the account application and the transport terms at once.
 		return (kind === 'claim' ? [
 			['claim', 'Freight claim']
 		] : [
-			['customer', 'Business account application'],
-			['terms', 'Transport terms and conditions'],
-			['credit', 'Credit application'],
-			['guarantee', 'Personal guaranty']
+			['main', 'Account and transport agreement'],
+			['credit', 'Credit applicant signature'],
+			['guarantee', 'Personal guarantor signature']
 		]).map(([slot, label]) => [slot, t(label)]);
 	}
 
+	// What each signature signs, for the confirmation sentence.
+	const signedDocument = {
+		main: 'account application and transport terms',
+		credit: 'credit application',
+		guarantee: 'personal guaranty',
+		claim: 'freight claim'
+	};
+
 	function buildSignatures() {
 		const holder = form.querySelector('.pa-signatures');
-		holder.innerHTML = '<h4>' + esc(t('Your signatures')) + '</h4><p>' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). Confirm each document separately.')) + '</p>';
+		holder.innerHTML = kind === 'claim' ? '<h4>' + esc(t('Your signatures')) + '</h4><p>' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). Confirm each document separately.')) + '</p>' : '<h4 class="pa-section-title">' + esc(t('C. Signatures')) + '</h4><p class="pa-help">' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). The date is recorded automatically when you sign.')) + '</p>';
 		for (const [slot, label] of signaturesNeeded()) {
 			const box = document.createElement('section');
 			box.className = 'pa-signature';
 			box.dataset.signature = slot;
-			box.innerHTML = `<h4>${esc(label)}</h4><p class="pa-signed" aria-live="polite"></p><img class="pa-signed-image" alt="${esc(t('Your saved signature'))}" hidden><div class="pa-sign-tools"><button type="button" class="pa-draw">${esc(t('Draw signature'))}</button><label class="pa-upload-label">${esc(t('Upload signature'))}<input type="file" accept=".png,.jpg,.jpeg,.webp" class="pa-sign-upload"></label><button type="button" class="pa-clear">${esc(t('Clear drawing'))}</button></div><canvas width="1000" height="280" aria-label="${esc(t('Draw your signature for %s').replace('%s',label))}"></canvas><p class="pa-help">${esc(t('Drawing is optional: use Upload signature if you use a keyboard or already have a signature image.'))}</p><label class="pa-sign-confirm"><input type="checkbox"> ${esc(t('I am the named signer and intend to sign the %s with this signature.').replace('%s',label))}</label><div class="pa-sign-actions"><button type="button" class="pa-sign-button">${esc(t('Sign this document'))}</button>${slot==='customer'||slot==='claim'?'':'<button type="button" class="pa-reuse">'+esc(t('Use my account signature'))+'</button>'}</div>`;
+			box.innerHTML = `<h4>${esc(label)}</h4><p class="pa-signed" aria-live="polite"></p><img class="pa-signed-image" alt="${esc(t('Your saved signature'))}" hidden><div class="pa-sign-tools"><button type="button" class="pa-draw">${esc(t('Draw signature'))}</button><label class="pa-upload-label">${esc(t('Upload signature'))}<input type="file" accept=".png,.jpg,.jpeg,.webp" class="pa-sign-upload"></label><button type="button" class="pa-clear">${esc(t('Clear drawing'))}</button></div><canvas width="1000" height="280" aria-label="${esc(t('Draw your signature for %s').replace('%s',label))}"></canvas><p class="pa-help">${esc(t('Drawing is optional: use Upload signature if you use a keyboard or already have a signature image.'))}</p><label class="pa-sign-confirm"><input type="checkbox"> ${esc(t('I am the named signer and intend to sign the %s with this signature.').replace('%s',t(signedDocument[slot]||label)))}</label><div class="pa-sign-actions"><button type="button" class="pa-sign-button">${esc(t('Sign this document'))}</button>${['customer','main','claim'].includes(slot)?'':'<button type="button" class="pa-reuse">'+esc(t('Use my account signature'))+'</button>'}</div>`;
 			holder.append(box);
 			const canvas = box.querySelector('canvas'),
 				ctx = canvas.getContext('2d');
@@ -254,7 +276,7 @@
 					await save();
 					let image;
 					if (reuse) {
-						image = state.signatures.customer?.image;
+						image = signatureOf('main')?.image;
 						if (!image) throw new Error(t('Sign the account application first.'))
 					} else {
 						if (!hasInk) throw new Error(t('Draw or upload your signature first.'));
@@ -278,29 +300,65 @@
 		}
 	}
 
+	function previewUrl(document) {
+		return base + 'preview' + (base.includes('?') ? '&' : '?') + 'document=' + encodeURIComponent(document);
+	}
+
+	function readText(item, doc, key) {
+		const text = item.querySelector('.pa-document-text');
+		if (key === 'terms') {
+			const pages = doc.text.split('\f').filter(p => p.trim());
+			pages.forEach((page, i) => {
+				const section = document.createElement('section'),
+					heading = document.createElement('h5'),
+					copy = document.createElement('div');
+				heading.textContent = t('Page %1 of %2').replace('%1', i + 1).replace('%2', pages.length);
+				copy.textContent = page;
+				section.append(heading, copy);
+				text.append(section);
+			});
+		} else {
+			text.textContent = doc.text;
+		}
+	}
+
 	function buildDocuments() {
 		const holder = form.querySelector('.pa-documents');
 		holder.innerHTML = '';
-		for (const key of kind === 'claim' ? ['claim'] : ['customer', 'credit', 'terms']) {
-			const doc = state.documents[key];
-			const item = document.createElement('details');
-			item.dataset.document = key;
+		if (kind === 'claim') {
+			const doc = state.documents.claim,
+				item = document.createElement('details');
+			item.dataset.document = 'claim';
 			item.innerHTML = `<summary>${esc(t('Read the complete %s').replace('%s',t(doc.title)))}</summary><div class="pa-document-text"></div>`;
-			const text = item.querySelector('.pa-document-text');
-			if (key === 'terms') {
-				const pages = doc.text.split('\f').filter(p => p.trim());
-				pages.forEach((page, i) => {
-					const section = document.createElement('section'),
-						heading = document.createElement('h5'),
-						copy = document.createElement('div');
-					heading.textContent = t('Page %1 of %2').replace('%1', i + 1).replace('%2', pages.length);
-					copy.textContent = page;
-					section.append(heading, copy);
-					text.append(section)
-				});
-			} else {
-				text.textContent = doc.text;
-			}
+			readText(item, doc, 'claim');
+			holder.append(item);
+			return;
+		}
+		// The applicant's own documents, filled with the saved information (DRAFT until the request is sent).
+		const titles = {
+			customer: 'Completed customer application',
+			credit: 'Completed credit application',
+			terms: 'Terms and agreements'
+		};
+		for (const key of ['customer', 'credit', 'terms']) {
+			const doc = state.documents[key];
+			const item = document.createElement('div');
+			item.className = 'pa-document';
+			item.dataset.document = key;
+			item.innerHTML = `<div class="pa-document-head"><strong>${esc(t(titles[key]))}</strong><button type="button" class="pa-preview">${esc(t('Open PDF'))}</button></div>` + (key === 'terms' ? `<details><summary>${esc(t('Read the complete text'))}</summary><div class="pa-document-text"></div></details>` : '');
+			if (key === 'terms') readText(item, doc, key);
+			item.querySelector('.pa-preview').addEventListener('click', async () => {
+				// Open the tab during the click so browsers allow it, then load the PDF once the latest answers are saved.
+				const tab = window.open('', '_blank');
+				try {
+					await save();
+					if (tab) tab.location.href = previewUrl(key);
+					else window.location.href = previewUrl(key);
+				} catch (error) {
+					if (tab) tab.close();
+					fail(error);
+				}
+			});
 			holder.append(item);
 		}
 	}
@@ -346,8 +404,26 @@
 		}
 	}
 
+	// The contact person is often the signer: suggest it when the signing step opens, until the applicant changes it.
+	function suggestSigner() {
+		let changed = false;
+		for (const [target, source] of [
+				['signer_name', 'contact_name'],
+				['signer_title', 'contact_title']
+			]) {
+			const el = form.elements.namedItem(target),
+				value = form.elements.namedItem(source)?.value || '';
+			if (el && !el.value && value) {
+				el.value = value;
+				changed = true;
+			}
+		}
+		if (changed) fieldsChanged();
+	}
+
 	function setStep(index, focus = true) {
 		step = Math.max(0, Math.min(4, index));
+		if (step === 3 && kind !== 'claim') suggestSigner();
 		form.querySelectorAll('.pa-step').forEach((el, i) => el.hidden = i !== step);
 		app.querySelectorAll('[data-step]').forEach((el, i) => {
 			if (i === step) el.setAttribute('aria-current', 'step');
@@ -438,7 +514,8 @@
 		for (const [slot, label] of signaturesNeeded()) {
 			if (['credit', 'guarantee'].includes(slot) && values().request_credit !== 'Yes') continue;
 			const line = document.createElement('p');
-			line.textContent = label + ': ' + (state.signatures[slot] ? t('Signed by') + ' ' + state.signatures[slot].name : t('Signature required'));
+			const signed = signatureOf(slot);
+			line.textContent = label + ': ' + (signed ? t('Signed by') + ' ' + signed.name : t('Signature required'));
 			holder.append(line);
 		}
 	}
