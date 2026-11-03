@@ -60,7 +60,7 @@ function pa_api(WP_REST_Request $r){
    // The applicant's own documents, filled with the saved information, before submitting (marked DRAFT).
    if(!pa_rate('preview:'.$id,60))return pa_error('Please wait before opening more previews.',429);
    $p=pa_get($id);$document=sanitize_key($r->get_param('document')??'');if(!in_array($document,pa_document_keys($p),true))return pa_error('This document is not part of your request.',404);
-   $bytes=pa_original_pdf($id,0,$document);
+   $bytes=pa_designed_pdf($id,0,$document,true);
    nocache_headers();header('Content-Type: application/pdf');header('X-Content-Type-Options: nosniff');header('X-Robots-Tag: noindex');header('Content-Disposition: inline; filename="'.pa_reference($id).'-'.$document.'-preview.pdf"');header('Content-Length: '.strlen($bytes));echo $bytes;exit;
   }
   if(!pa_lock($id))return pa_error('A save is already in progress. Try again.',409);$locked=$id;$p=pa_get($id);$status=get_post_meta($id,'_pa_status',true);

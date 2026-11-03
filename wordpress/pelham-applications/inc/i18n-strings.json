@@ -122,5 +122,9 @@
 "freight claim",
 "Enter your initials, for example J.D.",
 "This document is not part of your request.",
-"Please wait before opening more previews."
+"Please wait before opening more previews.",
+"Go to step %s",
+"You changed your information, so your signatures were cleared. Sign again in step 4.",
+"File saved. Your signature covers the evidence, so it was cleared: sign again in step 4.",
+"Attach the cost invoice supporting the claim value."
 ]

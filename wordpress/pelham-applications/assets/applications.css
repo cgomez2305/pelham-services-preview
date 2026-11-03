@@ -22,3 +22,4 @@
 .pa-preview:hover{border-color:var(--pa-green);color:var(--pa-green)}
 .pa-document details{margin-top:10px;background:white!important}
 .pa-initials-note{margin-top:-6px}
+.pa-error-list{margin:10px 0 0;padding-left:20px}.pa-error-list li{margin:4px 0}.pa-error-go{margin-left:6px;background:white;border:1px solid #adc9b8;border-radius:6px;padding:4px 10px;min-height:32px;color:#143b2a;font-weight:600;cursor:pointer}.pa-conditional-mark[hidden]{display:none}

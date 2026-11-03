@@ -4,8 +4,8 @@ Objetivo: que el cliente pruebe los formularios reales en inglés y en español 
 
 Paquetes:
 - `pelham-modern-1.26.3.zip`
-- `pelham-content-1.21.8.zip`
-- `pelham-applications-1.5.0.zip`
+- `pelham-content-1.21.9.zip`
+- `pelham-applications-1.6.0.zip`
 
 ## 1. Crear el sitio de prueba (unos 15 minutos)
 
@@ -14,8 +14,8 @@ Paquetes:
 3. **WordPress.** En hPanel: *Sitios web → Instalador automático → WordPress*, en el subdominio. Idioma del sitio: **inglés**; el español lo crea el plugin.
 4. **Tema y plugins.**
    1. *Apariencia → Temas → Añadir → Subir tema*: `pelham-modern-1.26.3.zip` → Activar.
-   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.8.zip` → Activar.
-   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.5.0.zip` → Activar.
+   2. *Plugins → Añadir → Subir plugin*: `pelham-content-1.21.9.zip` → Activar.
+   3. *Plugins → Añadir → Subir plugin*: `pelham-applications-1.6.0.zip` → Activar.
 5. **Primera visita al administrador.**
    - El plugin crea las páginas y la versión en español (aviso «Spanish site created…»).
    - Fija la estructura de enlaces `/news/%postname%/`; no hay que tocar *Ajustes → Enlaces permanentes*.
@@ -55,7 +55,7 @@ wget -q -O - "https://prueba.pelhamservices.com/wp-cron.php?doing_wp_cron" >/dev
 
 ## 5. Formularios de prueba de Pelham Applications
 
-**En el sitio de prueba no hace falta nada.** Desde la 1.5.0, en cualquier dominio que no sea `pelhamservices.com`, las páginas `/register/`, `/claims/`, `/es/registro/` y `/es/reclamaciones/` muestran a cualquier visitante el recuadro **«Test mode» / «Modo de prueba»**, con dos botones:
+**En el sitio de prueba no hace falta nada.** Desde la 1.6.0, en cualquier dominio que no sea `pelhamservices.com`, las páginas `/register/`, `/claims/`, `/es/registro/` y `/es/reclamaciones/` muestran a cualquier visitante el recuadro **«Test mode» / «Modo de prueba»**, con dos botones:
 - **Test account application** / **Probar la solicitud de cuenta**: abre la solicitud única (empresa, crédito opcional, términos y firmas), sin verificar el correo.
 - **Test freight claim** / **Probar la reclamación de carga**.
 

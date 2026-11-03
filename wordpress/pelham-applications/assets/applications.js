@@ -44,23 +44,69 @@
 		form.querySelectorAll('.pa-field-error').forEach(e => e.textContent = '');
 	}
 
+	// Step that holds a field, an attachment or a signature named in a server error.
+	function stepOf(key) {
+		let el = form.elements.namedItem(key) || form.querySelector(`[data-attachment="${key}"]`);
+		if (!el && key.startsWith('signature_')) {
+			const slot = key.slice(10);
+			el = form.querySelector(`[data-signature="${kind !== 'claim' && ['customer', 'terms'].includes(slot) ? 'main' : slot}"]`);
+		}
+		const panel = el?.closest?.('.pa-step');
+		return panel ? Number(panel.dataset.panel) : null;
+	}
+
 	function fail(error) {
 		errors.hidden = false;
 		errors.textContent = t(error.message || 'Please try again.');
 		const fields = error.fields || {};
+		const problems = [];
 		for (const [key, text] of Object.entries(fields)) {
 			const el = form.elements.namedItem(key),
 				label = form.querySelector('#pa-' + key + '-error');
-			if (el) {
+			if (el && el.setAttribute) {
 				el.setAttribute('aria-invalid', 'true');
 				if (label) {
 					label.textContent = t(text);
 					el.setAttribute('aria-describedby', label.id);
 				}
 			}
+			const where = stepOf(key);
+			if (!problems.some(p => p.text === t(text))) problems.push({
+				key,
+				text: t(text),
+				step: where
+			});
+		}
+		// List every problem with a way to reach it: errors on other steps are otherwise invisible.
+		if (problems.length) {
+			const list = document.createElement('ul');
+			list.className = 'pa-error-list';
+			for (const problem of problems) {
+				const item = document.createElement('li');
+				item.append(problem.text);
+				if (problem.step !== null && problem.step !== step) {
+					const go = document.createElement('button');
+					go.type = 'button';
+					go.className = 'pa-error-go';
+					go.textContent = t('Go to step %s').replace('%s', problem.step + 1);
+					go.onclick = () => {
+						setStep(problem.step);
+						const target = form.elements.namedItem(problem.key) || form.querySelector(`[data-attachment="${problem.key}"]`);
+						target?.scrollIntoView?.({
+							block: 'center'
+						});
+					};
+					item.append(' ', go);
+				}
+				list.append(item);
+			}
+			errors.append(list);
+			const steps = problems.map(p => p.step).filter(n => n !== null);
+			if (steps.length && !steps.includes(step)) setStep(Math.min(...steps), false);
 		}
 		errors.focus();
 	}
+
 	async function api(op, data) {
 		const response = await fetch(base + op, {
 			method: op === 'session' ? 'GET' : 'POST',
@@ -105,6 +151,7 @@
 	}
 
 	function fieldsChanged() {
+		if (Object.keys(state?.signatures || {}).length) message(t('You changed your information, so your signatures were cleared. Sign again in step 4.'));
 		app.querySelectorAll('.pa-sign-confirm input').forEach(input => input.checked = false);
 		dirty = true;
 		app.querySelector('.pa-save-state').textContent = t('Unsaved changes');
@@ -116,6 +163,28 @@
 	}
 
 	function conditional() {
+		// Claims: the type of claim decides whether lost pieces and damage must be described.
+		if (kind === 'claim') {
+			const incident = (form.elements.namedItem('incident')?.value || '').toLowerCase();
+			for (const [key, needed] of [
+					['lost_pieces', incident.includes('loss')],
+					['damage', incident.includes('damage')]
+				]) {
+				const el = form.elements.namedItem(key);
+				if (!el) continue;
+				el.required = needed;
+				const label = el.closest('label');
+				let mark = label?.querySelector('.pa-conditional-mark');
+				if (label && !mark) {
+					mark = document.createElement('span');
+					mark.className = 'pa-conditional-mark';
+					mark.setAttribute('aria-hidden', 'true');
+					mark.textContent = ' *';
+					label.insertBefore(mark, el);
+				}
+				if (mark) mark.hidden = !needed;
+			}
+		}
 		const credit = form.elements.namedItem('request_credit')?.value === 'Yes';
 		form.querySelectorAll('[data-credit]').forEach(el => {
 			el.hidden = !credit;
@@ -482,6 +551,20 @@
 	function validateStep() {
 		clearErrors();
 		const panel = form.querySelector(`[data-panel="${step}"]`);
+		// The cost invoice is required for a claim; file inputs are not part of the browser's form validation.
+		const invoice = panel.querySelector('[data-attachment="invoice"]');
+		if (invoice && !state?.files?.invoice) {
+			fail({
+				message: t('Please complete the highlighted items before sending.'),
+				fields: {
+					invoice: 'Attach the cost invoice supporting the claim value.'
+				}
+			});
+			invoice.scrollIntoView({
+				block: 'center'
+			});
+			return false;
+		}
 		for (const input of panel.querySelectorAll('input,select,textarea')) {
 			if (input.disabled || input.closest('[hidden]') || input.type === 'file' || input.closest('.pa-signature')) continue;
 			fieldFormat(input);
@@ -598,6 +681,7 @@
 			message(t('Uploading and checking your file…'));
 			input.disabled = true;
 			await save();
+			const wasSigned = Object.keys(state.signatures || {}).length > 0;
 			state = await serial(() => api('file', {
 				slot: input.dataset.attachment,
 				name: file.name,
@@ -606,6 +690,7 @@
 			renderFiles();
 			renderSignatureStates();
 			message(t(state.files[input.dataset.attachment]?.scan_status === 'clean' ? 'File saved. Security check passed.' : 'File saved. Security review is pending; Pelham cannot download it until it is approved.'));
+			if (wasSigned) message(t('File saved. Your signature covers the evidence, so it was cleared: sign again in step 4.'));
 		} catch (error) {
 			fail(error)
 		} finally {

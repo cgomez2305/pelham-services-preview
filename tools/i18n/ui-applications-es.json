@@ -407,5 +407,9 @@
  "Email": "Correo electrónico",
  "Customer portal": "Portal de clientes",
  "Bank reference": "Referencia bancaria",
- "Trade reference": "Referencia comercial"
+ "Trade reference": "Referencia comercial",
+ "Go to step %s": "Ir al paso %s",
+ "You changed your information, so your signatures were cleared. Sign again in step 4.": "Cambió su información, así que sus firmas se borraron. Vuelva a firmar en el paso 4.",
+ "File saved. Your signature covers the evidence, so it was cleared: sign again in step 4.": "Archivo guardado. Su firma cubre las pruebas, así que se borró: vuelva a firmar en el paso 4.",
+ "Attach the cost invoice supporting the claim value.": "Adjunte la factura de costo que respalda el valor de la reclamación."
 }
