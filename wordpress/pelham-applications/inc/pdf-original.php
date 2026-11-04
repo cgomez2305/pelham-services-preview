@@ -1,7 +1,7 @@
 <?php
 if(!defined('ABSPATH'))exit;
-function pa_document_keys($p){return $p['kind']==='claim'?['claim']:array_merge(['customer'],($p['data']['request_credit']??'')==='Yes'?['credit']:[],['terms']);}
-function pa_document_fields($p,$doc){return array_values(array_filter(pa_schema($p['kind']),fn($f)=>$f['doc']===$doc||($doc==='credit'&&($f['group']==='company'||str_starts_with($f['key'],'ref')))));}
+function pa_document_keys($p){if($p['kind']!=='application')return [$p['kind']];return array_merge(['customer'],($p['data']['request_credit']??'')==='Yes'?['credit']:[],['terms']);}
+function pa_document_fields($p,$doc){return array_values(array_filter(pa_schema($p['kind']),fn($f)=>$f['doc']===$doc||($p['kind']==='application'&&$doc==='credit'&&($f['group']==='company'||str_starts_with($f['key'],'ref')))));}
 function pa_original_pdf($id,$revision,$document='all'){
  require_once PA_DIR.'/vendor/fpdf/fpdf.php';require_once PA_DIR.'/vendor/fpdi/src/autoload.php';
  $p=$revision?pa_get($id,'_pa_revision_'.$revision):pa_get($id);if(!$p)throw new RuntimeException('Revision not found.');

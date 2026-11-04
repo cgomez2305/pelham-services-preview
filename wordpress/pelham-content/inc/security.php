@@ -11,7 +11,7 @@ add_filter('wp_headers',function($headers){
  return $headers;
 });
 function pelham_enquiry_input_errors($input){
- $limits=['name'=>150,'email'=>254,'company'=>250,'phone'=>40,'origin'=>250,'destination'=>250,'ltl_level'=>20,'service'=>250,'freight'=>250,'message'=>5000,'kind'=>12,'pelham_nonce'=>32,'website'=>250,'return_url'=>2000,'consent'=>10];$errors=[];
+ $limits=['name'=>150,'email'=>254,'company'=>250,'phone'=>40,'business'=>20,'origin'=>250,'destination'=>250,'ltl_level'=>20,'service'=>250,'freight'=>250,'pieces'=>12,'weight'=>20,'cubic_feet'=>20,'commodity'=>40,'commodity_detail'=>150,'value'=>20,'message'=>5000,'kind'=>12,'pelham_nonce'=>32,'website'=>250,'return_url'=>2000,'consent'=>10];$errors=[];
  foreach($limits as $key=>$limit){if(!isset($input[$key]))continue;$v=$input[$key];if(!is_string($v)||strlen($v)>$limit||preg_match('/[\x00-\x08\x0B\x0C\x0E-\x1F]/',$v))$errors[]=$key;}
  if(isset($input['kind'])&&(!is_string($input['kind'])||!in_array($input['kind'],['contact','quote'],true)))$errors[]='kind';
  return array_unique($errors);

@@ -1,0 +1,242 @@
+{
+  "es": {
+    "seo_title": "Pelham Services | Carga de California a Florida",
+    "heading": "Pelham Services",
+    "keyword": "transporte de carga de california a florida",
+    "description": "Envío de pallets y carga consolidada (LTL) de Los Angeles a Florida, camión completo (FTL) e instalaciones en Gardena, Miami y Orlando.",
+    "photo": "pelham-services",
+    "en_route": "home"
+  },
+  "servicios": {
+    "seo_title": "Servicios de transporte de carga: LTL y FTL | Pelham",
+    "heading": "Servicios de transporte de carga",
+    "keyword": "servicios de transporte de carga",
+    "description": "Compare carga consolidada (LTL) y camión completo (FTL) de Los Angeles a Florida, con cross-docking, transbordo y servicio de paletizado.",
+    "photo": "none",
+    "en_route": "services"
+  },
+  "carga-consolidada-ltl": {
+    "seo_title": "Carga consolidada (LTL) de California a Florida | Pelham",
+    "heading": "Carga consolidada (LTL) de California a Florida",
+    "keyword": "carga consolidada",
+    "description": "Envíe pallets en carga consolidada de Los Angeles a Miami, Orlando y empresas de toda Florida. Compare niveles de servicio, cobertura y tiempos estimados.",
+    "photo": "pelham-driver",
+    "en_route": "services/freight-consolidation"
+  },
+  "camion-completo-ftl": {
+    "seo_title": "Camión completo (FTL) de California a Florida | Pelham",
+    "heading": "Camión completo (FTL) de California a Florida",
+    "keyword": "camión completo california florida",
+    "description": "Reserve capacidad exclusiva de camión de Los Angeles a Miami u otras empresas de Florida. Hable con Pelham sobre tarifas FTL, carga y fechas.",
+    "photo": "pelham-green",
+    "en_route": "services/dedicated-transport"
+  },
+  "cross-docking-paletizado": {
+    "seo_title": "Cross-docking y servicio de paletizado | Pelham",
+    "heading": "Cross-docking, transbordo y servicio de paletizado",
+    "keyword": "servicio de paletizado",
+    "description": "Prepare su carga para el transporte nacional con cross-docking, transbordo de contenedores y servicio de paletizado de Pelham Services.",
+    "photo": "pelham-truck",
+    "en_route": "services/transloading"
+  },
+  "a-quien-servimos": {
+    "seo_title": "Carga para proveedores, distribuidores y agentes | Pelham",
+    "heading": "Transporte por camión para proveedores, distribuidores, fabricantes y agentes de carga",
+    "keyword": "transporte de carga para distribuidores y proveedores",
+    "description": "Transporte de carga de California a Florida para proveedores, distribuidores, fabricantes y agentes de carga: qué servicio conviene y qué incluir al cotizar.",
+    "photo": "partners",
+    "en_route": "who-we-serve"
+  },
+  "ubicaciones": {
+    "seo_title": "Instalaciones de carga en California y Florida | Pelham",
+    "heading": "Instalaciones de carga en California y Florida",
+    "keyword": "instalaciones de carga california florida",
+    "description": "Pelham opera instalaciones en Gardena, Orlando y Miami. Contacte al equipo para coordinar carga nacional y la recepción de su envío.",
+    "photo": "network",
+    "en_route": "locations"
+  },
+  "gardena-los-angeles": {
+    "seo_title": "Pelham Services Gardena | Instalación en Los Angeles",
+    "heading": "Pelham Services Gardena",
+    "keyword": "pelham services los angeles",
+    "description": "Pelham Services en Gardena, California: 249 East Redondo Beach Blvd. Planifique carga LTL o FTL a Florida y confirme la recepción.",
+    "photo": "gardena-terminal",
+    "en_route": "locations/gardena-ca"
+  },
+  "miami": {
+    "seo_title": "Pelham Services Miami | Dirección y contacto de carga",
+    "heading": "Pelham Services Miami",
+    "keyword": "pelham services miami",
+    "description": "Pelham Services Miami: 8005 NW 80th St, Door 16 to 30 Suite #1. Llame al 323-201-4995 para coordinar su carga y la recepción.",
+    "photo": "none",
+    "en_route": "locations/miami-fl"
+  },
+  "orlando": {
+    "seo_title": "Pelham Services Orlando | Instalación de carga",
+    "heading": "Pelham Services Orlando",
+    "keyword": "pelham services orlando",
+    "description": "Pelham Services en Orlando: 9777 Satellite Blvd suite 130. Llame al 323-201-4995 para coordinar la recepción y entrega de su carga en Florida.",
+    "photo": "none",
+    "en_route": "locations/orlando-fl"
+  },
+  "nosotros": {
+    "seo_title": "Nosotros | Pelham Services, transporte de carga nacional",
+    "heading": "Acerca de Pelham Services: transporte nacional por camión",
+    "keyword": "pelham services",
+    "description": "Conozca Pelham Services: transporte nacional de carga de Los Angeles a Florida, el equipo y las empresas a las que servimos.",
+    "photo": "team",
+    "en_route": "about"
+  },
+  "blog": {
+    "seo_title": "Guías de envío de carga y noticias | Pelham Services",
+    "heading": "Guías de envío de carga y noticias de Pelham",
+    "keyword": "guías de transporte de carga",
+    "description": "Guías prácticas de transporte de carga entre California y Florida: carga consolidada, camión completo, cotizaciones, cross-docking y transbordo.",
+    "photo": "warehouse",
+    "en_route": "news"
+  },
+  "diferencia-entre-ltl-y-ftl": {
+    "seo_title": "Diferencia entre LTL y FTL: qué significa cada una | Pelham",
+    "heading": "Diferencia entre LTL y FTL: qué significa cada una y cuál le conviene",
+    "keyword": "diferencia entre ftl y ltl",
+    "description": "¿Qué significa LTL y qué significa FTL? Conozca la diferencia entre carga consolidada y camión completo: espacio, tarifas y tiempos de tránsito.",
+    "photo": "ltl-pallets",
+    "en_route": "news/ltl-vs-ftl-california-florida-shipping"
+  },
+  "cuanto-cuesta-enviar-un-pallet-de-california-a-florida": {
+    "seo_title": "¿Cuánto cuesta enviar un pallet de California a Florida?",
+    "heading": "¿Cuánto cuesta enviar un pallet de California a Florida?",
+    "keyword": "cuánto cuesta enviar un pallet",
+    "description": "¿Cuánto cuesta enviar un pallet? Vea qué cambia el precio de uno o varios pallets de California a Florida y cómo pedir una cotización precisa.",
+    "photo": "pallets",
+    "en_route": "news/pallet-shipping-cost-california-to-florida"
+  },
+  "que-incluir-al-cotizar-un-flete": {
+    "seo_title": "Cómo cotizar un flete: información necesaria | Pelham",
+    "heading": "Cómo cotizar un flete: qué información preparar",
+    "keyword": "cotizar flete",
+    "description": "Para cotizar un flete prepare origen, destino, pallets, medidas, peso y fechas. Use esta lista para obtener una cotización precisa sin demoras.",
+    "photo": "quote-docs",
+    "en_route": "news/what-to-include-in-a-freight-quote"
+  },
+  "cross-docking-transbordo-y-paletizado": {
+    "seo_title": "Qué es el cross-docking, el transbordo y el paletizado",
+    "heading": "Qué es el cross-docking, el transbordo y el paletizado: ¿cuál necesita?",
+    "keyword": "cross docking qué es",
+    "description": "Qué es el cross-docking, en qué se diferencia del transbordo de contenedores y cuándo conviene el paletizado de la mercancía antes del transporte.",
+    "photo": "cargo",
+    "en_route": "news/transloading-vs-cross-docking"
+  },
+  "requisitos-para-el-transbordo-de-contenedores": {
+    "seo_title": "Transbordo de contenedores: requisitos | Pelham",
+    "heading": "Transbordo de contenedores: requisitos para preparar el traslado a camión",
+    "keyword": "transbordo de contenedores",
+    "description": "Prepare la información de carga, llegada y entrega para el transbordo de contenedores, el cross-docking y el paletizado antes del transporte por camión.",
+    "photo": "containers",
+    "en_route": "news/container-transloading-documents-preparation"
+  },
+  "entrega-de-carga-a-agentes-de-carga-en-miami": {
+    "seo_title": "Entrega de carga a agentes de carga en Miami | Pelham",
+    "heading": "Entrega de carga a agentes de carga en Miami desde California",
+    "keyword": "agente de carga en miami",
+    "description": "Cómo coordinar la entrega de carga desde California a su agente de carga en Miami: dirección de recepción, referencias, citas y responsabilidades.",
+    "photo": "delivery",
+    "en_route": "news/freight-delivery-to-forwarders-in-miami"
+  },
+  "recargo-por-combustible-en-el-flete": {
+    "seo_title": "Recargo por combustible en el flete, explicado | Pelham",
+    "heading": "Recargo por combustible en el flete: qué significa en su cotización",
+    "keyword": "recargo por combustible flete",
+    "description": "Qué es el recargo por combustible en una cotización de flete, cómo se calcula y qué preguntar para no contarlo dos veces.",
+    "photo": "linehaul",
+    "en_route": "news/how-a-freight-fuel-surcharge-works"
+  },
+  "envios-recurrentes-de-california-a-florida": {
+    "seo_title": "Envíos recurrentes de California a Florida | Pelham",
+    "heading": "Cómo planificar envíos recurrentes de carga entre California y Florida",
+    "keyword": "envíos recurrentes de carga",
+    "description": "Cómo planificar envíos recurrentes de carga entre California y Florida: frecuencia, volúmenes, cambios y qué confirmar antes de cada despacho.",
+    "photo": "dock-backing",
+    "en_route": "news/planning-recurring-california-florida-freight"
+  },
+  "retos-logisticos-en-el-transporte-de-carga": {
+    "seo_title": "Retos logísticos en el transporte de carga | Pelham",
+    "heading": "Retos logísticos en el transporte de carga: cómo planificar ante retrasos",
+    "keyword": "retos logísticos transporte de carga",
+    "description": "Cómo planificar ante retrasos y cambios en un envío de carga de California a Florida, y qué hacer si el envío ya está en camino.",
+    "photo": "warehouse",
+    "en_route": "news/navigating-challenges-in-us-logistics"
+  },
+  "como-planifica-pelham-un-envio-de-carga": {
+    "seo_title": "Cómo planifica Pelham un envío de carga | Pelham",
+    "heading": "Cómo planifica Pelham un envío de carga nacional",
+    "keyword": "proceso de envío de carga",
+    "description": "Del primer contacto a la entrega: así planifica Pelham un envío de carga nacional de Los Angeles a Florida y qué información necesita en cada paso.",
+    "photo": "truck",
+    "en_route": "news/how-pelham-elevates-logistics-in-ca-fl"
+  },
+  "preguntas-sobre-tecnologia-en-el-transporte-de-carga": {
+    "seo_title": "Tecnología en el transporte de carga: preguntas clave",
+    "heading": "Tecnología en el transporte de carga: preguntas que conviene hacer",
+    "keyword": "tecnología transporte de carga",
+    "description": "Qué preguntar a un transportista sobre tecnología: visibilidad, referencias del envío, documentos y cómo se gestionan citas y cambios.",
+    "photo": "shipping",
+    "en_route": "news/future-of-logistics-trends-pelham-is-embracing"
+  },
+  "cotizacion": {
+    "seo_title": "Cotizar flete de Los Angeles a Florida | Pelham Services",
+    "heading": "Cotizar flete de Los Angeles a Florida",
+    "keyword": "cotizar flete",
+    "description": "Cotice su flete LTL o FTL de Los Angeles a Florida. Indique pallets, medidas, peso, recogida y la empresa que recibe la carga.",
+    "photo": "none",
+    "en_route": "quote"
+  },
+  "contacto": {
+    "seo_title": "Contacto | Pelham Services, envíos y consultas",
+    "heading": "Contacte a Pelham Services",
+    "keyword": "contacto pelham services",
+    "description": "Contacte a Pelham para cotizaciones de carga entre California y Florida, actualizaciones de envíos o coordinar la recepción en sus instalaciones.",
+    "photo": "none",
+    "en_route": "contact"
+  },
+  "registro": {
+    "seo_title": "Registro de clientes | Pelham Services",
+    "heading": "Empiece a trabajar con Pelham.",
+    "keyword": "registro pelham",
+    "description": "Registro de clientes de Pelham Services.",
+    "photo": "none",
+    "en_route": "register"
+  },
+  "aviso-de-privacidad": {
+    "seo_title": "Política de privacidad | Pelham Services",
+    "heading": "Política de privacidad",
+    "keyword": "política de privacidad",
+    "description": "Cómo trata Pelham Services la información que usted envía a través del sitio web.",
+    "photo": "none",
+    "en_route": "privacy-notice"
+  },
+  "politica-de-cookies": {
+    "seo_title": "Política de cookies | Pelham Services",
+    "heading": "Política de cookies",
+    "keyword": "política de cookies",
+    "description": "Qué almacenamiento del navegador usa el sitio web de Pelham Services y cómo controlarlo.",
+    "photo": "none",
+    "en_route": "cookie-policy"
+  },
+  "reclamaciones": {
+    "seo_title": "Reclamación de carga | Pelham Services",
+    "heading": "Presentar una reclamación de carga",
+    "keyword": "reclamación de carga",
+    "description": "Presente en línea una reclamación por pérdida o daño de carga de un envío con Pelham Services.",
+    "photo": "none",
+    "en_route": "claims"
+  },
+  "terminos-y-condiciones": {
+    "seo_title": "Términos y condiciones | Pelham Services",
+    "heading": "Términos y condiciones",
+    "keyword": "términos y condiciones",
+    "description": "Términos y condiciones de uso del sitio web de Pelham Services y condiciones de transporte publicadas.",
+    "photo": "none",
+    "en_route": "terms-and-conditions"
+  }
+}

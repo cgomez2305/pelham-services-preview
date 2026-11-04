@@ -18,4 +18,4 @@ add_action('admin_post_pa_scan',function(){
  try{$p=pa_get($id);foreach($p['files'] as &$file)$file['scan']=pa_scan_attachment(base64_decode($file['base64']),$file['mime']);unset($file);pa_put($id,$p);pa_audit($id,'Attachment scan requested by administrator');}finally{pa_unlock($id);}
  wp_safe_redirect(admin_url('admin.php?page=pelham-applications&record='.$id));exit;
 });
-add_action('template_redirect',function(){if(is_page(['register','claims'])){nocache_headers();header('Cache-Control: no-store, private, max-age=0');header('Referrer-Policy: no-referrer');header('X-Robots-Tag: noindex');}},1);
+add_action('template_redirect',function(){if(pa_is_page(['register','claims'])){nocache_headers();header('Cache-Control: no-store, private, max-age=0');header('Referrer-Policy: no-referrer');header('X-Robots-Tag: noindex');}},1);

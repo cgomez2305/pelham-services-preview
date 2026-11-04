@@ -4,7 +4,7 @@ Identidad conservada: verde Pelham, títulos Arial/Helvetica, énfasis Georgia r
 
 ## Fuente de implementación
 
-`wordpress/pelham-modern/assets/design-system.css` se carga después de las capas heredadas y es la autoridad visual compartida. Los tokens `--p-*` definen fondo, superficies, texto, bordes, radios y tiempos. Se mantiene compatibilidad con bloques editables y páginas importadas; no se sustituye contenido al activar el tema.
+`wordpress/pelham-modern/assets/theme.css` es la única hoja de estilos del tema (desde 1.20: las nueve capas anteriores concatenadas en su orden de cascada original, con un comentario `/* ==== nombre ==== */` al inicio de cada una). La sección `design-system` va al final y es la autoridad visual compartida. Los tokens `--p-*` definen fondo, superficies, texto, bordes, radios y tiempos. Se mantiene compatibilidad con bloques editables y páginas importadas; no se sustituye contenido al activar el tema.
 
 - Fondo #f5f7f4, superficie blanca, tinta #101f17, secundario #4d6054.
 - Verde de acción #00a858 con texto oscuro; enlaces #007d42.
@@ -33,7 +33,7 @@ Contenido visible por defecto. No se aplica entrada inicial si el script llega d
 
 Espaciado: filas de servicios sin tratamiento especial de first-child; margen común de la capa de diseño. News tiene gap 24 px escritorio/20 px móvil, sin overrides a cero. Acciones de noticias alineadas al fondo de cada fila. Header respeta los offsets de barra de administración (32/46 px).
 
-Se eliminan de site.css las animaciones ambientales infinitas heredadas. El único movimiento de entrada activo lo gestiona motion.js; las interacciones CSS de botones, menú y FAQ siguen siendo breves y respetan movimiento reducido.
+Se eliminan de la capa site las animaciones ambientales infinitas heredadas. El único movimiento de entrada activo lo gestiona motion.js; las interacciones CSS de botones, menú y FAQ siguen siendo breves y respetan movimiento reducido.
 
 ## Motion 1.12
 
@@ -64,3 +64,24 @@ Los botones comparten contraste, borde, radio de 10 px, altura mínima de 48 px 
 La entrada se aplica al bloque completo, incluidas sus superficies, con 56 px de subida en escritorio y 36 px en móvil durante 1.05 segundos. Los elementos que coinciden al entrar se escalonan 160 ms, hasta 480 ms; las FAQ usan 140 ms. El observador espera a que alcancen 48 px dentro del viewport, y los bloques todavía fuera de pantalla se preparan sin provocar saltos de layout. Foco, pausa y movimiento reducido revelan inmediatamente el contenido pendiente.
 
 La cabecera sigue la dirección solicitada: bajar la muestra, subir la oculta. Umbral de 24 px para filtrar pequeños cambios de dirección; visible cerca del inicio, con foco o menú abierto. Movimiento reducido y pausa la mantienen visible. Un listener pasivo solicita como máximo una actualización por frame y modifica la clase solo tras superar el umbral; no se altera el scroll nativo.
+
+## Scroll 1.20
+
+Sin máscaras de títulos ni de fotos (se mantiene la decisión de 1.15). Las mejoras se ligan al scroll y se construyen sobre el marcado existente; no requieren reimportar contenido.
+
+- **Proceso horizontal (home).** En pantallas de 901 px o más de ancho y 560 px o más de alto, la sección «A clear plan» queda fijada y sus tres pasos avanzan de derecha a izquierda (1,15 px de scroll vertical por píxel horizontal). Las tarjetas salen por los bordes de la ventana; la activa se resalta (opacidad, borde y numeral Georgia en verde) y las demás quedan al 60 %. Debajo, un carril CA → FL se llena con el avance, marca cada parada y muestra «01 / 03». `motion.js` envuelve encabezado y pasos en un escenario sticky y lo deshace en pantallas estrechas, con movimiento reducido o pausa: entonces se ven los pasos verticales de siempre. Una actualización por frame, listener pasivo y ResizeObserver; sin GSAP.
+- **Días de tránsito.** Los valores 3 / 7 / 10 cuentan desde cero en 900 ms (escalonados 120 ms) al entrar. Si están por debajo del pliegue empiezan en 0 para no saltar; movimiento reducido, pausa o foco muestran siempre el valor final.
+- **Fotografías.** Con soporte de `animation-timeline: view()`, cada foto se desplaza ±26 px dentro de su marco al cruzar la ventana, usando el sangrado de 40 px que ya tenían. Sin soporte, la foto queda quieta. Desactivado con movimiento reducido o pausa.
+- **Lectura.** En artículos, la línea inferior de la cabecera indica el progreso de lectura mediante `animation-timeline: scroll()`.
+
+Se retiran del tema GSAP, ScrollTrigger, SplitText, DrawSVG, MotionPath y Lenis (sin uso desde 1.11). La única biblioteca de animación es Motion Mini.
+
+## Pulido 1.22
+
+Auditoría con Impeccable (detector de 61 reglas y criterios de critique/audit/polish), sin rediseñar. Una sola superficie elevada por bloque: los contenedores que envolvían otra tarjeta (cuerpo de artículo, páginas legales, panel LTL, contacto, guía de cotización) pierden su borde y fondo. La respuesta rápida es un panel tintado sin raya lateral. Las cabeceras de página comparten la escala 38–64 px; la home conserva su hero. El texto largo tiene una medida máxima de 72 caracteres, con `text-wrap: pretty` en párrafos y `balance` en títulos. La selección y los controles nativos usan la paleta. El titular en Georgia cursiva de la home y el halo verde se mantienen como identidad.
+
+Públicos: filas «Who we ship for» en el mismo lenguaje que las filas de servicios (nombre en Arial 500, nota en DM Sans y flecha), sin rejilla de tarjetas iguales. Página `/who-we-serve/` con una sección por público, en dos columnas en escritorio («Usually the right fit» / «Include in your quote request»).
+
+## Idiomas 1.23
+
+Selector **EN / ES** compacto (12 px, borde fino de 1 px, sin bandera): junto a *Login / Register* en escritorio y junto al botón Menú en móvil. No usa colores nuevos; el hover pasa al verde de marca. Las páginas en español usan el mismo diseño; los textos en español son ~15 % más largos, y se comprobó a 390 px que ningún titular, botón o tarjeta se desborda.
