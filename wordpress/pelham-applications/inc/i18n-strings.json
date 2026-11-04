@@ -126,5 +126,18 @@
 "Go to step %s",
 "You changed your information, so your signatures were cleared. Sign again in step 4.",
 "File saved. Your signature covers the evidence, so it was cleared: sign again in step 4.",
-"Attach the cost invoice supporting the claim value."
+"Attach the cost invoice supporting the claim value.",
+"Terms and Conditions of Contract",
+"B. Terms and Conditions of Contract",
+"C. Agreements",
+"D. Signatures",
+"This is the most important document of your account: read all of it. Your initials at the end confirm that you read and accept these terms. The agreements and signatures below unlock after you initial.",
+"These agreements unlock after you initial the Terms and Conditions (section B).",
+"Signatures unlock after you initial the Terms and Conditions (section B).",
+"Your initials (they must match the authorized signer)",
+"Scroll to the end of the Terms and Conditions to add your initials.",
+"Initialed. Thank you for reading the Terms and Conditions.",
+"Add the initials of the authorized signer to confirm you read and accept these terms.",
+"Your initials must match the authorized signer (for example GR for Gabriel Reverón).",
+"Read the Terms and Conditions of Contract and add your initials before continuing."
 ]

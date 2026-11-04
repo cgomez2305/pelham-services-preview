@@ -411,5 +411,18 @@
  "Go to step %s": "Ir al paso %s",
  "You changed your information, so your signatures were cleared. Sign again in step 4.": "Cambió su información, así que sus firmas se borraron. Vuelva a firmar en el paso 4.",
  "File saved. Your signature covers the evidence, so it was cleared: sign again in step 4.": "Archivo guardado. Su firma cubre las pruebas, así que se borró: vuelva a firmar en el paso 4.",
- "Attach the cost invoice supporting the claim value.": "Adjunte la factura de costo que respalda el valor de la reclamación."
+ "Attach the cost invoice supporting the claim value.": "Adjunte la factura de costo que respalda el valor de la reclamación.",
+ "Terms and Conditions of Contract": "Términos y Condiciones del Contrato",
+ "B. Terms and Conditions of Contract": "B. Términos y Condiciones del Contrato",
+ "C. Agreements": "C. Acuerdos",
+ "D. Signatures": "D. Firmas",
+ "This is the most important document of your account: read all of it. Your initials at the end confirm that you read and accept these terms. The agreements and signatures below unlock after you initial.": "Este es el documento más importante de su cuenta: léalo completo. Sus iniciales al final confirman que leyó y acepta estos términos. Los acuerdos y las firmas de abajo se desbloquean cuando escribe sus iniciales.",
+ "These agreements unlock after you initial the Terms and Conditions (section B).": "Estos acuerdos se desbloquean cuando escribe sus iniciales en los Términos y Condiciones (sección B).",
+ "Signatures unlock after you initial the Terms and Conditions (section B).": "Las firmas se desbloquean cuando escribe sus iniciales en los Términos y Condiciones (sección B).",
+ "Your initials (they must match the authorized signer)": "Sus iniciales (deben coincidir con el firmante autorizado)",
+ "Scroll to the end of the Terms and Conditions to add your initials.": "Desplácese hasta el final de los Términos y Condiciones para escribir sus iniciales.",
+ "Initialed. Thank you for reading the Terms and Conditions.": "Iniciales registradas. Gracias por leer los Términos y Condiciones.",
+ "Add the initials of the authorized signer to confirm you read and accept these terms.": "Escriba las iniciales del firmante autorizado para confirmar que leyó y acepta estos términos.",
+ "Your initials must match the authorized signer (for example GR for Gabriel Reverón).": "Sus iniciales deben coincidir con el firmante autorizado (por ejemplo, GR para Gabriel Reverón).",
+ "Read the Terms and Conditions of Contract and add your initials before continuing.": "Lea los Términos y Condiciones del Contrato y escriba sus iniciales antes de continuar."
 }

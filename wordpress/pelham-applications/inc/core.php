@@ -88,7 +88,7 @@ function pa_validate($p){
  if(in_array($p['kind'],['application','customer'],true)&&($data['entity']??'')==='Other'&&empty($data['entity_other']))$errors['entity_other']='Describe the business structure.';
  if($p['kind']==='application'){
   if(($data['request_credit']??'')==='Yes')foreach([1,2] as $i)if(empty($data['ref'.$i.'_contact']))$errors['ref'.$i.'_contact']='A reference contact is required for credit.';
-  if(($data['terms_initials']??'')!==''&&(mb_strlen($data['terms_initials'])>10||!preg_match('/^[\p{L}][\p{L}.\s-]*$/u',$data['terms_initials'])))$errors['terms_initials']='Enter your initials, for example J.D.';
+  if(($data['terms_initials']??'')!==''&&!pa_initials_match($data['terms_initials'],$data['signer_name']??''))$errors['terms_initials']='Your initials must match the authorized signer (for example GR for Gabriel Reverón).';
  }elseif($p['kind']==='claim'){
   if(str_contains(strtolower($data['incident']??''),'loss')&&empty($data['lost_pieces']))$errors['lost_pieces']='Describe the lost pieces.';
   if(str_contains(strtolower($data['incident']??''),'damage')&&empty($data['damage']))$errors['damage']='Describe the extent of damage.';
@@ -96,6 +96,15 @@ function pa_validate($p){
   if((float)($data['claim_amount']??0)<=0)$errors['claim_amount']='Enter the claim amount.';
  }
  return $errors;
+}
+/** Initials that belong to a name: the first name's initial, then initials of the following names in order (GR or GMR for Gabriel Miguel Reverón; ML, MJL or MJLG for María José López Gómez). */
+function pa_initials_match($initials,$name){
+ $letters=strtoupper(preg_replace('/[^A-Za-z]/','',remove_accents((string)$initials)));
+ $words=array_values(array_filter(array_map(fn($w)=>preg_replace('/[^A-Z]/','',$w),preg_split('/[\s-]+/',strtoupper(remove_accents((string)$name)),-1,PREG_SPLIT_NO_EMPTY))));
+ if(!$words||$letters===''||strlen($letters)>6||mb_strlen((string)$initials)>12||$letters[0]!==$words[0][0])return false;
+ if(count($words)>1&&strlen($letters)<2)return false;
+ $next=1;for($k=1;$k<strlen($letters);$k++){while($next<count($words)&&$words[$next][0]!==$letters[$k])$next++;if($next>=count($words))return false;$next++;}
+ return true;
 }
 function pa_image($data){
  if(!is_string($data)||strlen($data)>1500000||!preg_match('#^data:image/(png|jpeg|webp);base64,([A-Za-z0-9+/=]+)$#D',$data,$m))return false;

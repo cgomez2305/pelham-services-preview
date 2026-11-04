@@ -1047,7 +1047,7 @@
     },
     {
       "key": "terms_initials",
-      "label": "Initials for all pages of the Terms and Conditions",
+      "label": "Your initials (they must match the authorized signer)",
       "group": "agreements",
       "required": true,
       "type": "text",

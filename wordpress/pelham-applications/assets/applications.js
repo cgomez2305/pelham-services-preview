@@ -205,6 +205,7 @@
 		}
 		const companyName = form.elements.namedItem('company')?.value;
 		app.querySelectorAll('[data-company-name]').forEach(el => el.textContent = companyName || t('your company'));
+		termsGate();
 		const docs = app.querySelector('[data-document=credit]');
 		if (docs) docs.hidden = !credit;
 		form.querySelectorAll('[data-signature=credit],[data-signature=guarantee]').forEach(e => e.hidden = !credit);
@@ -263,7 +264,7 @@
 
 	function buildSignatures() {
 		const holder = form.querySelector('.pa-signatures');
-		holder.innerHTML = kind === 'claim' ? '<h4>' + esc(t('Your signatures')) + '</h4><p>' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). Confirm each document separately.')) + '</p>' : '<h4 class="pa-section-title">' + esc(t('C. Signatures')) + '</h4><p class="pa-help">' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). The date is recorded automatically when you sign.')) + '</p>';
+		holder.innerHTML = kind === 'claim' ? '<h4>' + esc(t('Your signatures')) + '</h4><p>' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). Confirm each document separately.')) + '</p>' : '<h4 class="pa-section-title">' + esc(t('D. Signatures')) + '</h4><p class="pa-help">' + esc(t('Draw with your finger or mouse, or upload a signature image (JPG, PNG or WebP, up to 1 MB). The date is recorded automatically when you sign.')) + '</p><p class="pa-locked-note">' + esc(t('Signatures unlock after you initial the Terms and Conditions (section B).')) + '</p>';
 		for (const [slot, label] of signaturesNeeded()) {
 			const box = document.createElement('section');
 			box.className = 'pa-signature';
@@ -391,6 +392,98 @@
 		}
 	}
 
+	// Initials of the authorized signer: the first name's initial, then initials of the following names in order (GR, GMR, MJL…). The server applies the same rule.
+	function initialsMatch(initials, name) {
+		const plain = text => String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+		const letters = plain(initials).replace(/[^A-Z]/g, '');
+		const words = plain(name).split(/[\s-]+/).map(w => w.replace(/[^A-Z]/g, '')).filter(Boolean);
+		if (!words.length || !letters || letters.length > 6 || letters[0] !== words[0][0]) return false;
+		if (words.length > 1 && letters.length < 2) return false;
+		let next = 1;
+		for (const letter of letters.slice(1)) {
+			while (next < words.length && words[next][0] !== letter) next++;
+			if (next >= words.length) return false;
+			next++;
+		}
+		return true;
+	}
+
+	let termsRead = false;
+
+	// The Terms and Conditions are read in full and initialed before the agreements and signatures unlock.
+	function buildTermsReader() {
+		const holder = form.querySelector('.pa-terms-reader'),
+			source = app.querySelector('.pa-terms-text');
+		if (!holder || !source) return;
+		const terms = JSON.parse(source.textContent),
+			field = form.elements.namedItem('terms_initials')?.closest('.pa-field');
+		field?.remove();
+		holder.innerHTML = `<div class="pa-document-head"><strong>${esc(t('Terms and Conditions of Contract'))}</strong><button type="button" class="pa-preview">${esc(t('Open PDF'))}</button></div><div class="pa-terms-scroll" tabindex="0" role="region" aria-label="${esc(t('Terms and Conditions of Contract'))}"><ol></ol><p class="pa-terms-ack"></p></div><p class="pa-terms-progress" aria-live="polite"></p><div class="pa-terms-initials"></div>`;
+		const list = holder.querySelector('ol');
+		for (const clause of terms.clauses) {
+			const item = document.createElement('li');
+			item.textContent = clause;
+			list.append(item);
+		}
+		holder.querySelector('.pa-terms-ack').textContent = terms.acknowledgement;
+		if (field) holder.querySelector('.pa-terms-initials').append(field);
+		const box = holder.querySelector('.pa-terms-scroll');
+		termsRead = !!form.elements.namedItem('terms_initials')?.value;
+		const reached = () => {
+			if (!termsRead && box.scrollTop + box.clientHeight >= box.scrollHeight - 24) {
+				termsRead = true;
+				termsGate();
+			}
+		};
+		box.addEventListener('scroll', reached, {
+			passive: true
+		});
+		holder.querySelector('.pa-preview').addEventListener('click', async () => {
+			const tab = window.open('', '_blank');
+			try {
+				await save();
+				if (tab) tab.location.href = previewUrl('terms');
+				else window.location.href = previewUrl('terms');
+			} catch (error) {
+				if (tab) tab.close();
+				fail(error);
+			}
+		});
+	}
+
+	function termsInitialed() {
+		const initials = form.elements.namedItem('terms_initials')?.value,
+			signer = form.elements.namedItem('signer_name')?.value;
+		return !!initials && initialsMatch(initials, signer);
+	}
+
+	function termsGate() {
+		const reader = form.querySelector('.pa-terms-reader');
+		if (!reader) return;
+		const input = form.elements.namedItem('terms_initials'),
+			credit = form.elements.namedItem('request_credit')?.value === 'Yes',
+			done = termsInitialed();
+		if (input) {
+			input.disabled = !termsRead;
+			if (done) input.removeAttribute('aria-invalid');
+		}
+		reader.classList.toggle('is-initialed', done);
+		const progress = reader.querySelector('.pa-terms-progress');
+		const error = form.querySelector('#pa-terms_initials-error');
+		if (!termsRead) progress.textContent = t('Scroll to the end of the Terms and Conditions to add your initials.');
+		else if (done) progress.textContent = t('Initialed. Thank you for reading the Terms and Conditions.');
+		else progress.textContent = t('Add the initials of the authorized signer to confirm you read and accept these terms.');
+		if (error) error.textContent = input?.value && !done ? t('Your initials must match the authorized signer (for example GR for Gabriel Reverón).') : '';
+		for (const key of ['accept_terms', 'accept_credit', 'accept_guarantee', 'consent_signature']) {
+			const el = form.elements.namedItem(key);
+			if (el) el.disabled = !done || (!!el.closest('[data-credit]') && !credit);
+		}
+		const signatures = form.querySelector('.pa-signatures');
+		signatures?.classList.toggle('pa-locked', !done);
+		signatures?.querySelectorAll('button, input').forEach(el => el.disabled = !done);
+		form.querySelectorAll('.pa-locked-note').forEach(note => note.hidden = done);
+	}
+
 	function buildDocuments() {
 		const holder = form.querySelector('.pa-documents');
 		holder.innerHTML = '';
@@ -409,7 +502,8 @@
 			credit: 'Completed credit application',
 			terms: 'Terms and agreements'
 		};
-		for (const key of ['customer', 'credit', 'terms']) {
+		buildTermsReader();
+		for (const key of ['customer', 'credit']) {
 			const doc = state.documents[key];
 			const item = document.createElement('div');
 			item.className = 'pa-document';
@@ -441,6 +535,7 @@
 		buildDocuments();
 		buildSignatures();
 		conditional();
+		termsGate();
 		renderSignatureStates();
 		renderFiles();
 	}
@@ -551,6 +646,18 @@
 	function validateStep() {
 		clearErrors();
 		const panel = form.querySelector(`[data-panel="${step}"]`);
+		if (panel.querySelector('.pa-terms-reader') && !termsInitialed()) {
+			fail({
+				message: t('Read the Terms and Conditions of Contract and add your initials before continuing.'),
+				fields: {
+					terms_initials: termsRead ? 'Your initials must match the authorized signer (for example GR for Gabriel Reverón).' : 'Scroll to the end of the Terms and Conditions to add your initials.'
+				}
+			});
+			panel.querySelector('.pa-terms-reader').scrollIntoView({
+				block: 'start'
+			});
+			return false;
+		}
 		// The cost invoice is required for a claim; file inputs are not part of the browser's form validation.
 		const invoice = panel.querySelector('[data-attachment="invoice"]');
 		if (invoice && !state?.files?.invoice) {
