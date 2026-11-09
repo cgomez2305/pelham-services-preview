@@ -11,3 +11,26 @@
 .pelham-digital-onboarding .entry-content:has(>.pa-app){max-width:none;width:100%;margin-inline:0;padding-inline:0}
 .pa-test-panel{padding:20px 24px;margin:24px 0;border:1px dashed #8baf99;border-radius:12px;background:#f0f6f2;max-width:740px}
 .pa-test-panel p{margin:8px 0 14px}.pa-test-panel button{padding:10px 16px;border:1px solid #9ab9a7;border-radius:8px;background:white;color:#143b2a}.pa-test-panel form{display:flex;flex-wrap:wrap;gap:10px}
+/* 1.5: completed documents with PDF preview, and the A / B / C sections of the signing step. */
+.pa-section-title{margin:30px 0 8px;font-size:20px;color:var(--pa-ink)}
+.pa-step .pa-section-title:first-of-type{margin-top:6px}
+.pa-document{margin:0 0 12px;padding:14px 18px;border:1px solid var(--pa-line);border-radius:12px;background:#f2f7f4}
+.pa-document[hidden]{display:none}
+.pa-document-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.pa-document-head strong{font-size:16px;color:var(--pa-ink)}
+.pa-preview{background:white;border:1px solid #adc9b8;padding:10px 16px;border-radius:8px;color:#143b2a;min-height:44px;font-weight:600;cursor:pointer}
+.pa-preview:hover{border-color:var(--pa-green);color:var(--pa-green)}
+.pa-document details{margin-top:10px;background:white!important}
+.pa-initials-note{margin-top:-6px}
+.pa-error-list{margin:10px 0 0;padding-left:20px}.pa-error-list li{margin:4px 0}.pa-error-go{margin-left:6px;background:white;border:1px solid #adc9b8;border-radius:6px;padding:4px 10px;min-height:32px;color:#143b2a;font-weight:600;cursor:pointer}.pa-conditional-mark[hidden]{display:none}
+/* 1.7: the Terms and Conditions are read in full and initialed before the agreements and signatures unlock. */
+.pa-terms-reader{margin:6px 0 18px;padding:16px 18px;border:1px solid var(--pa-line);border-radius:12px;background:#f2f7f4}
+.pa-terms-scroll{max-height:420px;overflow-y:auto;margin-top:12px;padding:16px 20px;background:white;border:1px solid var(--pa-line);border-radius:10px;font-size:14px;line-height:1.6;color:#22352b}
+.pa-terms-scroll:focus-visible{outline:2px solid var(--pa-green);outline-offset:2px}
+.pa-terms-scroll ol{margin:0;padding-left:22px}.pa-terms-scroll li{margin:0 0 10px}.pa-terms-ack{margin:14px 0 0;font-weight:600}
+.pa-terms-progress{margin:10px 0 6px;font-size:14px;color:#7a4b00;font-weight:600}
+.pa-terms-reader.is-initialed{border-color:var(--pa-green)}.pa-terms-reader.is-initialed .pa-terms-progress{color:var(--pa-green)}
+.pa-terms-initials .pa-field{max-width:460px}.pa-terms-initials input:disabled{background:#eef2ef;cursor:not-allowed}
+.pa-locked-note{margin:4px 0 12px;padding:8px 12px;border-radius:8px;background:#fff6e5;color:#7a4b00;font-size:14px;font-weight:600}.pa-locked-note[hidden]{display:none}
+.pa-signatures.pa-locked .pa-signature{opacity:.45;pointer-events:none}
+.pa-fields input[type=checkbox]:disabled+span{opacity:.55}

@@ -1,0 +1,49 @@
+{
+  "page": "who-we-serve",
+  "segments": {
+    "suppliers": {
+      "label": "Suppliers",
+      "home": "Flexible LTL shipping for palletized orders heading to Florida buyers, starting at just one pallet.",
+      "business": "supplier"
+    },
+    "distributors": {
+      "label": "Distributors",
+      "home": "Reliable, scheduled replenishment for your Florida warehouses, retail stores and fulfillment centers.",
+      "business": "distributor"
+    },
+    "manufacturers": {
+      "label": "Manufacturers",
+      "home": "Seamless dock-to-dock transport for finished goods directly from your California plant.",
+      "business": "manufacturer"
+    },
+    "freight-forwarders": {
+      "label": "Freight forwarders",
+      "home": "Dependable domestic linehaul service direct to your Miami receiving and export facilities.",
+      "business": "forwarder"
+    }
+  },
+  "services": {
+    "dedicated-transport": {
+      "heading": "Who books full truckloads",
+      "items": {
+        "manufacturers": "Production runs that fill a trailer, from your plant to one Florida receiver.",
+        "distributors": "Replenishment loads large enough to need exclusive capacity.",
+        "suppliers": "Large orders when shared LTL space no longer fits."
+      }
+    },
+    "transloading": {
+      "heading": "Who uses cross-docking and palletizing",
+      "items": {
+        "manufacturers": "Freight that leaves production unpalletized or needs a transfer before trucking.",
+        "suppliers": "Mixed cartons that should travel as stable, countable pallets."
+      }
+    }
+  },
+  "business_options": {
+    "supplier": "Supplier or wholesaler",
+    "distributor": "Distributor",
+    "manufacturer": "Manufacturer or factory",
+    "forwarder": "Freight forwarder",
+    "other": "Other business"
+  }
+}

@@ -1,6 +1,28 @@
 <?php
 if(!defined('ABSPATH'))exit;
 function pa_schema($kind){static $schema; $schema??=json_decode(file_get_contents(PA_DIR.'/inc/schema.json'),true);return $schema[$kind]??[];}
+/** Interface text in the visitor's language (Pelham Content's dictionary). */
+function pa_t($text){return function_exists('pelham_t')?pelham_t($text):$text;}
+/** Page check that also matches the Spanish version of a page. */
+function pa_is_page($slugs){return function_exists('pelham_is_page')?pelham_is_page($slugs):is_page($slugs);}
+function pa_link($route){return function_exists('pelham_link')?pelham_link($route):home_url('/'.trim($route,'/').'/');}
+/** Language a request was started in; emails to the applicant follow it. */
+function pa_request_lang($id){return get_post_meta($id,'_pa_lang',true)==='es'?'es':'en';}
+function pa_t_for($text,$lang){
+ if($lang!=='es'||!function_exists('pelham_t'))return $text;
+ $previous=$GLOBALS['pelham_lang_override']??null;$GLOBALS['pelham_lang_override']='es';$out=pelham_t($text);
+ if($previous===null)unset($GLOBALS['pelham_lang_override']);else $GLOBALS['pelham_lang_override']=$previous;return $out;
+}
+/** Request kinds. 'application' (account application) and 'claim' are the forms; customer, credit and terms were the separate forms of 1.4.0, kept readable for records created with it. */
+function pa_kinds(){return ['customer'=>'Customer Application','credit'=>'Credit Application','terms'=>'Terms and Agreements','claim'=>'Claim Form'];}
+function pa_kind_valid($kind){return is_string($kind)&&(isset(pa_kinds()[$kind])||$kind==='application');}
+function pa_kind_label($kind){return pa_kinds()[$kind]??'Account application';}
+/** Public page of a request type in a language (Spanish registration page when it exists). */
+function pa_page_url($kind,$lang){
+ $route=$kind==='claim'?'claims':'register';$url=home_url($kind==='claim'?'/claims/':'/register/');
+ if($lang==='es'){$ids=get_option('pelham_i18n_ids',[]);if(!empty($ids[$route])&&get_post_status($ids[$route])==='publish')$url=get_permalink($ids[$route]);}
+ return $url;
+}
 function pa_error($message,$status=400,$fields=[]){return new WP_Error('pelham_application',$message,['status'=>$status,'fields'=>$fields]);}
 function pa_key(){return hash('sha256',defined('PELHAM_APPLICATIONS_KEY')?PELHAM_APPLICATIONS_KEY:wp_salt('auth'),true);}
 function pa_encrypt($value){
@@ -25,16 +47,29 @@ function pa_documents(){
  return $out;
 }
 function pa_signatures_needed($p){
+ $customer=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Business account application']];
+ $terms=['terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Transport terms and conditions']];
+ $credit=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit application'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guaranty']];
  if($p['kind']==='claim')return ['claim'=>['name'=>'claim_signer','title'=>null,'doc'=>'claim','label'=>'Freight claim']];
- $s=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Business account application'],'terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Transport terms and conditions']];
- if(($p['data']['request_credit']??'')==='Yes')$s+=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit application'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guaranty']];return $s;
+ if($p['kind']==='customer')return $customer;
+ if($p['kind']==='credit')return $credit;
+ if($p['kind']==='terms')return $terms;
+ // Combined account application: one signature for the account and transport agreement is stored for both documents.
+ $s=['customer'=>['name'=>'customer_signer','title'=>'customer_title','doc'=>'customer','label'=>'Account and transport agreement'],'terms'=>['name'=>'terms_signer','title'=>'terms_title','doc'=>'terms','label'=>'Account and transport agreement']];
+ if(($p['data']['request_credit']??'')==='Yes')$s+=['credit'=>['name'=>'credit_signer','title'=>'credit_title','doc'=>'credit','label'=>'Credit applicant signature'],'guarantee'=>['name'=>'guarantor','title'=>null,'doc'=>'credit','label'=>'Personal guarantor signature']];return $s;
 }
 function pa_clean_data($kind,$input,$email){
  $data=[];foreach(pa_schema($kind) as $f){$v=$input[$f['key']]??'';if(!is_scalar($v))$v='';$v=$f['type']==='checkbox'?(!empty($v)?'1':''):sanitize_textarea_field((string)$v);$data[$f['key']]=substr($v,0,$f['type']==='textarea'?5000:250);}
  $data['email']=$email;
+ if(in_array($kind,['application','customer'],true)&&!empty($data['billing_same']))foreach(['address','city','state','zip'] as $key)$data['billing_'.$key]=$data[$key];
  if($kind==='application'){
-  if(!empty($data['billing_same']))foreach(['address','city','state','zip'] as $key)$data['billing_'.$key]=$data[$key];
-  if(($data['request_credit']??'')!=='Yes')foreach(pa_schema($kind) as $f)if(($f['condition']??'')==='credit')$data[$f['key']]='';
+  $credit=($data['request_credit']??'')==='Yes';
+  if(!$credit)foreach(pa_schema($kind) as $f)if(($f['condition']??'')==='credit')$data[$f['key']]='';
+  // One authorized signer and one set of initials (1.5): fill the per-document fields the original PDFs use.
+  if($credit&&!empty($data['guarantor_same']))$data['guarantor']=$data['signer_name']??'';
+  foreach(['customer','terms','credit'] as $doc){$data[$doc.'_signer']=$doc==='credit'&&!$credit?'':($data['signer_name']??'');$data[$doc.'_title']=$doc==='credit'&&!$credit?'':($data['signer_title']??'');}
+  for($page=1;$page<=4;$page++)$data['terms_initials_'.$page]=$data['terms_initials']??'';
+  $data['accept_customer']=$data['accept_terms']??'';
  }
  return $data;
 }
@@ -50,16 +85,26 @@ function pa_validate($p){
   if($f['type']==='number'&&(!is_numeric($v)||!is_finite((float)$v)||(float)$v<0))$errors[$f['key']]='Enter a valid non-negative number.';
   if($f['type']==='date'){ $d=DateTime::createFromFormat('!Y-m-d',$v);if(!$d||$d->format('Y-m-d')!==$v||$v>gmdate('Y-m-d'))$errors[$f['key']]='Enter a valid date that is not in the future.'; }
  }
+ if(in_array($p['kind'],['application','customer'],true)&&($data['entity']??'')==='Other'&&empty($data['entity_other']))$errors['entity_other']='Describe the business structure.';
  if($p['kind']==='application'){
-  if(($data['entity']??'')==='Other'&&empty($data['entity_other']))$errors['entity_other']='Describe the business structure.';
   if(($data['request_credit']??'')==='Yes')foreach([1,2] as $i)if(empty($data['ref'.$i.'_contact']))$errors['ref'.$i.'_contact']='A reference contact is required for credit.';
- }else{
+  if(($data['terms_initials']??'')!==''&&!pa_initials_match($data['terms_initials'],$data['signer_name']??''))$errors['terms_initials']='Your initials must match the authorized signer (for example GR for Gabriel Reverón).';
+ }elseif($p['kind']==='claim'){
   if(str_contains(strtolower($data['incident']??''),'loss')&&empty($data['lost_pieces']))$errors['lost_pieces']='Describe the lost pieces.';
   if(str_contains(strtolower($data['incident']??''),'damage')&&empty($data['damage']))$errors['damage']='Describe the extent of damage.';
   if(empty($p['files']['invoice']))$errors['invoice']='Attach the cost invoice supporting the claim value.';
   if((float)($data['claim_amount']??0)<=0)$errors['claim_amount']='Enter the claim amount.';
  }
  return $errors;
+}
+/** Initials that belong to a name: the first name's initial, then initials of the following names in order (GR or GMR for Gabriel Miguel Reverón; ML, MJL or MJLG for María José López Gómez). */
+function pa_initials_match($initials,$name){
+ $letters=strtoupper(preg_replace('/[^A-Za-z]/','',remove_accents((string)$initials)));
+ $words=array_values(array_filter(array_map(fn($w)=>preg_replace('/[^A-Z]/','',$w),preg_split('/[\s-]+/',strtoupper(remove_accents((string)$name)),-1,PREG_SPLIT_NO_EMPTY))));
+ if(!$words||$letters===''||strlen($letters)>6||mb_strlen((string)$initials)>12||$letters[0]!==$words[0][0])return false;
+ if(count($words)>1&&strlen($letters)<2)return false;
+ $next=1;for($k=1;$k<strlen($letters);$k++){while($next<count($words)&&$words[$next][0]!==$letters[$k])$next++;if($next>=count($words))return false;$next++;}
+ return true;
 }
 function pa_image($data){
  if(!is_string($data)||strlen($data)>1500000||!preg_match('#^data:image/(png|jpeg|webp);base64,([A-Za-z0-9+/=]+)$#D',$data,$m))return false;
@@ -71,11 +116,17 @@ function pa_lock($id){$key='pa_lock_'.$id;if(add_option($key,time()+40,'','no'))
 function pa_unlock($id){delete_option('pa_lock_'.$id);}
 function pa_rate($bucket,$limit=8){$key='pa_rate_'.pa_secret_hash($bucket);if(!pa_lock($key))return false;try{$n=(int)get_transient($key);if($n>=$limit)return false;set_transient($key,$n+1,15*MINUTE_IN_SECONDS);return true;}finally{pa_unlock($key);}}
 function pa_sales_email(){ $o=get_option('pa_settings',[]);$legacy=get_option('pelham_company',[]);return sanitize_email($o['sales_email']??($legacy['recipient']??get_option('admin_email'))); }
+/** Branded email for an applicant, in the language of the request. */
+function pa_mail_for($lang,$title,$intro,$rows=[],$button=null,$footnote='',$notice=''){
+ $t=fn($text)=>pa_t_for($text,$lang);
+ return ['lang'=>$lang,'eyebrow'=>'','title'=>$title,'intro'=>$intro,'notice'=>$notice,'sections'=>$rows?[['title'=>$t('Your request'),'rows'=>$rows]]:[],'button'=>$button,'footnote'=>$footnote];
+}
 function pa_job_option($id,$key){return 'pa_mail_'.(int)$id.'_'.sanitize_key($key);}
 function pa_jobs($id){$out=[];foreach(get_post_meta($id,'_pa_job_keys',true)?:[] as $key){$value=get_option(pa_job_option($id,$key));if($value)$out[$key]=pa_decrypt($value);}return $out;}
-function pa_queue($id,$key,$to,$subject,$body){
+/** Queue an email; $mail is the branded version (Pelham Content's pelham_mail), $body the plain-text fallback. */
+function pa_queue($id,$key,$to,$subject,$body,$mail=null){
  if(get_post_meta($id,'_pa_test',true))return;
- $job=['to'=>$to,'subject'=>$subject,'body'=>$body,'attempts'=>0,'status'=>'pending','updated'=>gmdate('c')];
+ $job=['to'=>$to,'subject'=>$subject,'body'=>$body,'mail'=>$mail,'attempts'=>0,'status'=>'pending','updated'=>gmdate('c')];
  if(!add_option(pa_job_option($id,$key),pa_encrypt($job),'','no'))return;
  $keys=get_post_meta($id,'_pa_job_keys',true)?:[];$keys[]=$key;update_post_meta($id,'_pa_job_keys',$keys);
  wp_schedule_single_event(time()+1,'pa_send_mail',[$id,$key]);
@@ -83,7 +134,7 @@ function pa_queue($id,$key,$to,$subject,$body){
 add_action('pa_send_mail',function($id,$key){
  if(!get_post($id)||!pa_lock('mail_'.$id.'_'.$key))return;
  try{$raw=get_option(pa_job_option($id,$key));$job=$raw?pa_decrypt($raw):null;if(!$job||$job['status']==='accepted')return;
-  try{$sent=wp_mail($job['to'],$job['subject'],$job['body']);}catch(Throwable $e){$sent=false;}
+  try{$sent=!empty($job['mail'])&&function_exists('pelham_mail')?pelham_mail($job['to'],$job['subject'],$job['mail']):wp_mail($job['to'],$job['subject'],$job['body']);}catch(Throwable $e){$sent=false;}
   $job['attempts']++;$job['status']=$sent?'accepted':($job['attempts']>=5?'failed':'pending');$job['updated']=gmdate('c');update_option(pa_job_option($id,$key),pa_encrypt($job),false);
   if(!$sent&&$job['attempts']<5)wp_schedule_single_event(time()+min(3600,60*(2**$job['attempts'])),'pa_send_mail',[$id,$key]);
  }finally{pa_unlock('mail_'.$id.'_'.$key);}

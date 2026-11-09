@@ -1,12 +1,12 @@
 {
   "gardena-ca": {
-    "title": "Pelham Services Los Angeles",
+    "title": "Pelham Services Gardena",
     "address": "249 East Redondo Beach Blvd\nGardena, CA 90248",
     "phone": null,
-    "content": "<!-- wp:paragraph --><p>Pelham’s Los Angeles facility is in Gardena, California. Confirm receiving arrangements with the team before sending freight.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[pelham_terminal_details]<!-- /wp:shortcode --><!-- wp:paragraph --><p><a href=\"/services/freight-consolidation/\">Compare LTL service levels</a> or <a href=\"/quote/\">request a domestic freight quote</a>.</p><!-- /wp:paragraph -->",
+    "content": "<!-- wp:paragraph --><p>Pelham’s California facility is in Gardena. Confirm receiving arrangements with the team before sending freight.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[pelham_terminal_details]<!-- /wp:shortcode --><!-- wp:paragraph --><p><a href=\"/services/freight-consolidation/\">Compare LTL service levels</a> or <a href=\"/quote/\">request a domestic freight quote</a>.</p><!-- /wp:paragraph -->",
     "seo": {
       "seo_title": "Pelham Services Los Angeles | Freight Facility",
-      "heading": "Pelham Services Los Angeles",
+      "heading": "Pelham Services Gardena",
       "description": "Visit Pelham’s Los Angeles facility in Gardena. Confirm receiving arrangements before sending freight.",
       "keyword": "Los Angeles freight facility",
       "photo": "none"
@@ -26,14 +26,14 @@
     }
   },
   "orlando-fl": {
-    "title": "Pelham Services Orlando (Land Stand)",
+    "title": "Pelham Services Orlando",
     "address": "9777 Satellite Blvd suite 130\nOrlando, FL 32837",
-    "phone": "",
-    "content": "<!-- wp:paragraph --><p>Find the receiving address for Pelham Services Orlando (Land Stand). Confirm receiving arrangements with the team before sending freight.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[pelham_terminal_details]<!-- /wp:shortcode --><!-- wp:paragraph --><p><a href=\"/services/freight-consolidation/\">Compare LTL service levels</a> or <a href=\"/quote/\">request a domestic freight quote</a>.</p><!-- /wp:paragraph -->",
+    "phone": "323-201-4995",
+    "content": "<!-- wp:paragraph --><p>Find the receiving address for Pelham Services Orlando. Confirm receiving arrangements with the team before sending freight.</p><!-- /wp:paragraph --><!-- wp:shortcode -->[pelham_terminal_details]<!-- /wp:shortcode --><!-- wp:paragraph --><p><a href=\"/services/freight-consolidation/\">Compare LTL service levels</a> or <a href=\"/quote/\">request a domestic freight quote</a>.</p><!-- /wp:paragraph -->",
     "seo": {
-      "seo_title": "Pelham Services Orlando (Land Stand) | Freight Facility",
-      "heading": "Pelham Services Orlando (Land Stand)",
-      "description": "Visit Pelham’s Orlando (Land Stand) facility at 9777 Satellite Blvd suite 130. Confirm receiving arrangements before sending freight.",
+      "seo_title": "Pelham Services Orlando | Freight Facility",
+      "heading": "Pelham Services Orlando",
+      "description": "Visit Pelham’s Orlando facility at 9777 Satellite Blvd suite 130. Call 323-201-4995 to confirm receiving arrangements before sending freight.",
       "keyword": "Orlando freight facility",
       "photo": "none"
     }
