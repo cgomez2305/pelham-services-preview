@@ -140,5 +140,10 @@
  "Describe the goods, using up to 150 characters.": "Describa la mercancía en un máximo de 150 caracteres.",
  "optional": "opcional",
  "Your business": "Su empresa",
- "(optional)": "(opcional)"
+ "(optional)": "(opcional)",
+ "Enter a 5-digit US ZIP code, for example 90248.": "Escriba un código postal (ZIP) de EE. UU. de 5 dígitos, por ejemplo 90248.",
+ "Check this box to continue.": "Marque esta casilla para continuar.",
+ "This field is required.": "Este campo es obligatorio.",
+ "Enter a valid number.": "Escriba un número válido.",
+ "Please correct the highlighted fields before sending.": "Corrija los campos marcados antes de enviar."
 }

@@ -110,3 +110,110 @@ function pelham_quote_form_script(){
 })();
 JS;
 }
+
+/**
+ * Clear error messages for the quote and contact forms. The browser's own bubble disappears at once and says
+ * "Please match the requested format", so a 6-digit postal code looked like a form that did nothing.
+ */
+function pelham_form_validation_script(){
+ return <<<'JS'
+(function () {
+	'use strict';
+
+	var form = document.querySelector('.pelham-form');
+	if (!form) {
+		return;
+	}
+	var translations = window.pelhamI18n || {};
+	function translate(text) {
+		return translations[text] || text;
+	}
+
+	function messageFor(field) {
+		var v = field.validity;
+		if (field.name === 'origin' || field.name === 'destination') {
+			return translate('Enter a 5-digit US ZIP code, for example 90248.');
+		}
+		if (v.valueMissing) {
+			return field.type === 'checkbox' ? translate('Check this box to continue.') : translate('This field is required.');
+		}
+		if (v.typeMismatch && field.type === 'email') {
+			return translate('Enter a valid email address.');
+		}
+		if (v.badInput || v.rangeUnderflow || v.rangeOverflow || v.stepMismatch) {
+			return translate('Enter a valid number.');
+		}
+		return field.validationMessage;
+	}
+
+	function holderOf(field) {
+		return field.closest('label') || field.parentNode;
+	}
+
+	function showError(field) {
+		var holder = holderOf(field);
+		var note = holder.querySelector('.field-error-live');
+		if (!note) {
+			note = document.createElement('small');
+			note.className = 'field-error-live';
+			note.id = 'error-' + field.name;
+			holder.appendChild(note);
+		}
+		note.textContent = messageFor(field);
+		field.setAttribute('aria-invalid', 'true');
+		field.setAttribute('aria-describedby', note.id);
+	}
+
+	function clearError(field) {
+		var note = holderOf(field).querySelector('.field-error-live');
+		if (note) {
+			note.remove();
+		}
+		field.removeAttribute('aria-invalid');
+	}
+
+	var summary = null;
+	var firstInvalid = null;
+
+	// The browser reports each invalid field on submit: show the message under it, then one notice and the first field.
+	form.addEventListener('invalid', function (event) {
+		event.preventDefault();
+		var field = event.target;
+		showError(field);
+		if (!firstInvalid) {
+			firstInvalid = field;
+			window.setTimeout(function () {
+				if (!summary) {
+					summary = document.createElement('p');
+					summary.className = 'form-live-summary';
+					summary.setAttribute('role', 'alert');
+					var button = form.querySelector('button[type="submit"]');
+					button.parentNode.insertBefore(summary, button);
+				}
+				summary.textContent = translate('Please correct the highlighted fields before sending.');
+				firstInvalid.scrollIntoView({block: 'center'});
+				firstInvalid.focus({preventScroll: true});
+				firstInvalid = null;
+			}, 0);
+		}
+	}, true);
+
+	form.addEventListener('input', function (event) {
+		var field = event.target;
+		if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+			clearError(field);
+			if (summary && !form.querySelector('[aria-invalid="true"]')) {
+				summary.remove();
+				summary = null;
+			}
+		}
+	});
+	form.addEventListener('change', function (event) {
+		var field = event.target;
+		if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+			clearError(field);
+		}
+	});
+})();
+JS;
+}

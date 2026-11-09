@@ -21,6 +21,18 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
 
+## Errores visibles en Cotizar y Contacto (contenido 1.21.11)
+
+En el sitio en vivo, una cotización con un código postal de 6 dígitos (760044) «no se enviaba ni decía qué faltaba». El navegador bloqueaba el envío, pero su aviso es una burbuja que desaparece al instante y dice «Please match the requested format».
+
+Ahora, al pulsar enviar con datos incorrectos:
+- cada campo con error muestra un mensaje fijo debajo, en rojo («Enter a 5-digit US ZIP code, for example 90248.», «This field is required.», etc.);
+- aparece un aviso junto al botón («Please correct the highlighted fields before sending.»);
+- la página salta al primer campo que hay que corregir;
+- al corregir un campo, su mensaje desaparece.
+
+Todo está traducido al español, y los ZIP llevan además el texto de ayuda en el propio campo.
+
 ## Sin archivo .js en el plugin de contenido (contenido 1.21.7)
 
 Con la versión 1.21.6, Defender siguió marcando `assets/offer.js`, aunque ya estaba en formato legible. Como la detección es heurística y no se sabe qué rasgo la provoca, se quitó el archivo:
