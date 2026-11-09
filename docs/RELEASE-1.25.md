@@ -21,6 +21,19 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
 
+## Correos más limpios y adaptados al móvil (contenido 1.21.13 / Applications 1.7.2)
+
+- **Botón:** el relleno va en la celda, no en el enlace. Ya no se deforma en Outlook, en Gmail ni con la traducción automática, y sin flecha.
+- **Pie:** la dirección y el teléfono son enlaces discretos (Google Maps y llamada), así Gmail no los convierte en enlaces azules subrayados.
+- **Móvil:** en pantallas estrechas las filas se apilan (etiqueta encima, dato debajo), el botón ocupa todo el ancho y la tarjeta usa la pantalla completa.
+- **Nivel LTL:** en filas separadas (Service level, Transit time y Coverage) en lugar de un texto con barras.
+- **Unidades:** con su unidad y separador de miles (1,800 lb y 220 cu ft).
+- **Textos más naturales:**
+  - arriba solo la fecha;
+  - títulos como «Quote request from Maria Lopez» o «New account application from Acme»;
+  - secciones en minúsculas (Contact, Shipment, Freight);
+  - botón «Reply to Maria».
+
 ## Correos con el diseño de la web (contenido 1.21.12 / Applications 1.7.1)
 
 Todos los correos de la web usan ahora la misma plantilla HTML: logo, línea verde, título, datos ordenados en tablas y botón de acción. Lleva además una versión de texto plano para los programas de correo que no muestran HTML. Está hecha con tablas y estilos en línea, así que se ve igual en Outlook, Gmail y el móvil.

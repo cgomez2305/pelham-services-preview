@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.21.12
+ * Version: 1.21.13
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -199,27 +199,30 @@ function pelham_handle_enquiry(){
  $service=$fields['kind']==='quote'?pelham_quote_service_slug($fields['service']):'';$structured=in_array($service,['freight-consolidation','dedicated-transport'],true);
  if(!$structured)foreach(['pieces','weight','cubic_feet','commodity','commodity_detail','value'] as $key)$fields[$key]='';
  if($service!=='freight-consolidation')$fields['cubic_feet']='';
- $errors=[];if($fields['ltl_level']!==''){ $ltl=get_posts(['post_type'=>'pelham_service','name'=>'freight-consolidation','numberposts'=>1]);$labels=[];foreach(array_filter([$ltl[0]??null,$ltl?pelham_translation($ltl[0],'es'):null]) as $version){$labels[]=$version->post_title;$labels[]=get_post_meta($version->ID,'pelham_service_label',true);}$labels=array_values(array_filter($labels));if($fields['kind']!=='quote'||!in_array($fields['service'],$labels,true)||!isset(pelham_ltl_levels()[$fields['ltl_level']]))$errors[]='service';else{$level=pelham_ltl_levels()[$fields['ltl_level']];$fields['ltl_level']=implode(' | ',[$level[0],$level[1].' calendar days from pickup (estimated, not guaranteed)',$level[2]]);}}$business_options=function_exists('pelham_audience_data')?pelham_audience_data()['business_options']:[];$fields['business']=$business_options[$fields['business']]??'';if(!$fields['name'])$errors[]='name';if(!is_email($fields['email']))$errors[]='email';if((!$structured&&!$fields['message'])||strlen($fields['message'])>5000)$errors[]='message';if(empty($_POST['consent']))$errors[]='consent';if($fields['kind']==='quote')foreach(['origin','destination'] as $key)if(!preg_match('/^\d{5}(-\d{4})?$/',$fields[$key]))$errors[]=$key;
+ $errors=[];if($fields['ltl_level']!==''){ $ltl=get_posts(['post_type'=>'pelham_service','name'=>'freight-consolidation','numberposts'=>1]);$labels=[];foreach(array_filter([$ltl[0]??null,$ltl?pelham_translation($ltl[0],'es'):null]) as $version){$labels[]=$version->post_title;$labels[]=get_post_meta($version->ID,'pelham_service_label',true);}$labels=array_values(array_filter($labels));if($fields['kind']!=='quote'||!in_array($fields['service'],$labels,true)||!isset(pelham_ltl_levels()[$fields['ltl_level']]))$errors[]='service';else{$level=pelham_ltl_levels()[$fields['ltl_level']];$fields['ltl_level']=$level[0];$fields['ltl_transit']=$level[1].' calendar days from pickup (estimate)';$fields['ltl_coverage']=$level[2];}}$business_options=function_exists('pelham_audience_data')?pelham_audience_data()['business_options']:[];$fields['business']=$business_options[$fields['business']]??'';if(!$fields['name'])$errors[]='name';if(!is_email($fields['email']))$errors[]='email';if((!$structured&&!$fields['message'])||strlen($fields['message'])>5000)$errors[]='message';if(empty($_POST['consent']))$errors[]='consent';if($fields['kind']==='quote')foreach(['origin','destination'] as $key)if(!preg_match('/^\d{5}(-\d{4})?$/',$fields[$key]))$errors[]=$key;
  if($structured){foreach(['pieces'=>1,'weight'=>0.01,'value'=>0]+($service==='freight-consolidation'?['cubic_feet'=>0.01]:[]) as $key=>$min)if(!is_numeric($fields[$key])||(float)$fields[$key]<$min||(float)$fields[$key]>99999999)$errors[]=$key;$commodities=pelham_commodities();if(!isset($commodities[$fields['commodity']]))$errors[]='commodity';elseif($fields['commodity']==='other'&&trim($fields['commodity_detail'])==='')$errors[]='commodity_detail';else $fields['commodity']=$fields['commodity']==='other'?'Other':$commodities[$fields['commodity']][0];if(is_numeric($fields['pieces'])&&floor((float)$fields['pieces'])!=(float)$fields['pieces'])$errors[]='pieces';}
  if($errors)$finish('invalid',array_unique($errors));
  $ip=isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'';$rate='pelham_rate_'.hash_hmac('sha256',$ip,wp_salt());if(get_transient($rate))$finish('limited');set_transient($rate,1,2*MINUTE_IN_SECONDS);
  $opts=get_option('pelham_company',pelham_defaults());$to=sanitize_email($opts['recipient']??get_option('admin_email'));
  // Branded email to the team: only the fields the visitor filled in, grouped as they appear on the form.
  $quote=$fields['kind']==='quote';$spanish=pelham_lang()==='es';$name=$fields['name'];
+ $num=fn($v)=>is_numeric($v)?rtrim(rtrim(number_format((float)$v,2),'0'),'.'):$v;
  $money=fn($v)=>is_numeric($v)?'$'.number_format((float)$v,2):$v;
  $route=$quote&&$fields['origin']?$fields['origin'].' → '.$fields['destination']:'';
- $mail=['lang'=>'en','eyebrow'=>$quote?'Website · Quote request':'Website · Contact enquiry','title'=>$quote?'New quote request':'New contact enquiry',
-  'preheader'=>trim($name.($quote?' · '.($fields['service']?:'Help me choose').($route?' · ZIP '.$route:''):'')),
-  'intro'=>$quote?sprintf('%s requested a quote for %s%s.',$name,$fields['service']?:'a shipment (help me choose)',$route?', ZIP '.$route:''):sprintf('%s sent a message through the website.',$name),
-  'notice'=>$spanish?'The customer wrote from the Spanish website. Please reply in Spanish.':'',
+ $first=strtok($name,' ')?:$name;$received=wp_date('F j, Y \a\t g:i a');
+ $mail=['lang'=>'en','eyebrow'=>$received,
+  'title'=>($quote?'Quote request from ':'Message from ').$name,
+  'preheader'=>$quote?trim(($fields['service']?:'Help me choose').($route?', ZIP '.$route:'')):wp_trim_words($fields['message'],18),
+  'intro'=>$quote?($fields['service']?:'Not sure which service yet').($fields['origin']?', from ZIP '.$fields['origin'].' to '.$fields['destination']:'').'.':'',
+  'notice'=>$spanish?'This customer used the Spanish website, so please reply in Spanish.':'',
   'sections'=>[
-   ['title'=>'Customer','rows'=>[['Name',$name],['Email',$fields['email'],'mailto:'.$fields['email']],['Company',$fields['company']],['Phone',$fields['phone'],$fields['phone']?'tel:'.preg_replace('/[^+0-9]/','',$fields['phone']):''],['Business',$fields['business']]]],
-   ['title'=>'Shipment','rows'=>$quote?[['Service',$fields['service']],['LTL level',$fields['ltl_level']],['Origin ZIP',$fields['origin']],['Destination ZIP',$fields['destination']],['Equipment / handling',$fields['freight']]]:[]],
-   ['title'=>'Goods','rows'=>$quote?[['Pieces',$fields['pieces']],[$service==='dedicated-transport'?'Total weight (lb)':'Weight (lb)',$fields['weight']],['Cubic feet',$fields['cubic_feet']],['Commodity',$fields['commodity']],['Commodity details',$fields['commodity_detail']],['Declared value',$fields['value']!==''?$money($fields['value']):'']]:[]],
+   ['title'=>'Contact','rows'=>[['Name',$name],['Email',$fields['email'],'mailto:'.$fields['email']],['Phone',$fields['phone'],$fields['phone']?'tel:'.preg_replace('/[^+0-9]/','',$fields['phone']):''],['Company',$fields['company']],['Business type',$fields['business']]]],
+   ['title'=>'Shipment','rows'=>$quote?[['Service',$fields['service']],['Service level',$fields['ltl_level']],['Transit time',$fields['ltl_transit']??''],['Coverage',$fields['ltl_coverage']??''],['Pickup ZIP',$fields['origin']],['Delivery ZIP',$fields['destination']],['Equipment / handling',$fields['freight']]]:[]],
+   ['title'=>'Freight','rows'=>$quote?[['Pieces',$fields['pieces']],[$service==='dedicated-transport'?'Total weight':'Weight',$fields['weight']!==''?$num($fields['weight']).' lb':''],['Volume',$fields['cubic_feet']!==''?$num($fields['cubic_feet']).' cu ft':''],['Commodity',$fields['commodity']],['Description',$fields['commodity_detail']],['Declared value',$fields['value']!==''?$money($fields['value']):'']]:[]],
   ],
-  'message'=>['title'=>'Message','text'=>$fields['message']],
-  'button'=>['label'=>'Reply to '.$name,'url'=>'mailto:'.$fields['email'].'?subject='.rawurlencode($quote?'Your Pelham quote request':'Your message to Pelham Services')],
-  'footnote'=>'Sent from the '.($spanish?'Spanish':'English').' website on '.wp_date('F j, Y \a\t g:i a').'. Replying to this email answers the customer directly.',
+  'message'=>['title'=>$quote?'Notes from the customer':'Message','text'=>$fields['message']],
+  'button'=>['label'=>'Reply to '.$first,'url'=>'mailto:'.$fields['email'].'?subject='.rawurlencode($quote?'Your Pelham quote request':'Your message to Pelham Services')],
+  'footnote'=>'Sent from the '.($spanish?'Spanish':'English').' website. You can also just hit reply.',
  ];
  $subject=$quote?'Quote request · '.($fields['service']?:'Help me choose').($route?' · '.$route:'').' · '.$name:'Contact enquiry · '.$name;
  $sent=pelham_mail($to,$subject,$mail,['Reply-To: '.$name.' <'.sanitize_email($fields['email']).'>']);$finish($sent?'sent':'failed');

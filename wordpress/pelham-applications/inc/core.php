@@ -119,7 +119,7 @@ function pa_sales_email(){ $o=get_option('pa_settings',[]);$legacy=get_option('p
 /** Branded email for an applicant, in the language of the request. */
 function pa_mail_for($lang,$title,$intro,$rows=[],$button=null,$footnote='',$notice=''){
  $t=fn($text)=>pa_t_for($text,$lang);
- return ['lang'=>$lang,'eyebrow'=>'Pelham Services','title'=>$title,'intro'=>$intro,'notice'=>$notice,'sections'=>$rows?[['title'=>$t('Your request'),'rows'=>$rows]]:[],'button'=>$button,'footnote'=>$footnote];
+ return ['lang'=>$lang,'eyebrow'=>'','title'=>$title,'intro'=>$intro,'notice'=>$notice,'sections'=>$rows?[['title'=>$t('Your request'),'rows'=>$rows]]:[],'button'=>$button,'footnote'=>$footnote];
 }
 function pa_job_option($id,$key){return 'pa_mail_'.(int)$id.'_'.sanitize_key($key);}
 function pa_jobs($id){$out=[];foreach(get_post_meta($id,'_pa_job_keys',true)?:[] as $key){$value=get_option(pa_job_option($id,$key));if($value)$out[$key]=pa_decrypt($value);}return $out;}

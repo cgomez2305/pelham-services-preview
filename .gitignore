@@ -13,8 +13,8 @@ docs/audit/
 # Historical packages remain local; publish current installable releases.
 dist/*.zip
 !dist/pelham-modern-1.26.3.zip
-!dist/pelham-content-1.21.12.zip
-!dist/pelham-applications-1.7.1.zip
+!dist/pelham-content-1.21.13.zip
+!dist/pelham-applications-1.7.2.zip
 # Downloaded third-party pages are research inputs, not site source.
 docs/geo-audit/*.html
 docs/geo-audit/google-ai.txt
