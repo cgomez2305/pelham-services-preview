@@ -21,6 +21,21 @@ Cambios del documento `WEB_CONTENT_REVISIONS_10-28`. Se mantienen las URL, los t
 - El título de búsqueda «Pelham Services Gardena | Los Angeles Freight Facility». La gente busca «Los Angeles», así que se queda en el título de Google, pero no en la página.
 - Las keywords del corredor («Los Angeles to Florida», «LTL from Los Angeles to Miami»…). Es la ruta del servicio, no el nombre de la instalación.
 
+## Correos con el diseño de la web (contenido 1.21.12 / Applications 1.7.1)
+
+Todos los correos de la web usan ahora la misma plantilla HTML: logo, línea verde, título, datos ordenados en tablas y botón de acción. Lleva además una versión de texto plano para los programas de correo que no muestran HTML. Está hecha con tablas y estilos en línea, así que se ve igual en Outlook, Gmail y el móvil.
+
+| Correo | Para quién | Contenido |
+|---|---|---|
+| Cotización | Equipo | Cliente, envío (servicio, nivel LTL, ZIP), mercancía, mensaje y botón «Reply to …». Si llega desde la web en español, lo avisa en un recuadro. |
+| Contacto | Equipo | Datos del cliente, mensaje y botón para responder. |
+| Enlace privado del registro o la reclamación | Cliente | Botón «Continue securely» / «Continuar de forma segura», en el idioma de la página. |
+| Nueva solicitud o reclamación | Equipo (ventas) | Referencia, empresa, contacto, correo, teléfono, crédito solicitado o datos de la reclamación, y botón «Review the request» al administrador. |
+| Acuse de recibo | Cliente | Referencia y fecha (día/mes/año en español). |
+| Información solicitada y cambio de estado | Cliente | La corrección pedida o el nuevo estado, con su referencia. |
+
+Los asuntos son más claros, por ejemplo `Quote request · Less Than Truckload (LTL) · 90248 → 33166 · Maria Lopez`.
+
 ## Errores visibles en Cotizar y Contacto (contenido 1.21.11)
 
 En el sitio en vivo, una cotización con un código postal de 6 dígitos (760044) «no se enviaba ni decía qué faltaba». El navegador bloqueaba el envío, pero su aviso es una burbuja que desaparece al instante y dice «Please match the requested format».

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Pelham Content
  * Description: Editable services, terminals, company information, starter content and enquiry forms for Pelham Services.
- * Version: 1.21.11
+ * Version: 1.21.12
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * License: GPL-2.0-or-later
@@ -204,10 +204,25 @@ function pelham_handle_enquiry(){
  if($errors)$finish('invalid',array_unique($errors));
  $ip=isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'';$rate='pelham_rate_'.hash_hmac('sha256',$ip,wp_salt());if(get_transient($rate))$finish('limited');set_transient($rate,1,2*MINUTE_IN_SECONDS);
  $opts=get_option('pelham_company',pelham_defaults());$to=sanitize_email($opts['recipient']??get_option('admin_email'));
- $names=['origin'=>'Origin ZIP','destination'=>'Destination ZIP','ltl_level'=>'LTL level','pieces'=>'Pieces','weight'=>$service==='dedicated-transport'?'Total weight (lb)':'Weight (lb)','cubic_feet'=>'Cubic feet','commodity'=>'Commodity','commodity_detail'=>'Commodity details','value'=>'Value (USD)'];
- $body='New website enquiry'."\n\n";foreach($fields as $key=>$value){if($value===''&&in_array($key,['ltl_level','pieces','weight','cubic_feet','commodity','commodity_detail','value'],true))continue;$body.=($names[$key]??ucfirst($key)).': '.$value."\n";}
- $body.='Language: '.(pelham_lang()==='es'?'Spanish (reply in Spanish)':'English')."\n";
- $sent=wp_mail($to,'Pelham website — '.($fields['kind']==='quote'?'Quote request':'Contact enquiry'),$body,['Reply-To: '.sanitize_email($fields['email'])]);$finish($sent?'sent':'failed');
+ // Branded email to the team: only the fields the visitor filled in, grouped as they appear on the form.
+ $quote=$fields['kind']==='quote';$spanish=pelham_lang()==='es';$name=$fields['name'];
+ $money=fn($v)=>is_numeric($v)?'$'.number_format((float)$v,2):$v;
+ $route=$quote&&$fields['origin']?$fields['origin'].' → '.$fields['destination']:'';
+ $mail=['lang'=>'en','eyebrow'=>$quote?'Website · Quote request':'Website · Contact enquiry','title'=>$quote?'New quote request':'New contact enquiry',
+  'preheader'=>trim($name.($quote?' · '.($fields['service']?:'Help me choose').($route?' · ZIP '.$route:''):'')),
+  'intro'=>$quote?sprintf('%s requested a quote for %s%s.',$name,$fields['service']?:'a shipment (help me choose)',$route?', ZIP '.$route:''):sprintf('%s sent a message through the website.',$name),
+  'notice'=>$spanish?'The customer wrote from the Spanish website. Please reply in Spanish.':'',
+  'sections'=>[
+   ['title'=>'Customer','rows'=>[['Name',$name],['Email',$fields['email'],'mailto:'.$fields['email']],['Company',$fields['company']],['Phone',$fields['phone'],$fields['phone']?'tel:'.preg_replace('/[^+0-9]/','',$fields['phone']):''],['Business',$fields['business']]]],
+   ['title'=>'Shipment','rows'=>$quote?[['Service',$fields['service']],['LTL level',$fields['ltl_level']],['Origin ZIP',$fields['origin']],['Destination ZIP',$fields['destination']],['Equipment / handling',$fields['freight']]]:[]],
+   ['title'=>'Goods','rows'=>$quote?[['Pieces',$fields['pieces']],[$service==='dedicated-transport'?'Total weight (lb)':'Weight (lb)',$fields['weight']],['Cubic feet',$fields['cubic_feet']],['Commodity',$fields['commodity']],['Commodity details',$fields['commodity_detail']],['Declared value',$fields['value']!==''?$money($fields['value']):'']]:[]],
+  ],
+  'message'=>['title'=>'Message','text'=>$fields['message']],
+  'button'=>['label'=>'Reply to '.$name,'url'=>'mailto:'.$fields['email'].'?subject='.rawurlencode($quote?'Your Pelham quote request':'Your message to Pelham Services')],
+  'footnote'=>'Sent from the '.($spanish?'Spanish':'English').' website on '.wp_date('F j, Y \a\t g:i a').'. Replying to this email answers the customer directly.',
+ ];
+ $subject=$quote?'Quote request · '.($fields['service']?:'Help me choose').($route?' · '.$route:'').' · '.$name:'Contact enquiry · '.$name;
+ $sent=pelham_mail($to,$subject,$mail,['Reply-To: '.$name.' <'.sanitize_email($fields['email']).'>']);$finish($sent?'sent':'failed');
 }
 /** English slug of the quoted service from the submitted option label (English or Spanish). */
 /** Commodity categories for quotes: value => [English label, note shown when chosen]. */
@@ -268,6 +283,7 @@ add_shortcode('pelham_direct_contact',function(){return '<div class="direct-cont
 require_once __DIR__.'/inc/upgrade-1.8.php';
 require_once __DIR__.'/inc/upgrade-quote.php';
 
+require_once __DIR__.'/inc/email-templates.php';
 require_once __DIR__.'/inc/quote-form-script.php';
 require_once __DIR__.'/inc/offer-1.9.php';
 

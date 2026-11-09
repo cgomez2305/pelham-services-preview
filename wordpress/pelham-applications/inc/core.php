@@ -116,11 +116,17 @@ function pa_lock($id){$key='pa_lock_'.$id;if(add_option($key,time()+40,'','no'))
 function pa_unlock($id){delete_option('pa_lock_'.$id);}
 function pa_rate($bucket,$limit=8){$key='pa_rate_'.pa_secret_hash($bucket);if(!pa_lock($key))return false;try{$n=(int)get_transient($key);if($n>=$limit)return false;set_transient($key,$n+1,15*MINUTE_IN_SECONDS);return true;}finally{pa_unlock($key);}}
 function pa_sales_email(){ $o=get_option('pa_settings',[]);$legacy=get_option('pelham_company',[]);return sanitize_email($o['sales_email']??($legacy['recipient']??get_option('admin_email'))); }
+/** Branded email for an applicant, in the language of the request. */
+function pa_mail_for($lang,$title,$intro,$rows=[],$button=null,$footnote='',$notice=''){
+ $t=fn($text)=>pa_t_for($text,$lang);
+ return ['lang'=>$lang,'eyebrow'=>'Pelham Services','title'=>$title,'intro'=>$intro,'notice'=>$notice,'sections'=>$rows?[['title'=>$t('Your request'),'rows'=>$rows]]:[],'button'=>$button,'footnote'=>$footnote];
+}
 function pa_job_option($id,$key){return 'pa_mail_'.(int)$id.'_'.sanitize_key($key);}
 function pa_jobs($id){$out=[];foreach(get_post_meta($id,'_pa_job_keys',true)?:[] as $key){$value=get_option(pa_job_option($id,$key));if($value)$out[$key]=pa_decrypt($value);}return $out;}
-function pa_queue($id,$key,$to,$subject,$body){
+/** Queue an email; $mail is the branded version (Pelham Content's pelham_mail), $body the plain-text fallback. */
+function pa_queue($id,$key,$to,$subject,$body,$mail=null){
  if(get_post_meta($id,'_pa_test',true))return;
- $job=['to'=>$to,'subject'=>$subject,'body'=>$body,'attempts'=>0,'status'=>'pending','updated'=>gmdate('c')];
+ $job=['to'=>$to,'subject'=>$subject,'body'=>$body,'mail'=>$mail,'attempts'=>0,'status'=>'pending','updated'=>gmdate('c')];
  if(!add_option(pa_job_option($id,$key),pa_encrypt($job),'','no'))return;
  $keys=get_post_meta($id,'_pa_job_keys',true)?:[];$keys[]=$key;update_post_meta($id,'_pa_job_keys',$keys);
  wp_schedule_single_event(time()+1,'pa_send_mail',[$id,$key]);
@@ -128,7 +134,7 @@ function pa_queue($id,$key,$to,$subject,$body){
 add_action('pa_send_mail',function($id,$key){
  if(!get_post($id)||!pa_lock('mail_'.$id.'_'.$key))return;
  try{$raw=get_option(pa_job_option($id,$key));$job=$raw?pa_decrypt($raw):null;if(!$job||$job['status']==='accepted')return;
-  try{$sent=wp_mail($job['to'],$job['subject'],$job['body']);}catch(Throwable $e){$sent=false;}
+  try{$sent=!empty($job['mail'])&&function_exists('pelham_mail')?pelham_mail($job['to'],$job['subject'],$job['mail']):wp_mail($job['to'],$job['subject'],$job['body']);}catch(Throwable $e){$sent=false;}
   $job['attempts']++;$job['status']=$sent?'accepted':($job['attempts']>=5?'failed':'pending');$job['updated']=gmdate('c');update_option(pa_job_option($id,$key),pa_encrypt($job),false);
   if(!$sent&&$job['attempts']<5)wp_schedule_single_event(time()+min(3600,60*(2**$job['attempts'])),'pa_send_mail',[$id,$key]);
  }finally{pa_unlock('mail_'.$id.'_'.$key);}
