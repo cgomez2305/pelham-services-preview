@@ -145,5 +145,20 @@
  "Check this box to continue.": "Marque esta casilla para continuar.",
  "This field is required.": "Este campo es obligatorio.",
  "Enter a valid number.": "Escriba un número válido.",
- "Please correct the highlighted fields before sending.": "Corrija los campos marcados antes de enviar."
+ "Please correct the highlighted fields before sending.": "Corrija los campos marcados antes de enviar.",
+ "Request Expedited": "Solicitar Expedited",
+ "Request Regular": "Solicitar Regular",
+ "Request Economy": "Solicitar Economy",
+ "calendar days": "días calendario",
+ "Services:": "Servicios:",
+ "Estimated, not guaranteed.": "Plazos estimados, no garantizados.",
+ "Shipping from Los Angeles to Florida": "Envíos de Los Angeles a Florida",
+ "Pelham Services Gardena is the California origin of our Los Angeles to Florida lane. LTL transit times are counted in calendar days from pickup:": "Pelham Services Gardena es el origen en California de nuestra ruta de Los Angeles a Florida. Los tiempos de tránsito LTL se cuentan en días calendario desde la recogida:",
+ "Expedited covers South Florida only, from Homestead to West Palm Beach. Regular and Economy cover all Florida destinations.": "Expedited cubre solo el sur de Florida, de Homestead a West Palm Beach. Regular y Economy cubren todos los destinos de Florida.",
+ "Freight from Los Angeles to Miami": "Carga de Los Angeles a Miami",
+ "Shipments picked up in the Los Angeles area reach Miami with these LTL options, counted in calendar days from pickup:": "Los envíos recogidos en el área de Los Angeles llegan a Miami con estas opciones LTL, contadas en días calendario desde la recogida:",
+ "Miami is inside the Expedited area (Homestead to West Palm Beach).": "Miami está dentro de la zona Expedited (de Homestead a West Palm Beach).",
+ "Freight from Los Angeles to Orlando": "Carga de Los Angeles a Orlando",
+ "Shipments picked up in the Los Angeles area reach Orlando with these LTL options, counted in calendar days from pickup:": "Los envíos recogidos en el área de Los Angeles llegan a Orlando con estas opciones LTL, contadas en días calendario desde la recogida:",
+ "Expedited is not available to Orlando: it covers South Florida only, from Homestead to West Palm Beach.": "Expedited no está disponible para Orlando: cubre solo el sur de Florida, de Homestead a West Palm Beach."
 }

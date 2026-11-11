@@ -145,6 +145,11 @@ Hoy tienen ~55 palabras: dirección, teléfono y mapa. Propuesta, sin cambiar UR
 | 9 | Ficha de Orlando (si es elegible) | Medio | Medio | Cliente |
 | 10 | Medir CWV y conectar GSC/GA4 para la línea base | Necesario para medir | Bajo | Usuario conecta las cuentas |
 
-## 7. Siguiente paso
+## 7. Estado
+
+- **Hecho en código (tema 1.27.0 / contenido 1.22.0, sin desplegar):** puntos 1 (redirección `/contact-information/`), 4 (contenido heredado), 5 (schema), T2 (H1 doble) y la parte de 5.4 que no depende del cliente (tránsito por sede). Medición de escritorio de CWV hecha. Detalle en [RELEASE-1.27-SEO-LOCAL.md](RELEASE-1.27-SEO-LOCAL.md).
+- **Pendiente del cliente:** puntos 2, 3, 7, 8 y 9, y horarios y servicios por sede para completar 5.4.
+
+## 8. Siguiente paso
 
 No se ha hecho ningún cambio en producción ni en el código. Para cada cambio en producción: aprobación previa y copia de seguridad reciente confirmada; después, vaciar la caché de Sucuri.

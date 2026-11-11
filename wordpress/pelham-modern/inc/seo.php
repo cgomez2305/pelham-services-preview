@@ -43,13 +43,41 @@ function pelham_postal_address($raw) {
  }
  return $raw;
 }
-/** A facility identity is shared by directory, company and facility pages. */
+/** Phone in E.164 (+13232014995) for schema; '' when it is not a 10-digit US number. */
+function pelham_schema_phone($phone){
+ $digits=preg_replace('/\D/','',(string)$phone);
+ if(strlen($digits)===11&&$digits[0]==='1')$digits=substr($digits,1);
+ return strlen($digits)===10?'+1'.$digits:'';
+}
+/**
+ * Verified Google Business Profile per facility (same name, address and phone as the site).
+ * Miami and Orlando stay out until the client confirms their NAP (docs/SEO-LOCAL-AUDIT-PLAN-2026-11.md).
+ */
+function pelham_terminal_profiles(){
+ return apply_filters('pelham_terminal_profiles',['gardena-ca'=>'https://www.google.com/maps?cid=10431901153798144411']);
+}
+/** Area each facility serves on the Los Angeles → Florida lane (from the published offer). */
+function pelham_terminal_area($route){
+ return ['gardena-ca'=>[['@type'=>'City','name'=>'Los Angeles'],['@type'=>'State','name'=>'California']],'miami-fl'=>[['@type'=>'City','name'=>'Miami'],['@type'=>'Place','name'=>'South Florida']],'orlando-fl'=>[['@type'=>'City','name'=>'Orlando'],['@type'=>'Place','name'=>'Central Florida']]][$route]??[['@type'=>'State','name'=>'Florida']];
+}
+/** A facility identity is shared by directory, company and facility pages, in both languages. */
 function pelham_terminal_entity($post, $organization_id) {
  $address=trim((string)get_post_meta($post->ID,'pelham_address',true));
  if(!$address)return null;
- $url=get_permalink($post);
- $entity=['@type'=>'LocalBusiness','@id'=>$url.'#terminal','name'=>get_the_title($post),'url'=>$url,'address'=>pelham_postal_address($address),'parentOrganization'=>['@id'=>$organization_id]];
- $phone=trim((string)get_post_meta($post->ID,'pelham_phone',true));if($phone)$entity['telephone']=$phone;
+ // One entity per facility: the Spanish page describes the same place as the English one.
+ $canonical=function_exists('pelham_translation')?(pelham_translation($post,'en')?:$post):$post;
+ $url=get_permalink($canonical);$route=function_exists('pelham_route_slug')?pelham_route_slug($post):$post->post_name;
+ $entity=['@type'=>'LocalBusiness','@id'=>$url.'#terminal','name'=>get_the_title($canonical),'url'=>$url,'address'=>pelham_postal_address($address),'parentOrganization'=>['@id'=>$organization_id]];
+ $phone=trim((string)get_post_meta($post->ID,'pelham_phone',true));
+ if($phone)$entity['telephone']=pelham_schema_phone($phone)?:$phone;
+ $profiles=pelham_terminal_profiles();
+ $entity['hasMap']=$profiles[$route]??'https://www.google.com/maps/search/?api=1&query='.rawurlencode(preg_replace('/\s*\R\s*/',', ',$address));
+ if(isset($profiles[$route]))$entity['sameAs']=[$profiles[$route]];
+ $image=get_the_post_thumbnail_url($canonical,'large');
+ if(!$image&&function_exists('pelham_photo_data')){$photo=pelham_photo_data('pelham-services');$image=$photo['url']??'';}
+ if($image)$entity['image']=$image;
+ $entity['areaServed']=pelham_terminal_area($route);
+ $entity['knowsAbout']=['LTL freight shipping','Full truckload shipping','Cross-docking','Palletizing','Los Angeles to Florida freight'];
  return $entity;
 }
 // Archive routes are discoverable through WordPress sitemaps too. They need
@@ -90,12 +118,16 @@ add_action('wp_head',function(){
  // The other language version of this page, for social previews.
  if (function_exists('pelham_alternates') && count(array_filter(pelham_alternates()))===2) echo '<meta property="og:locale:alternate" content="'.(pelham_lang()==='es'?'en_US':'es_US').'">'."\n";
  foreach (['twitter:card'=>'summary_large_image','twitter:title'=>$title,'twitter:description'=>$description,'twitter:image'=>$image,'twitter:image:alt'=>$image_alt] as $name=>$value) echo '<meta name="'.esc_attr($name).'" content="'.esc_attr($value).'">'."\n";
- $org = ['@type'=>'Organization','@id'=>home_url('/').'#organization','name'=>get_bloginfo('name'),'url'=>home_url('/'),'logo'=>$logo];
+ // The brand is «Pelham Services» (site title is the short «Pelham»); the legal entity is Pelham Services CA Corp.
+ $brand_logo=function_exists('pelham_logo_url')&&file_exists(get_template_directory().'/assets/pelham-logo.png')?pelham_logo_url('pelham-logo.png'):$logo;
+ $org = ['@type'=>'Organization','@id'=>home_url('/').'#organization','name'=>'Pelham Services','legalName'=>'Pelham Services CA Corp','alternateName'=>get_bloginfo('name'),'url'=>home_url('/'),'logo'=>$brand_logo];
+ $main_phone=pelham_schema_phone(function_exists('pelham_detail')?pelham_detail('ca_phone','323-201-4995'):'323-201-4995');
+ if($main_phone){$org['telephone']=$main_phone;$org['contactPoint']=[['@type'=>'ContactPoint','contactType'=>'sales','telephone'=>$main_phone,'areaServed'=>'US','availableLanguage'=>['English','Spanish']]];}
  if (pelham_detail('email')) $org['email'] = pelham_detail('email');
  $defaults = function_exists('pelham_defaults') ? pelham_defaults() : [];
  $social = array_values(array_filter([pelham_detail('facebook',$defaults['facebook']??''),pelham_detail('linkedin',$defaults['linkedin']??'')],fn($url)=>!empty($url)&&in_array(wp_parse_url($url,PHP_URL_SCHEME),['https','http'],true)&&wp_parse_url($url,PHP_URL_HOST)));
  if ($social) $org['sameAs'] = $social;
- $website = ['@type'=>'WebSite','@id'=>home_url('/').'#website','url'=>home_url('/'),'name'=>get_bloginfo('name'),'publisher'=>['@id'=>$org['@id']],'inLanguage'=>get_option('pelham_es_home')?['en-US','es-US']:get_bloginfo('language')];
+ $website = ['@type'=>'WebSite','@id'=>home_url('/').'#website','url'=>home_url('/'),'name'=>'Pelham Services','alternateName'=>get_bloginfo('name'),'publisher'=>['@id'=>$org['@id']],'inLanguage'=>get_option('pelham_es_home')?['en-US','es-US']:get_bloginfo('language')];
  $page = ['@type'=>'WebPage','@id'=>$url.'#webpage','url'=>$url,'name'=>$title,'description'=>$description,'publisher'=>['@id'=>$org['@id']]];
  $page['isPartOf'] = ['@id'=>$website['@id']];
  $page['inLanguage'] = pelham_locale_tag_safe();

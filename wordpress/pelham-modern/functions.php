@@ -102,3 +102,9 @@ add_filter('nav_menu_link_attributes', function ($atts, $item, $args) {
  if ($current) $atts['aria-current'] = $current;
  return $atts;
 }, 10, 3);
+// The Spanish contact page (/es/contacto/) uses the same template as /contact/: the generic
+// template printed a second H1 above the page's own contact heading.
+add_filter('template_include',function($template){
+ if(is_page()&&!is_page('contact')&&function_exists('pelham_is_page')&&pelham_is_page('contact')){$contact=locate_template('page-contact.php');if($contact)return $contact;}
+ return $template;
+},20);
